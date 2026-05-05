@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "PT. Hogy Indonesia"
+version = "1.0.0"
+id = "artifacts/hogy-indonesia"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21031
+
+[services.development]
+run = "pnpm --filter @workspace/hogy-indonesia run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hogy-indonesia", "run", "build" ]
+publicDir = "artifacts/hogy-indonesia/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21031"
+BASE_PATH = "/"
