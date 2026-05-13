@@ -348,7 +348,242 @@ const AboutSection = () => {
   );
 };
 
-const ProductPreview = () => {
+const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const tableData = [
+    { category: 'Kekuatan Tarik (Horizontal)', surrem: '74.1', sms: '42.7', unit: 'N/5cm' },
+    { category: 'Kekuatan Tarik (Vertical)', surrem: '119.0', sms: '90.6', unit: 'N/5cm' },
+    { category: 'Kekuatan Sobek (Horizontal)', surrem: '18.8', sms: '16.3', unit: 'N' },
+    { category: 'Ketahanan Air', surrem: '624', sms: '523', unit: 'mm' },
+    { category: 'Replelensi Alkohol', surrem: '10', sms: '5', unit: 'point' },
+  ];
+
+  const features = [
+    {
+      title: 'Komposisi 5 Lapis',
+      desc: 'Terdiri dari kombinasi Spunbond dan Meltblown (SSMMS) yang efektif menyaring partikel mikroskopis.',
+    },
+    {
+      title: 'Kekuatan 2x Lipat',
+      desc: 'Memiliki ketahanan fisik yang jauh lebih kuat dibandingkan material SMS normal.',
+    },
+    {
+      title: 'Minim Serat (Low Lint)',
+      desc: 'Penggunaan kain kontinu (continuous fabric) meminimalisir pelepasan serat/lint yang dapat mengkontaminasi area steril.',
+    },
+    {
+      title: 'Ultrasonic Sealing',
+      desc: 'Bagian lengan dan tali pinggang disambung menggunakan penyegelan ultrasonik untuk menjaga integritas penghalang, ketahanan air, dan sifat penolak cairan yang konsisten.',
+    },
+  ];
+
+  return (
+    <div className="bg-white min-h-screen font-sans">
+      {/* Top bar */}
+      <div className="bg-[#002B49] py-4 px-6">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Produk
+          </button>
+          <span className="text-white/30">·</span>
+          <span className="text-white/50 text-xs">Surgical Gown</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Gown · Hogy Quality</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
+              SURREM <span className="text-[#00A7B5]">Gown</span>
+            </h1>
+            <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
+              Perlindungan Maksimal dengan <strong className="text-white">Teknologi 5 Lapis</strong>
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
+              SURREM Gown dirancang khusus untuk tenaga medis yang mengutamakan keamanan dan kenyamanan. Dengan komposisi material inovatif, gaun ini menawarkan kekuatan dua kali lipat dibandingkan SMS standar serta performa penghalang (barrier) yang superior.
+            </p>
+            <div className="mt-10 flex gap-4 flex-wrap">
+              <a
+                href="#contact"
+                onClick={onBack}
+                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              >
+                <Icons.Mail /> Hubungi Kami
+              </a>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex justify-center"
+          >
+            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
+              <img
+                src="https://i.ibb.co.com/VcqNq0MX/GOWN.png"
+                alt="SURREM Surgical Gown"
+                className="w-full object-contain p-8"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Layer diagram */}
+      <div className="py-20 px-6 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Keunggulan Teknologi Material</h2>
+          </motion.div>
+
+          {/* 5-layer visual */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-[#002B49] rounded-[2.5rem] p-10 mb-12 text-center"
+          >
+            <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-6">Struktur Lapisan SURREM (S/S/M/M/S)</p>
+            <div className="flex justify-center items-center gap-2 flex-wrap">
+              {[
+                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]' },
+                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]/80' },
+                { label: 'M', full: 'Meltblown', color: 'bg-white' },
+                { label: 'M', full: 'Meltblown', color: 'bg-white/80' },
+                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]/60' },
+              ].map((layer, i) => (
+                <div key={i} className="flex flex-col items-center gap-2">
+                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl ${layer.color} flex items-center justify-center shadow-lg`}>
+                    <span className={`text-2xl font-black ${layer.color === 'bg-white' || layer.color === 'bg-white/80' ? 'text-[#002B49]' : 'text-white'}`}>{layer.label}</span>
+                  </div>
+                  <span className="text-white/50 text-[9px] font-bold uppercase tracking-widest">{layer.full}</span>
+                  {i < 4 && <div className="hidden md:block w-px h-4 bg-white/20" />}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {features.map((f, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm"
+              >
+                <div className="flex gap-4 items-start">
+                  <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] flex-shrink-0">
+                    <Icons.CheckCircle />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-slate-900 text-base mb-2">{f.title}</h4>
+                    <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Performance table */}
+      <div className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Data Teknis</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Performa Teknis</h2>
+            <p className="text-slate-500 text-sm mt-3 max-w-lg mx-auto">Berdasarkan pengujian internal, SURREM menunjukkan keunggulan signifikan dibandingkan standar SMS biasa.</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm"
+          >
+            <table className="w-full">
+              <thead>
+                <tr className="bg-[#002B49] text-white">
+                  <th className="text-left px-8 py-5 text-xs font-black uppercase tracking-widest">Kategori Pengujian</th>
+                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-[#00A7B5]">SURREM</th>
+                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Standar SMS</th>
+                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Satuan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.map((row, i) => (
+                  <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
+                    <td className="px-8 py-5 text-sm font-bold text-slate-700">{row.category}</td>
+                    <td className="px-8 py-5 text-center">
+                      <span className="text-lg font-black text-[#00A7B5]">{row.surrem}</span>
+                    </td>
+                    <td className="px-8 py-5 text-center">
+                      <span className="text-base font-bold text-slate-400">{row.sms}</span>
+                    </td>
+                    <td className="px-8 py-5 text-center">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{row.unit}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="py-16 px-6 bg-slate-50">
+        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+          <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan SURREM Gown?</h3>
+          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk informasi harga, spesifikasi lengkap, dan pemesanan.</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a
+              href="mailto:sales.support@hogy.co.id"
+              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+            >
+              <Icons.Mail /> Hubungi via Email
+            </a>
+            <button
+              onClick={onBack}
+              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Lihat Produk Lain
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProductPreview = ({ onViewGown }: { onViewGown: () => void }) => {
   const categories = [
     {
       name: 'Surgical Gown',
@@ -428,11 +663,11 @@ const ProductPreview = () => {
             transition={{ duration: 0.5, delay: i * 0.1 }}
             className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col"
           >
-            <div className="relative h-60 overflow-hidden">
+            <div className="relative h-60 overflow-hidden bg-slate-50">
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg">
                 <span className="text-[#002B49] text-[9px] font-black uppercase tracking-widest italic">Hogy Quality</span>
@@ -442,12 +677,21 @@ const ProductPreview = () => {
               <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00A7B5] transition-colors">{cat.name}</h3>
               <p className="text-slate-500 text-xs mb-8 leading-relaxed font-medium line-clamp-3">{cat.desc}</p>
               <div className="mt-auto">
-                <a
-                  href="#contact"
-                  className="block w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all text-center"
-                >
-                  Hubungi Kami
-                </a>
+                {cat.name === 'Surgical Gown' ? (
+                  <button
+                    onClick={onViewGown}
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                  >
+                    Lihat Detail Produk
+                  </button>
+                ) : (
+                  <a
+                    href="#contact"
+                    className="block w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all text-center"
+                  >
+                    Hubungi Kami
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>
@@ -730,12 +974,25 @@ const Footer = () => {
 };
 
 function App() {
+  const [page, setPage] = useState<'home' | 'surgical-gown'>('home');
+
+  if (page === 'surgical-gown') {
+    return (
+      <SurgicalGownPage onBack={() => {
+        setPage('home');
+        setTimeout(() => {
+          document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }} />
+    );
+  }
+
   return (
     <div className="bg-white font-sans selection:bg-[#00A7B5] selection:text-white">
       <Navbar />
       <Hero />
       <AboutSection />
-      <ProductPreview />
+      <ProductPreview onViewGown={() => setPage('surgical-gown')} />
       <FacilitySection />
       <Statistics />
       <ContactSection />
