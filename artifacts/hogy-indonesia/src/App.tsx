@@ -1301,7 +1301,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
   const products = [
     {
       title: 'Medical Cap / Surgical Cap',
-      image: '/acc-medical-cap.png',
+      image: '/acc-medical-cap.png?v=2',
       summary: 'Penutup kepala medis berbahan Spunlace/Spunbond non-woven yang bebas lint, kuat, fleksibel, dan menyerap. Tersedia dalam dua jenis:',
       items: [
         { name: 'Medical Cap (Non-Steril)', desc: 'Dirancang untuk mencegah kontaminasi rambut, debu, dan partikel lain. Beberapa varian dilengkapi sweat absorbent pad di bagian dahi.' },
@@ -1311,7 +1311,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
     },
     {
       title: 'Shoe Cover',
-      image: '/acc-shoe-cover.png',
+      image: '/acc-shoe-cover.png?v=2',
       summary: 'Penutup sepatu berbahan hydrospun absorbent dengan laminasi plastik. Dirancang khusus untuk mencegah kontak darah di ruang operasi dan area infeksius.',
       items: [
         { name: 'SC-041E — Long Type', desc: 'Menutup hingga betis, ideal untuk area operasi dengan volume cairan tinggi. Kemasan 50 pasang/karton.' },
@@ -1322,7 +1322,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
     },
     {
       title: 'Table Cover / Mayo Cover',
-      image: '/acc-table-cover.png',
+      image: '/acc-table-cover.png?v=2',
       summary: 'Penutup meja instrumen dan mayo stand steril untuk menjaga sterilitas alat bedah selama prosedur berlangsung.',
       items: [
         { name: 'Table Cover (Steril)', desc: 'Penutup meja instrumen dengan reinforcement di bagian atas dan lapisan plastik di sisi bawah untuk mencegah penetrasi cairan ke meja. Tersedia ukuran 120×150 cm hingga 190×260 cm.' },
@@ -1332,7 +1332,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
     },
     {
       title: 'Sterilization Wrap (SURREM KURUMU)',
-      image: '/acc-sterilization-wrap.png',
+      image: '/acc-sterilization-wrap.png?v=2',
       summary: 'Pembungkus sterilisasi berkinerja barrier bakteri tinggi. Seri SKS-2000 direkomendasikan untuk konten berat karena kekuatan tariknya yang lebih tinggi.',
       items: [
         { name: 'Seri SKS-1000 (Non-Steril)', desc: 'Ukuran 60×60 cm hingga 140×180 cm. Untuk kebutuhan sterilisasi standar berbagai instrumen medis ringan hingga sedang.' },
@@ -1390,7 +1390,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="hidden lg:grid grid-cols-2 gap-4"
           >
-            {['/acc-medical-cap.png', '/acc-shoe-cover.png', '/acc-table-cover.png', '/acc-sterilization-wrap.png'].map((src, i) => (
+            {['/acc-medical-cap.png?v=2', '/acc-shoe-cover.png?v=2', '/acc-table-cover.png?v=2', '/acc-sterilization-wrap.png?v=2'].map((src, i) => (
               <div key={i} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10">
                 <img src={src} alt={`Accessories ${i + 1}`} className="w-full h-36 object-cover" />
               </div>
