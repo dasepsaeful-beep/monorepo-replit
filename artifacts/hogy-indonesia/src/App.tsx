@@ -1395,7 +1395,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
                 <img
                   src={src}
                   alt={`Accessories ${i + 1}`}
-                  className={i === 1 || i === 3 ? 'w-full h-36 object-contain bg-white' : 'w-full h-36 object-cover'}
+                  className={i === 0 || i === 1 || i === 2 || i === 3 ? 'w-full h-36 object-contain bg-white' : 'w-full h-36 object-cover'}
                 />
               </div>
             ))}
