@@ -1497,6 +1497,8 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
 
 const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+  const [activeFilter, setActiveFilter] = useState<string>('SEMUA');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const whyUse = [
     { title: 'Efisiensi Waktu', desc: 'Mempercepat proses persiapan pasien dengan komponen yang sudah tersusun sesuai urutan prosedur.' },
@@ -1649,54 +1651,119 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
       {/* Product catalog by specialization */}
       <div className="py-20 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-10">
             <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Set Bedah</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Pilihan Set Berdasarkan Spesialisasi</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">18 varian set bedah yang dikurasi spesifik sesuai kebutuhan ruang operasi Anda.</p>
           </motion.div>
 
-          <div className="space-y-8">
-            {categories.map((cat, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }} className={`rounded-[2rem] border overflow-hidden ${cat.color}`}>
-                {/* Category header */}
-                <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${cat.badge}`}>{cat.name}</span>
-                  <p className="text-white/60 text-xs leading-relaxed flex-1">{cat.desc}</p>
+          {/* Search + Filter controls */}
+          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-8 space-y-4">
+            {/* Search bar */}
+            <div className="relative max-w-md mx-auto">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input
+                type="text"
+                placeholder="Cari kode produk, nama, atau komponen..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00A7B5]/40 focus:border-[#00A7B5] transition-all shadow-sm"
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              )}
+            </div>
+            {/* Category filter pills */}
+            <div className="flex flex-wrap gap-2 justify-center">
+              {['SEMUA', ...categories.map(c => c.name)].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveFilter(cat)}
+                  className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+                    activeFilter === cat
+                      ? 'bg-[#002B49] text-white shadow-lg'
+                      : 'bg-white border border-slate-200 text-slate-500 hover:border-[#002B49] hover:text-[#002B49]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Results */}
+          {(() => {
+            const q = searchQuery.toLowerCase();
+            const filtered = categories
+              .filter(cat => activeFilter === 'SEMUA' || cat.name === activeFilter)
+              .map(cat => ({
+                ...cat,
+                products: cat.products.filter(p =>
+                  !q ||
+                  p.code.toLowerCase().includes(q) ||
+                  p.name.toLowerCase().includes(q) ||
+                  p.components.toLowerCase().includes(q) ||
+                  p.use.toLowerCase().includes(q)
+                ),
+              }))
+              .filter(cat => cat.products.length > 0);
+
+            if (filtered.length === 0) {
+              return (
+                <div className="text-center py-20">
+                  <div className="text-5xl mb-4">🔍</div>
+                  <p className="text-slate-500 font-bold text-sm">Tidak ada produk yang cocok.</p>
+                  <button onClick={() => { setSearchQuery(''); setActiveFilter('SEMUA'); }} className="mt-4 text-[#00A7B5] text-xs font-black uppercase tracking-widest hover:underline">Reset Filter</button>
                 </div>
-                {/* Product table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-slate-200/60">
-                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Kode</th>
-                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Nama Produk</th>
-                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden md:table-cell">Komponen Utama</th>
-                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden lg:table-cell">Peruntukan Prosedur</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cat.products.map((prod, j) => (
-                        <tr key={j} className={`border-b border-slate-200/40 last:border-0 ${j % 2 === 0 ? 'bg-white/60' : 'bg-white/30'}`}>
-                          <td className="px-6 py-4">
-                            <span className="font-black text-[#002B49] text-sm tracking-tight">{prod.code}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <p className="font-bold text-slate-800 text-sm">{prod.name}</p>
-                          </td>
-                          <td className="px-6 py-4 hidden md:table-cell">
-                            <p className="text-slate-500 text-xs leading-relaxed max-w-xs">{prod.components}</p>
-                          </td>
-                          <td className="px-6 py-4 hidden lg:table-cell">
-                            <p className="text-[#00A7B5] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              );
+            }
+
+            return (
+              <div className="space-y-8">
+                {filtered.map((cat, i) => (
+                  <motion.div key={cat.name} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: i * 0.05 }} className={`rounded-[2rem] border overflow-hidden ${cat.color}`}>
+                    <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shrink-0 ${cat.badge}`}>{cat.name}</span>
+                      <p className="text-white/60 text-xs leading-relaxed flex-1">{cat.desc}</p>
+                      <span className="text-white/40 text-[10px] font-bold shrink-0">{cat.products.length} set</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b border-slate-200/60">
+                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Kode</th>
+                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Nama Produk</th>
+                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden md:table-cell">Komponen Utama</th>
+                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden lg:table-cell">Peruntukan Prosedur</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {cat.products.map((prod, j) => (
+                            <tr key={j} className={`border-b border-slate-200/40 last:border-0 ${j % 2 === 0 ? 'bg-white/60' : 'bg-white/30'}`}>
+                              <td className="px-6 py-4">
+                                <span className="font-black text-[#002B49] text-sm tracking-tight">{prod.code}</span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <p className="font-bold text-slate-800 text-sm">{prod.name}</p>
+                              </td>
+                              <td className="px-6 py-4 hidden md:table-cell">
+                                <p className="text-slate-500 text-xs leading-relaxed max-w-xs">{prod.components}</p>
+                              </td>
+                              <td className="px-6 py-4 hidden lg:table-cell">
+                                <p className="text-[#00A7B5] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
