@@ -583,7 +583,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const ProductPreview = ({ onViewGown, onViewDrape }: { onViewGown: () => void; onViewDrape: () => void }) => {
+const ProductPreview = ({ onViewGown, onViewDrape, onViewAccessories }: { onViewGown: () => void; onViewDrape: () => void; onViewAccessories: () => void }) => {
   const categories = [
     {
       name: 'Surgical Gown',
@@ -687,6 +687,13 @@ const ProductPreview = ({ onViewGown, onViewDrape }: { onViewGown: () => void; o
                 ) : cat.name === 'Surgical Drape' ? (
                   <button
                     onClick={onViewDrape}
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                  >
+                    Lihat Detail Produk
+                  </button>
+                ) : cat.name === 'Accessories' ? (
+                  <button
+                    onClick={onViewAccessories}
                     className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
                   >
                     Lihat Detail Produk
@@ -1288,8 +1295,204 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const products = [
+    {
+      title: 'Medical Cap / Surgical Cap',
+      image: '/acc-medical-cap.png',
+      summary: 'Penutup kepala medis berbahan Spunlace/Spunbond non-woven yang bebas lint, kuat, fleksibel, dan menyerap. Tersedia dalam dua jenis:',
+      items: [
+        { name: 'Medical Cap (Non-Steril)', desc: 'Dirancang untuk mencegah kontaminasi rambut, debu, dan partikel lain. Beberapa varian dilengkapi sweat absorbent pad di bagian dahi.' },
+        { name: 'Surgical Cap (Steril)', desc: 'MCS-204 & MCS-204L tersedia dalam kemasan steril untuk lingkungan operasi dengan risiko infeksi tinggi.' },
+      ],
+      highlight: 'MCS-204 & MCS-204L dikemas steril — efektif untuk operasi berisiko infeksi tinggi.',
+    },
+    {
+      title: 'Shoe Cover',
+      image: '/acc-shoe-cover.png',
+      summary: 'Penutup sepatu berbahan hydrospun absorbent dengan laminasi plastik. Dirancang khusus untuk mencegah kontak darah di ruang operasi dan area infeksius.',
+      items: [
+        { name: 'SC-041E — Long Type', desc: 'Menutup hingga betis, ideal untuk area operasi dengan volume cairan tinggi. Kemasan 50 pasang/karton.' },
+        { name: 'SR-SC-41E — Long Type', desc: 'Varian Long Type dengan reinforcement tambahan untuk perlindungan lebih kuat.' },
+        { name: 'MO-50 — Short Type', desc: 'Ukuran pendek untuk penggunaan umum di koridor dan area non-bedah.' },
+      ],
+      highlight: 'Laminasi plastik mencegah penetrasi cairan dan darah ke permukaan alas kaki.',
+    },
+    {
+      title: 'Table Cover / Mayo Cover',
+      image: '/acc-table-cover.png',
+      summary: 'Penutup meja instrumen dan mayo stand steril untuk menjaga sterilitas alat bedah selama prosedur berlangsung.',
+      items: [
+        { name: 'Table Cover (Steril)', desc: 'Penutup meja instrumen dengan reinforcement di bagian atas dan lapisan plastik di sisi bawah untuk mencegah penetrasi cairan ke meja. Tersedia ukuran 120×150 cm hingga 190×260 cm.' },
+        { name: 'Mayo Cover (Steril)', desc: 'Penutup mayo stand yang dilipat agar siapa pun dapat memasangnya secara aseptik. Bagian atas diperkuat dengan water repellent. Dapat juga digunakan sebagai hazard bag.' },
+      ],
+      highlight: 'Lipatan intuitif memungkinkan pemasangan aseptik tanpa bantuan tambahan.',
+    },
+    {
+      title: 'Sterilization Wrap (SURREM KURUMU)',
+      image: '/acc-sterilization-wrap.png',
+      summary: 'Pembungkus sterilisasi berkinerja barrier bakteri tinggi. Seri SKS-2000 direkomendasikan untuk konten berat karena kekuatan tariknya yang lebih tinggi.',
+      items: [
+        { name: 'Seri SKS-1000 (Non-Steril)', desc: 'Ukuran 60×60 cm hingga 140×180 cm. Untuk kebutuhan sterilisasi standar berbagai instrumen medis ringan hingga sedang.' },
+        { name: 'Seri SKS-2000 (Non-Steril)', desc: 'Ukuran 80×80 cm hingga 160×180 cm. Kekuatan tarik lebih tinggi — ideal untuk instrumen berat seperti set orthopedi atau kardiovaskuler.' },
+      ],
+      highlight: 'Seri SKS-2000 cocok untuk set instrumen berat dengan barrier bakteri superior.',
+    },
+  ];
+
+  return (
+    <div className="bg-white min-h-screen font-sans">
+      {/* Top bar */}
+      <div className="bg-[#002B49] py-4 px-6">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Produk
+          </button>
+          <span className="text-white/30">·</span>
+          <span className="text-white/50 text-xs">Accessories</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Accessories · Hogy Quality</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
+              Perlengkapan <span className="text-[#00A7B5]">Pendukung</span>
+            </h1>
+            <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
+              Aksesori medis sekali pakai untuk melengkapi standar higienitas ruang operasi secara menyeluruh.
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
+              Mulai dari pelindung kepala, alas kaki, hingga pembungkus sterilisasi — setiap produk dirancang dengan material berkualitas tinggi untuk mendukung keselamatan pasien dan tenaga medis.
+            </p>
+            <div className="mt-10 flex gap-4 flex-wrap">
+              <a
+                href="mailto:sales.support@hogy.co.id"
+                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              >
+                <Icons.Mail /> Hubungi Kami
+              </a>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="hidden lg:grid grid-cols-2 gap-4"
+          >
+            {['/acc-medical-cap.png', '/acc-shoe-cover.png', '/acc-table-cover.png', '/acc-sterilization-wrap.png'].map((src, i) => (
+              <div key={i} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+                <img src={src} alt={`Accessories ${i + 1}`} className="w-full h-36 object-cover" />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Product cards */}
+      <div className="py-20 px-6 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Rangkuman Produk</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">4 Kategori Aksesori Medis</h2>
+            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
+              Setiap kategori dirancang untuk memenuhi kebutuhan spesifik di lingkungan bedah dan perawatan kesehatan.
+            </p>
+          </motion.div>
+
+          <div className="space-y-10">
+            {products.map((prod, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm"
+              >
+                <div className="grid lg:grid-cols-5 gap-0">
+                  {/* Image */}
+                  <div className={`lg:col-span-2 bg-slate-50 ${i % 2 === 1 ? 'lg:order-last' : ''}`}>
+                    <img
+                      src={prod.image}
+                      alt={prod.title}
+                      className="w-full h-full object-cover min-h-[280px]"
+                    />
+                  </div>
+                  {/* Content */}
+                  <div className="lg:col-span-3 p-8 md:p-10 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="w-7 h-7 rounded-full bg-[#00A7B5] flex items-center justify-center text-white font-black text-xs flex-shrink-0">{i + 1}</span>
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight">{prod.title}</h3>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6">{prod.summary}</p>
+                    <div className="space-y-3 mb-6">
+                      {prod.items.map((item, j) => (
+                        <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                          <div className="text-[#00A7B5] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
+                          <div>
+                            <p className="text-slate-900 font-black text-sm mb-0.5">{item.name}</p>
+                            <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="bg-[#002B49] rounded-2xl px-5 py-4 flex gap-3 items-start">
+                      <svg className="text-[#00A7B5] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A7B5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      <p className="text-white/80 text-xs leading-relaxed italic">{prod.highlight}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="py-16 px-6 bg-white">
+        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+          <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Aksesori Medis untuk Fasilitas Anda?</h3>
+          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi produk, ketersediaan stok, dan harga terbaik.</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a
+              href="mailto:sales.support@hogy.co.id"
+              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+            >
+              <Icons.Mail /> Hubungi via Email
+            </a>
+            <button
+              onClick={onBack}
+              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Lihat Produk Lain
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
-  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape'>('home');
+  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape' | 'accessories'>('home');
 
   const goBack = () => {
     setPage('home');
@@ -1306,6 +1509,10 @@ function App() {
     return <SurgicalDrapePage onBack={goBack} />;
   }
 
+  if (page === 'accessories') {
+    return <AccessoriesPage onBack={goBack} />;
+  }
+
   return (
     <div className="bg-white font-sans selection:bg-[#00A7B5] selection:text-white">
       <Navbar />
@@ -1314,6 +1521,7 @@ function App() {
       <ProductPreview
         onViewGown={() => setPage('surgical-gown')}
         onViewDrape={() => setPage('surgical-drape')}
+        onViewAccessories={() => setPage('accessories')}
       />
       <FacilitySection />
       <Statistics />
