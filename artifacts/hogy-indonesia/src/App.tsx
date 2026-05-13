@@ -583,7 +583,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const ProductPreview = ({ onViewGown }: { onViewGown: () => void }) => {
+const ProductPreview = ({ onViewGown, onViewDrape }: { onViewGown: () => void; onViewDrape: () => void }) => {
   const categories = [
     {
       name: 'Surgical Gown',
@@ -680,6 +680,13 @@ const ProductPreview = ({ onViewGown }: { onViewGown: () => void }) => {
                 {cat.name === 'Surgical Gown' ? (
                   <button
                     onClick={onViewGown}
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                  >
+                    Lihat Detail Produk
+                  </button>
+                ) : cat.name === 'Surgical Drape' ? (
+                  <button
+                    onClick={onViewDrape}
                     className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
                   >
                     Lihat Detail Produk
@@ -973,18 +980,330 @@ const Footer = () => {
   );
 };
 
+const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const whyChoose = [
+    {
+      title: 'Manajemen Cairan Unggul',
+      desc: 'Material yang mampu mengelola volume cairan tinggi selama operasi tanpa kebocoran.',
+    },
+    {
+      title: 'Desain Ergonomis',
+      desc: 'Dilengkapi dengan perekat medis (adhesive) yang aman di kulit dan fenestration (lubang) yang presisi.',
+    },
+    {
+      title: 'Aplikasi Mudah',
+      desc: 'Alur pelipatan yang intuitif untuk memastikan pemasangan tetap dalam kondisi aseptik.',
+    },
+    {
+      title: 'Kekuatan Material',
+      desc: 'Tahan terhadap tarikan dan gesekan alat bedah tanpa robek selama prosedur berlangsung.',
+    },
+  ];
+
+  const catalog = [
+    {
+      number: '1',
+      category: 'General & Universal Drapes',
+      subtitle: 'Solusi dasar untuk berbagai kebutuhan penutupan area bedah umum.',
+      items: [
+        { name: 'Plain Drape & Draping Tape', desc: 'Duk tanpa lubang dengan plester khusus untuk fiksasi.' },
+        { name: 'Fenestrated Drape', desc: 'Duk dengan lubang presisi untuk akses area tindakan.' },
+        { name: 'U Drape', desc: 'Desain berbentuk "U" yang fleksibel untuk berbagai posisi tubuh.' },
+      ],
+    },
+    {
+      number: '2',
+      category: 'Bedah Perut & Kandungan (OBGYN)',
+      subtitle: 'Didesain untuk menangani volume cairan yang tinggi secara efektif.',
+      items: [
+        { name: 'Laparotomy & Appendectomy Drape', desc: 'Khusus untuk bedah perut terbuka dan usus buntu.' },
+        { name: 'Laparoscopic Surgery Drape', desc: 'Untuk prosedur invasif minimal dengan lubang akses trokar.' },
+        { name: 'Caesarean Section Drape', desc: 'Dilengkapi kantong pengumpul cairan untuk prosedur caesar.' },
+        { name: 'Gynaecology Drape', desc: 'Untuk pemeriksaan dan tindakan ginekologi.' },
+      ],
+    },
+    {
+      number: '3',
+      category: 'Ortopedi & Bedah Saraf',
+      subtitle: 'Material ekstra kuat untuk prosedur yang membutuhkan manipulasi fisik tinggi.',
+      items: [
+        { name: 'Orthopaedic Surgery Drape', desc: 'Ketahanan maksimal untuk prosedur tulang.' },
+        { name: 'Arthroscopic Surgery Drape', desc: 'Didesain khusus untuk prosedur endoskopi sendi.' },
+        { name: 'Neuro Surgery Drape', desc: 'Presisi tinggi untuk menjaga sterilitas area kepala dan saraf.' },
+      ],
+    },
+    {
+      number: '4',
+      category: 'Kardiologi, Toraks & Vaskular',
+      subtitle: 'Duk spesialisasi untuk prosedur organ dalam dan pembuluh darah.',
+      items: [
+        { name: 'Cardiovascular Drape', desc: 'Untuk prosedur bedah jantung dan pembuluh darah.' },
+        { name: 'Thoracic Surgery & Mammary Drape', desc: 'Untuk area dada dan payudara.' },
+        { name: 'IVR (Angio) Drape & Image Cover', desc: 'Khusus untuk radiologi intervensi, dilengkapi pelindung peralatan pencitraan.' },
+      ],
+    },
+    {
+      number: '5',
+      category: 'Spesialisasi Lain (Mata & Urologi)',
+      subtitle: 'Solusi presisi tinggi untuk prosedur spesialistik.',
+      items: [
+        { name: 'Ophthalmic Surgery Drape', desc: 'Ukuran kecil dengan manajemen cairan halus untuk operasi mata.' },
+        { name: 'TUR Drape & PCNL Drape', desc: 'Untuk prosedur urologi (transurethral dan ginjal) dengan pengumpulan cairan terpadu.' },
+      ],
+    },
+  ];
+
+  const spunlaceAdvantages = [
+    'Superior barrier performance against bacteria',
+    'Flexibility as in linen',
+    'By repellent processing, prevents penetration of blood and body fluid',
+    'Made of wood pulp and polyester — gentle to environment',
+    'Easy to be cut without fraying fibers/lint',
+    'Chemical free production process',
+  ];
+
+  return (
+    <div className="bg-white min-h-screen font-sans">
+      {/* Top bar */}
+      <div className="bg-[#002B49] py-4 px-6">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Produk
+          </button>
+          <span className="text-white/30">·</span>
+          <span className="text-white/50 text-xs">Surgical Drape</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape · Hogy Quality</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
+              Surgical <span className="text-[#00A7B5]">Drape</span>
+            </h1>
+            <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
+              Presisi dan Sterilitas untuk <strong className="text-white">Setiap Prosedur</strong>
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
+              Surgical Drape (Duk Operasi) kami dirancang untuk menciptakan area steril yang aman dan efektif selama prosedur pembedahan. Menggunakan material berkualitas tinggi yang tahan terhadap penetrasi cairan dan mikroba, produk kami membantu meminimalisir risiko infeksi luka operasi (SSI).
+            </p>
+            <div className="mt-10 flex gap-4 flex-wrap">
+              <a
+                href="mailto:sales.support@hogy.co.id"
+                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              >
+                <Icons.Mail /> Hubungi Kami
+              </a>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex justify-center"
+          >
+            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
+              <img
+                src="https://i.ibb.co.com/4wdS93zD/drape.png"
+                alt="Surgical Drape"
+                className="w-full object-contain p-8"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Why choose */}
+      <div className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan Produk</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Memilih Surgical Drape Kami?</h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {whyChoose.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100"
+              >
+                <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] mb-5">
+                  <Icons.CheckCircle />
+                </div>
+                <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Hogy Spunlace section */}
+      <div className="py-20 px-6 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-14 text-center"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Hogy Spunlace</h2>
+            <p className="text-slate-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
+              Material non-woven unggulan yang menggabungkan keunggulan kain non-woven dan linen — barrier superior terhadap bakteri dengan fleksibilitas tinggi.
+            </p>
+          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="rounded-[2.5rem] overflow-hidden shadow-xl bg-white border border-slate-100"
+            >
+              <img
+                src="/hogy-spunlace.png"
+                alt="Hogy Spunlace Technology"
+                className="w-full object-contain"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <p className="text-slate-600 text-sm leading-relaxed mb-8">
+                <strong>Hogy Spunlace</strong> adalah kain non-woven yang diproduksi dengan cara memadatkan serat menggunakan semprotan air bertekanan tinggi tanpa bahan perekat kimia. Hasilnya, material yang aman, higienis, dan ramah lingkungan.
+              </p>
+              <div className="space-y-4">
+                {spunlaceAdvantages.map((adv, i) => (
+                  <div key={i} className="flex gap-3 items-start">
+                    <div className="w-5 h-5 rounded-full bg-[#00A7B5]/10 flex items-center justify-center text-[#00A7B5] flex-shrink-0 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">{adv}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Product catalog */}
+      <div className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Produk</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Berdasarkan Prosedur Bedah</h2>
+            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
+              Kami menyediakan berbagai varian drape yang disesuaikan dengan kebutuhan spesifik di ruang operasi.
+            </p>
+          </motion.div>
+
+          <div className="space-y-6">
+            {catalog.map((cat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm"
+              >
+                <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
+                  <span className="w-8 h-8 rounded-full bg-[#00A7B5] flex items-center justify-center text-white font-black text-sm flex-shrink-0">{cat.number}</span>
+                  <div>
+                    <h3 className="text-white font-black text-base tracking-tight">{cat.category}</h3>
+                    <p className="text-white/50 text-xs mt-0.5">{cat.subtitle}</p>
+                  </div>
+                </div>
+                <div className="bg-white px-8 py-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cat.items.map((item, j) => (
+                    <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                      <div className="text-[#00A7B5] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
+                      <div>
+                        <p className="text-slate-900 font-black text-sm mb-1">{item.name}</p>
+                        <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="py-16 px-6 bg-slate-50">
+        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+          <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan Surgical Drape Kami?</h3>
+          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi varian drape yang sesuai dengan prosedur bedah Anda.</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a
+              href="mailto:sales.support@hogy.co.id"
+              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+            >
+              <Icons.Mail /> Hubungi via Email
+            </a>
+            <button
+              onClick={onBack}
+              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Lihat Produk Lain
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
-  const [page, setPage] = useState<'home' | 'surgical-gown'>('home');
+  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape'>('home');
+
+  const goBack = () => {
+    setPage('home');
+    setTimeout(() => {
+      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
 
   if (page === 'surgical-gown') {
-    return (
-      <SurgicalGownPage onBack={() => {
-        setPage('home');
-        setTimeout(() => {
-          document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }} />
-    );
+    return <SurgicalGownPage onBack={goBack} />;
+  }
+
+  if (page === 'surgical-drape') {
+    return <SurgicalDrapePage onBack={goBack} />;
   }
 
   return (
@@ -992,7 +1311,10 @@ function App() {
       <Navbar />
       <Hero />
       <AboutSection />
-      <ProductPreview onViewGown={() => setPage('surgical-gown')} />
+      <ProductPreview
+        onViewGown={() => setPage('surgical-gown')}
+        onViewDrape={() => setPage('surgical-drape')}
+      />
       <FacilitySection />
       <Statistics />
       <ContactSection />
