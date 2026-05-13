@@ -353,22 +353,22 @@ const ProductPreview = () => {
     {
       name: 'Surgical Gown',
       desc: 'Gaun operasi steril dengan perlindungan AAMI Level 3 & 4. Dirancang untuk kenyamanan maksimal selama prosedur panjang.',
-      image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600',
+      image: 'https://i.ibb.co.com/VcqNq0MX/GOWN.png',
     },
     {
       name: 'Surgical Drape',
       desc: 'Drape operatif yang menjaga sterilitas area bedah dengan daya serap tinggi dan perlindungan anti-tembus cairan.',
-      image: 'https://images.unsplash.com/photo-1584622781564-1d9876a13d00?auto=format&fit=crop&q=80&w=600',
+      image: 'https://i.ibb.co.com/4wdS93zD/drape.png',
     },
     {
       name: 'Surgical Drape Pack',
       desc: 'Paket lengkap (kit) khusus untuk berbagai jenis prosedur operasi guna meningkatkan efisiensi waktu di kamar bedah.',
-      image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=600',
+      image: 'https://i.ibb.co.com/PZz1rznN/drape-pack.png',
     },
     {
       name: 'Accessories',
       desc: 'Komponen pendukung medis lainnya seperti penutup kepala, penutup kaki, dan perlengkapan higienitas tambahan.',
-      image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=600',
+      image: 'https://i.ibb.co.com/prwFQSZb/asesoris.png',
     },
   ];
 
@@ -471,7 +471,7 @@ const FacilitySection = () => {
           >
             <div className="rounded-[3rem] overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800"
+                src="https://i.ibb.co.com/1YDjyZbG/2024-2024-Corporate-Brochure-Each-Page-Page5-Image6.jpg"
                 alt="Fasilitas Pabrik Hogy"
                 className="w-full h-[500px] object-cover"
               />
