@@ -1391,8 +1391,12 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
             className="hidden lg:grid grid-cols-2 gap-4"
           >
             {['/acc-medical-cap.png?v=2', '/acc-shoe-cover.png?v=2', '/acc-table-cover.png?v=2', '/acc-sterilization-wrap.png?v=2'].map((src, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10">
-                <img src={src} alt={`Accessories ${i + 1}`} className="w-full h-36 object-cover" />
+              <div key={i} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
+                <img
+                  src={src}
+                  alt={`Accessories ${i + 1}`}
+                  className={i === 1 || i === 3 ? 'w-full h-36 object-contain bg-white' : 'w-full h-36 object-cover'}
+                />
               </div>
             ))}
           </motion.div>
