@@ -583,7 +583,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const ProductPreview = ({ onViewGown, onViewDrape, onViewAccessories }: { onViewGown: () => void; onViewDrape: () => void; onViewAccessories: () => void }) => {
+const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccessories }: { onViewGown: () => void; onViewDrape: () => void; onViewDrapePack: () => void; onViewAccessories: () => void }) => {
   const categories = [
     {
       name: 'Surgical Gown',
@@ -699,12 +699,12 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewAccessories }: { onView
                     Lihat Detail Produk
                   </button>
                 ) : (
-                  <a
-                    href="#contact"
-                    className="block w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all text-center"
+                  <button
+                    onClick={onViewDrapePack}
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
                   >
-                    Hubungi Kami
-                  </a>
+                    Lihat Detail Produk
+                  </button>
                 )}
               </div>
             </div>
@@ -1495,8 +1495,233 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const whyUse = [
+    { title: 'Efisiensi Waktu', desc: 'Mempercepat proses persiapan pasien dengan komponen yang sudah tersusun sesuai urutan prosedur.' },
+    { title: 'Standarisasi Mutu', desc: 'Memastikan setiap tindakan bedah mendapatkan kualitas material yang konsisten dan perlindungan barrier yang sama.' },
+    { title: 'Manajemen Inventaris', desc: 'Memudahkan pemantauan stok rumah sakit; satu kode produk mencakup seluruh kebutuhan satu tindakan.' },
+    { title: 'Perlindungan Komprehensif', desc: 'Terdiri dari material low-linting dan kedap cairan untuk keamanan maksimal pasien dan staf.' },
+  ];
+
+  const categories = [
+    {
+      name: 'GYNAECOLOGY',
+      color: 'bg-pink-50 border-pink-100',
+      badge: 'bg-pink-100 text-pink-700',
+      desc: 'Set khusus untuk tindakan kebidanan dan kandungan. Dilengkapi Gynaecology Drape dengan kantong pengumpul cairan (polybag) atau film plastik untuk menjaga area tetap kering.',
+      products: [
+        { code: 'GNS-2105', name: 'Gynaecology Set Standard', components: '3x Gowns, Gynaecology Drape w/ Polybag, Plain Drape, Table Cover.', use: 'Prosedur Ginekologi & Persalinan dengan manajemen cairan polybag.' },
+        { code: 'GNS-2109', name: 'Gynaecology Set Premium', components: '3x Gowns w/ Towel, Gynaecology Drape w/ Plastic Film, Table Cover.', use: 'Prosedur Ginekologi dengan proteksi area plastik film.' },
+      ],
+    },
+    {
+      name: 'ORTHOPAEDIC',
+      color: 'bg-blue-50 border-blue-100',
+      badge: 'bg-blue-100 text-blue-700',
+      desc: 'Paket untuk bedah tulang yang membutuhkan manipulasi tinggi dan manajemen cairan intens. Tersedia untuk Arthroscopy, TKR, THR, dan Upper Extremity.',
+      products: [
+        { code: 'ORS-2130', name: 'Orthopaedic Set (Arthroscopy)', components: 'Arthroscopy Drape (SR-870RE12), Leggings Cover, Mayo Cover.', use: 'Prosedur invasif minimal pada sendi (Lutut/Bahu).' },
+        { code: 'ORS-2137', name: 'Orthopaedic Set (Arthroscopy) + Gown', components: 'Sama dengan 2130 + 2x Surgical Gowns (L & LL).', use: 'Prosedur Arthroscopy lengkap dengan proteksi personil.' },
+        { code: 'ORS-2138', name: 'Orthopaedic Set (TKR)', components: 'Orthopaedic Drape (BRE-7009), Legging Cover, 3x Gowns (L/LL).', use: 'Total Knee Replacement (Ganti Sendi Lutut).' },
+        { code: 'ORS-2139', name: 'Orthopaedic Set (THR)', components: 'Orthopedic Drape (BRE-70H), Legging Cover, 3x Gowns (L/LL).', use: 'Total Hip Replacement (Ganti Sendi Panggul).' },
+        { code: 'ORS-2140', name: 'Orthopaedic Set (Upper)', components: 'Orthopedic Drape, Legging Cover, 3x Gowns (L/LL), Table Cover.', use: 'Prosedur ekstremitas atas (Lengan/Bahu).' },
+      ],
+    },
+    {
+      name: 'CARDIOVASCULAR',
+      color: 'bg-red-50 border-red-100',
+      badge: 'bg-red-100 text-red-700',
+      desc: 'Set presisi tinggi untuk prosedur jantung dan pembuluh darah. Varian General Cardiovascular dan khusus CABG (Coronary Artery Bypass Graft).',
+      products: [
+        { code: 'L-CS-2101', name: 'Cardiovascular Set', components: 'Thoracic Drape, Lower Vascular Drape, Shoe Cover, Mayo Cover.', use: 'Prosedur vaskular dan toraks umum.' },
+        { code: 'L-CS-2102', name: 'Cardiovascular Set (CABG)', components: 'Genital Drape, Cardiovascular Drape, Suction & Diathermy Bag, Suture Bag.', use: 'Prosedur Bedah Bypass Jantung (CABG) yang kompleks.' },
+      ],
+    },
+    {
+      name: 'ANGIOGRAPHY',
+      color: 'bg-purple-50 border-purple-100',
+      badge: 'bg-purple-100 text-purple-700',
+      desc: 'Set khusus untuk prosedur radiologi intervensi dan kateterisasi jantung (Cath Lab) yang memerlukan pelindung peralatan pencitraan.',
+      products: [
+        { code: 'AG-2106', name: 'Angiography Set', components: 'Angio Drape (2100×3300 mm), Guardian Image Cover, Body Cover.', use: 'Radiologi Intervensi & Kateterisasi Jantung (Cath Lab).' },
+      ],
+    },
+    {
+      name: 'NEUROLOGY',
+      color: 'bg-teal-50 border-teal-100',
+      badge: 'bg-teal-100 text-teal-700',
+      desc: 'Set bedah saraf dengan presisi tinggi untuk prosedur kepala dan tulang belakang, tersedia dengan manajemen cairan standar maupun tinggi.',
+      products: [
+        { code: 'NSS-2101', name: 'Neuro Surgery Set', components: 'Neuro Drape, Instrument Pocket, Plain Drape w/ Adhesive.', use: 'Bedah Saraf kepala dan tulang belakang.' },
+        { code: 'NSS-2106', name: 'Neurologi Set Premium', components: 'Neuro Drape w/ Polybag, 3x Gowns (L/LL), Absorbent Towels.', use: 'Bedah Saraf dengan manajemen cairan tinggi.' },
+      ],
+    },
+    {
+      name: 'LAPAROSCOPY',
+      color: 'bg-green-50 border-green-100',
+      badge: 'bg-green-100 text-green-700',
+      desc: 'Set untuk prosedur invasif minimal pada rongga perut dengan akses trokar, memastikan sterilitas area selama laparoskopi.',
+      products: [
+        { code: 'LPS-2107', name: 'Laparoscopy Set', components: 'Laparoscopy Drape, Fenestrated Drape, Mayo Stand Cover.', use: 'Bedah perut invasif minimal (Laparoskopi).' },
+      ],
+    },
+    {
+      name: 'UNIVERSAL',
+      color: 'bg-slate-50 border-slate-100',
+      badge: 'bg-slate-100 text-slate-700',
+      desc: 'Set serbaguna untuk berbagai prosedur bedah umum harian, posisi litotomi, hingga prosedur besar yang memerlukan cakupan area luas.',
+      products: [
+        { code: 'USP-2129', name: 'Universal Set (Lithotomy)', components: 'Laparoscopy Drape (SR-879LH), 3x Gowns, Mayo Cover.', use: 'Prosedur umum posisi Litotomi/Laparoskopi.' },
+        { code: 'USP-2127', name: 'Universal Set Standard', components: 'Universal Drape, 4x Draping Tape, 3x Gowns (L/LL).', use: 'Prosedur bedah umum harian.' },
+        { code: 'USP-2114', name: 'Universal Set Adhesive', components: 'Head, Foot, & Side Drapes w/ Adhesive, 3x Gowns, Draping Tape.', use: 'Prosedur yang membutuhkan fiksasi drape pada area spesifik.' },
+        { code: 'USP-2126', name: 'Universal Set Large', components: 'Universal Drape, 4x Plain Drape, 4x Draping Tape, 3x Gowns.', use: 'Prosedur bedah besar dengan cakupan area luas.' },
+      ],
+    },
+  ];
+
+  return (
+    <div className="bg-white min-h-screen font-sans">
+      {/* Top bar */}
+      <div className="bg-[#002B49] py-4 px-6">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Produk
+          </button>
+          <span className="text-white/30">·</span>
+          <span className="text-white/50 text-xs">Surgical Drape Pack</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape Pack · Hogy Quality</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
+              Surgical <span className="text-[#00A7B5]">Drape Pack</span>
+            </h1>
+            <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
+              Solusi Prosedur <strong className="text-white">Terintegrasi</strong>
+            </p>
+            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
+              Drape Pack kami dirancang untuk menyederhanakan persiapan ruang operasi dengan menyediakan semua komponen esensial dalam satu kemasan steril. Setiap set dikurasi secara spesifik sesuai jenis tindakan medis — meningkatkan efisiensi setup, mengurangi limbah kemasan, dan memastikan protokol aseptik terjaga sempurna.
+            </p>
+            <div className="mt-10 flex gap-4 flex-wrap">
+              <a href="mailto:sales.support@hogy.co.id" className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30">
+                <Icons.Mail /> Hubungi Kami
+              </a>
+            </div>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="hidden lg:flex justify-center">
+            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
+              <img src="https://i.ibb.co.com/PZz1rznN/drape-pack.png" alt="Surgical Drape Pack" className="w-full object-contain p-8" />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Why use */}
+      <div className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Menggunakan Drape Pack Kami?</h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {whyUse.map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100">
+                <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] mb-5">
+                  <Icons.CheckCircle />
+                </div>
+                <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Product catalog by specialization */}
+      <div className="py-20 px-6 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Set Bedah</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Pilihan Set Berdasarkan Spesialisasi</h2>
+            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">18 varian set bedah yang dikurasi spesifik sesuai kebutuhan ruang operasi Anda.</p>
+          </motion.div>
+
+          <div className="space-y-8">
+            {categories.map((cat, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }} className={`rounded-[2rem] border overflow-hidden ${cat.color}`}>
+                {/* Category header */}
+                <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${cat.badge}`}>{cat.name}</span>
+                  <p className="text-white/60 text-xs leading-relaxed flex-1">{cat.desc}</p>
+                </div>
+                {/* Product table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-slate-200/60">
+                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Kode</th>
+                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Nama Produk</th>
+                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden md:table-cell">Komponen Utama</th>
+                        <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden lg:table-cell">Peruntukan Prosedur</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {cat.products.map((prod, j) => (
+                        <tr key={j} className={`border-b border-slate-200/40 last:border-0 ${j % 2 === 0 ? 'bg-white/60' : 'bg-white/30'}`}>
+                          <td className="px-6 py-4">
+                            <span className="font-black text-[#002B49] text-sm tracking-tight">{prod.code}</span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <p className="font-bold text-slate-800 text-sm">{prod.name}</p>
+                          </td>
+                          <td className="px-6 py-4 hidden md:table-cell">
+                            <p className="text-slate-500 text-xs leading-relaxed max-w-xs">{prod.components}</p>
+                          </td>
+                          <td className="px-6 py-4 hidden lg:table-cell">
+                            <p className="text-[#00A7B5] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="py-16 px-6 bg-white">
+        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+          <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Set Bedah untuk Prosedur Spesifik?</h3>
+          <p className="text-white/70 mb-8 text-sm">Tim kami siap membantu memilih Drape Pack yang tepat sesuai kebutuhan spesialisasi dan volume tindakan rumah sakit Anda.</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a href="mailto:sales.support@hogy.co.id" className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30">
+              <Icons.Mail /> Hubungi via Email
+            </a>
+            <button onClick={onBack} className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Lihat Produk Lain
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
-  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape' | 'accessories'>('home');
+  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape' | 'surgical-drape-pack' | 'accessories'>('home');
 
   const goBack = () => {
     setPage('home');
@@ -1505,17 +1730,10 @@ function App() {
     }, 100);
   };
 
-  if (page === 'surgical-gown') {
-    return <SurgicalGownPage onBack={goBack} />;
-  }
-
-  if (page === 'surgical-drape') {
-    return <SurgicalDrapePage onBack={goBack} />;
-  }
-
-  if (page === 'accessories') {
-    return <AccessoriesPage onBack={goBack} />;
-  }
+  if (page === 'surgical-gown') return <SurgicalGownPage onBack={goBack} />;
+  if (page === 'surgical-drape') return <SurgicalDrapePage onBack={goBack} />;
+  if (page === 'surgical-drape-pack') return <SurgicalDrapePackPage onBack={goBack} />;
+  if (page === 'accessories') return <AccessoriesPage onBack={goBack} />;
 
   return (
     <div className="bg-white font-sans selection:bg-[#00A7B5] selection:text-white">
@@ -1525,6 +1743,7 @@ function App() {
       <ProductPreview
         onViewGown={() => setPage('surgical-gown')}
         onViewDrape={() => setPage('surgical-drape')}
+        onViewDrapePack={() => setPage('surgical-drape-pack')}
         onViewAccessories={() => setPage('accessories')}
       />
       <FacilitySection />

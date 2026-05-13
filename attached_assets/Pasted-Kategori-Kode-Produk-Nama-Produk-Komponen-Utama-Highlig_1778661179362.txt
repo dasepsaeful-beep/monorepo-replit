@@ -1,0 +1,18 @@
+Kategori,Kode Produk,Nama Produk,Komponen Utama (Highlights),Peruntukan Prosedur
+GYNAECOLOGY,GNS-2105,Gynaecology Set Standard,"3x Gowns, Gynaecology Drape w/ Polybag, Plain Drape, Table Cover.",Prosedur Ginekologi & Persalinan dengan manajemen cairan polybag.
+,GNS-2109,Gynaecology Set Premium,"3x Gowns w/ Towel, Gynaecology Drape w/ Plastic Film, Table Cover.",Prosedur Ginekologi dengan proteksi area plastik film.
+ORTHOPAEDIC,ORS-2130,Orthopaedic Set (Arthroscopy),"Arthroscopy Drape (SR-870RE12), Leggings Cover, Mayo Cover.",Prosedur invasif minimal pada sendi (Lutut/Bahu).
+,ORS-2137,Orthopaedic Set (Arthroscopy) + Gown,Sama dengan 2130 + 2x Surgical Gowns (L & LL).,Prosedur Arthroscopy lengkap dengan proteksi personil.
+,ORS-2138,Orthopaedic Set (TKR),"Orthopaedic Drape (BRE-7009), Legging Cover, 3x Gowns (L/LL).",Total Knee Replacement (Ganti Sendi Lutut).
+,ORS-2139,Orthopaedic Set (THR),"Orthopedic Drape (BRE-70H), Legging Cover, 3x Gowns (L/LL).",Total Hip Replacement (Ganti Sendi Panggul).
+,ORS-2140,Orthopaedic Set (Upper),"Orthopedic Drape, Legging Cover, 3x Gowns (L/LL), Table Cover.",Prosedur ekstremitas atas (Lengan/Bahu).
+CARDIOVASCULAR,L-CS-2101,Cardiovascular Set,"Thoracic Drape, Lower Vascular Drape, Shoe Cover, Mayo Cover.",Prosedur vaskular dan toraks umum.
+,L-CS-2102,Cardiovascular Set (CABG),"Genital Drape, Cardiovascular Drape, Suction & Diathermy Bag, Suture Bag.",Prosedur Bedah Bypass Jantung (CABG) yang kompleks.
+ANGIOGRAPHY,AG-2106,Angiography Set,"Angio Drape (2100×3300 mm), Guardian Image Cover, Body Cover.",Radiologi Intervensi & Kateterisasi Jantung (Cath Lab).
+NEUROLOGY,NSS-2101,Neuro Surgery Set,"Neuro Drape, Instrument Pocket, Plain Drape w/ Adhesive.",Bedah Saraf kepala dan tulang belakang.
+,NSS-2106,Neurologi Set Premium,"Neuro Drape w/ Polybag, 3x Gowns (L/LL), Absorbent Towels.",Bedah Saraf dengan manajemen cairan tinggi.
+LAPAROSCOPY,LPS-2107,Laparoscopy Set,"Laparoscopy Drape, Fenestrated Drape, Mayo Stand Cover.",Bedah perut invasif minimal (Laparoskopi).
+UNIVERSAL,USP-2129,Universal Set (Lithotomy),"Laparoscopy Drape (SR-879LH), 3x Gowns, Mayo Cover.",Prosedur umum posisi Litotomi/Laparoskopi.
+,USP-2127,Universal Set Standard,"Universal Drape, 4x Draping Tape, 3x Gowns (L/LL).",Prosedur bedah umum harian.
+,USP-2114,Universal Set Adhesive,"Head, Foot, & Side Drapes w/ Adhesive, 3x Gowns, Draping Tape.",Prosedur yang membutuhkan fiksasi drape pada area spesifik.
+,USP-2126,Universal Set Large,"Universal Drape, 4x Plain Drape, 4x Draping Tape, 3x Gowns.",Prosedur bedah besar dengan cakupan area luas.
