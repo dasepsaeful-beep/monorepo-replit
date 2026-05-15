@@ -720,11 +720,11 @@ const FacilitySection = () => {
 
   const galleryImages = [
     { src: '/factory-aerial.jpeg', title: 'Aerial View Pabrik', caption: 'Kompleks pabrik PT. Hogy Indonesia di kawasan industri MM2100, Bekasi.' },
-    { src: 'https://i.ibb.co.com/1YDjyZbG/2024-2024-Corporate-Brochure-Each-Page-Page5-Image6.jpg', title: 'Area Produksi', caption: 'Lantai produksi steril dengan teknologi Spunlace Non-Woven terkini.' },
-    { src: '/hogy-spunlace.png', title: 'Teknologi Spunlace', caption: 'Material Spunlace Non-Woven berstandar medis untuk produk bedah kami.' },
-    { src: '/acc-sterilization-wrap.png?v=2', title: 'Produk Sterilisasi', caption: 'Sterilization wrap berkualitas tinggi untuk lingkungan ruang operasi.' },
-    { src: 'https://i.ibb.co.com/VcqNq0MX/GOWN.png', title: 'Surgical Gown', caption: 'Gaun operasi SURREM dengan teknologi 5-lapis perlindungan.' },
-    { src: 'https://i.ibb.co.com/4wdS93zD/drape.png', title: 'Surgical Drape', caption: 'Surgical drape steril untuk berbagai prosedur spesialisasi.' },
+    { src: '/factory-aerial-2.jpeg', title: 'Kawasan Industri MM2100', caption: 'Lokasi strategis PT. Hogy Indonesia dengan akses langsung ke jalur logistik nasional.' },
+    { src: '/factory-exterior.jpg', title: 'Gedung Pabrik Phase 5', caption: 'Bangunan produksi terbaru dengan standar fasilitas manufaktur perangkat medis kelas dunia.' },
+    { src: '/factory-floor.jpg', title: 'Lantai Produksi', caption: 'Area produksi steril berteknologi tinggi dengan sistem ventilasi dan kebersihan terkontrol.' },
+    { src: '/factory-cleanroom.jpg', title: 'Clean Room', caption: 'Ruang sterilisasi berstandar internasional untuk memastikan higienitas setiap produk.' },
+    { src: '/factory-cafeteria.jpg', title: 'Area Fasilitas Karyawan', caption: 'Fasilitas modern yang mendukung kenyamanan dan produktivitas karyawan.' },
   ];
 
   const openLightbox = (i: number) => setLightboxIndex(i);
