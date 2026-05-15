@@ -716,8 +716,88 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
 };
 
 const FacilitySection = () => {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const galleryImages = [
+    { src: '/factory-aerial.jpeg', title: 'Aerial View Pabrik', caption: 'Kompleks pabrik PT. Hogy Indonesia di kawasan industri MM2100, Bekasi.' },
+    { src: 'https://i.ibb.co.com/1YDjyZbG/2024-2024-Corporate-Brochure-Each-Page-Page5-Image6.jpg', title: 'Area Produksi', caption: 'Lantai produksi steril dengan teknologi Spunlace Non-Woven terkini.' },
+    { src: '/hogy-spunlace.png', title: 'Teknologi Spunlace', caption: 'Material Spunlace Non-Woven berstandar medis untuk produk bedah kami.' },
+    { src: '/acc-sterilization-wrap.png?v=2', title: 'Produk Sterilisasi', caption: 'Sterilization wrap berkualitas tinggi untuk lingkungan ruang operasi.' },
+    { src: 'https://i.ibb.co.com/VcqNq0MX/GOWN.png', title: 'Surgical Gown', caption: 'Gaun operasi SURREM dengan teknologi 5-lapis perlindungan.' },
+    { src: 'https://i.ibb.co.com/4wdS93zD/drape.png', title: 'Surgical Drape', caption: 'Surgical drape steril untuk berbagai prosedur spesialisasi.' },
+  ];
+
+  const openLightbox = (i: number) => setLightboxIndex(i);
+  const closeLightbox = () => setLightboxIndex(null);
+  const prev = () => setLightboxIndex(i => i !== null ? (i - 1 + galleryImages.length) % galleryImages.length : 0);
+  const next = () => setLightboxIndex(i => i !== null ? (i + 1) % galleryImages.length : 0);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [lightboxIndex]);
+
   return (
     <section className="py-28 bg-white" id="facility">
+      {/* Lightbox */}
+      {lightboxIndex !== null && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          {/* Close */}
+          <button
+            className="absolute top-5 right-5 text-white/70 hover:text-white bg-white/10 rounded-full p-2 transition-colors"
+            onClick={closeLightbox}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          {/* Prev */}
+          <button
+            className="absolute left-4 text-white/70 hover:text-white bg-white/10 rounded-full p-3 transition-colors"
+            onClick={e => { e.stopPropagation(); prev(); }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          {/* Image */}
+          <motion.div
+            key={lightboxIndex}
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.25 }}
+            className="max-w-4xl w-full flex flex-col items-center gap-5"
+            onClick={e => e.stopPropagation()}
+          >
+            <img
+              src={galleryImages[lightboxIndex].src}
+              alt={galleryImages[lightboxIndex].title}
+              className="w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl"
+            />
+            <div className="text-center">
+              <p className="text-white font-black text-lg tracking-tight">{galleryImages[lightboxIndex].title}</p>
+              <p className="text-white/60 text-sm mt-1">{galleryImages[lightboxIndex].caption}</p>
+              <p className="text-white/30 text-xs mt-3 font-bold tracking-widest">{lightboxIndex + 1} / {galleryImages.length}</p>
+            </div>
+          </motion.div>
+          {/* Next */}
+          <button
+            className="absolute right-4 text-white/70 hover:text-white bg-white/10 rounded-full p-3 transition-colors"
+            onClick={e => { e.stopPropagation(); next(); }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </motion.div>
+      )}
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -788,6 +868,91 @@ const FacilitySection = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Gallery grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-24"
+        >
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-2 block">Galeri Fasilitas</span>
+              <h3 className="text-2xl font-black text-slate-900 tracking-tighter">Lihat dari Dalam</h3>
+            </div>
+            <p className="text-slate-400 text-xs font-bold hidden sm:block">Klik gambar untuk memperbesar</p>
+          </div>
+
+          {/* Main featured image + side grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {/* Featured large */}
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.25 }}
+              className="col-span-2 row-span-2 rounded-[2rem] overflow-hidden cursor-pointer relative group h-72 md:h-96"
+              onClick={() => openLightbox(0)}
+            >
+              <img src={galleryImages[0].src} alt={galleryImages[0].title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div>
+                  <p className="text-white font-black text-sm">{galleryImages[0].title}</p>
+                  <p className="text-white/70 text-xs mt-0.5">{galleryImages[0].caption}</p>
+                </div>
+              </div>
+              <div className="absolute top-4 right-4 bg-white/20 backdrop-blur rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </div>
+            </motion.div>
+
+            {/* Smaller tiles */}
+            {galleryImages.slice(1, 5).map((img, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.22 }}
+                className="rounded-[1.5rem] overflow-hidden cursor-pointer relative group h-44 md:h-[11.5rem]"
+                onClick={() => openLightbox(i + 1)}
+              >
+                <img src={img.src} alt={img.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <p className="text-white font-black text-xs">{img.title}</p>
+                </div>
+                <div className="absolute top-3 right-3 bg-white/20 backdrop-blur rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* Last tile with "lihat semua" overlay */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.22 }}
+              className="rounded-[1.5rem] overflow-hidden cursor-pointer relative group h-44 md:h-[11.5rem]"
+              onClick={() => openLightbox(5)}
+            >
+              <img src={galleryImages[5].src} alt={galleryImages[5].title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-[#002B49]/70 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </div>
+                <p className="text-white font-black text-xs uppercase tracking-widest">Lihat Semua</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex gap-2 justify-center mt-6">
+            {galleryImages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => openLightbox(i)}
+                className="w-2 h-2 rounded-full transition-all bg-slate-200 hover:bg-[#00A7B5]"
+              />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
