@@ -105,20 +105,20 @@ const Navbar = () => {
           />
           <div className={`flex flex-col border-l pl-3 ${isScrolled ? 'border-slate-200' : 'border-white/20'}`}>
             <span className={`font-black tracking-tight text-sm leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}>PT. HOGY</span>
-            <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#00A7B5]' : 'text-white/70'}`}>INDONESIA</span>
+            <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#3fb658]' : 'text-white/70'}`}>INDONESIA</span>
           </div>
         </div>
 
         <div className={`hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
           {links.map(link => (
-            <a key={link.href} href={link.href} className="hover:text-[#00A7B5] transition-colors">{link.label}</a>
+            <a key={link.href} href={link.href} className="hover:text-[#3fb658] transition-colors">{link.label}</a>
           ))}
         </div>
 
         <div className="flex items-center gap-4">
           <a
             href="#contact"
-            className="bg-[#00A7B5] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#008c99] transition-all shadow-lg shadow-[#00A7B5]/20"
+            className="bg-[#3fb658] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-lg shadow-[#3fb658]/20"
           >
             Hubungi Kami
           </a>
@@ -138,7 +138,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#00A7B5] transition-colors"
+              className="text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -152,7 +152,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-[90vh] flex items-center bg-[#002B49] overflow-hidden">
+    <section className="relative h-[90vh] flex items-center bg-[#1B2932] overflow-hidden">
       <div className="absolute inset-0 opacity-40">
         <img
           src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2000"
@@ -160,7 +160,7 @@ const Hero = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#002B49]/80 to-[#002B49]/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1B2932]/80 to-[#1B2932]/30" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 mt-16">
         <motion.div
@@ -172,20 +172,20 @@ const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block bg-[#00A7B5]/20 backdrop-blur-md border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6"
+            className="inline-block bg-[#3fb658]/20 backdrop-blur-md border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6"
           >
-            <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Pelopor Produk Disposable Indonesia</span>
+            <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Pelopor Produk Disposable Indonesia</span>
           </motion.div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-8 tracking-tighter">
             Keamanan Medis <br />
             Dimulai dari{' '}
-            <span className="text-[#00A7B5]">Higienitas.</span>
+            <span className="text-[#3fb658]">Higienitas.</span>
           </h1>
 
           <p className="text-white/80 text-lg mb-10 max-w-lg leading-relaxed font-medium">
             PT. Hogy Indonesia menghadirkan solusi alat kesehatan sekali pakai berbasis teknologi{' '}
-            <span className="text-white underline decoration-[#00A7B5] underline-offset-4">Spunlace Non-Woven</span>{' '}
+            <span className="text-white underline decoration-[#3fb658] underline-offset-4">Spunlace Non-Woven</span>{' '}
             untuk standar operasi modern.
           </p>
 
@@ -194,7 +194,7 @@ const Hero = () => {
               href="#products"
               whileHover={{ x: 6 }}
               transition={{ type: 'spring', stiffness: 300 }}
-              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 shadow-xl shadow-[#00A7B5]/30 hover:bg-[#008c99] transition-colors"
+              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 shadow-xl shadow-[#3fb658]/30 hover:bg-[#317c40] transition-colors"
             >
               Kategori Produk <Icons.ArrowRight />
             </motion.a>
@@ -225,7 +225,7 @@ const Hero = () => {
               transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
               className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex items-center gap-4"
             >
-              <div className="w-12 h-12 bg-[#00A7B5]/20 rounded-xl flex items-center justify-center text-[#00A7B5] flex-shrink-0">
+              <div className="w-12 h-12 bg-[#3fb658]/20 rounded-xl flex items-center justify-center text-[#3fb658] flex-shrink-0">
                 {item.icon}
               </div>
               <div>
@@ -253,7 +253,7 @@ const AboutSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Filosofi Perusahaan</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Filosofi Perusahaan</span>
             <h2 className="text-3xl font-black text-slate-900 mb-8 tracking-tight leading-snug">
               Dedikasi Global untuk <br />Keselamatan Pasien.
             </h2>
@@ -274,7 +274,7 @@ const AboutSection = () => {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="bg-slate-50 p-10 rounded-[3rem] border border-slate-100"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Profil Kami</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Profil Kami</span>
             <h3 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Lebih dari 30 Tahun Inovasi.</h3>
             <p className="text-slate-600 text-sm leading-relaxed mb-6">
               Beroperasi sejak tahun 1995, PT Hogy Indonesia terus berinovasi dalam memproduksi perlengkapan operasi sekali pakai (<em>Disposable/Single-use</em>) dengan standar kualitas global.
@@ -284,17 +284,17 @@ const AboutSection = () => {
             </p>
             <div className="mt-8 flex gap-4 items-center">
               <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#002B49]">30+</span>
+                <span className="text-3xl font-black text-[#1B2932]">30+</span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Tahun Pengalaman</span>
               </div>
               <div className="w-px h-10 bg-slate-200 self-center mx-4" />
               <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#002B49]">Global</span>
+                <span className="text-3xl font-black text-[#1B2932]">Global</span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Standar Mutu</span>
               </div>
               <div className="w-px h-10 bg-slate-200 self-center mx-4" />
               <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#002B49]">1995</span>
+                <span className="text-3xl font-black text-[#1B2932]">1995</span>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Tahun Berdiri</span>
               </div>
             </div>
@@ -307,10 +307,10 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-1 bg-[#002B49] p-12 rounded-[3rem] text-white flex flex-col justify-center"
+            className="lg:col-span-1 bg-[#1B2932] p-12 rounded-[3rem] text-white flex flex-col justify-center"
           >
             <Icons.Globe />
-            <h3 className="text-3xl font-black mt-6 mb-4 tracking-tight text-[#00A7B5]">Visi Kami</h3>
+            <h3 className="text-3xl font-black mt-6 mb-4 tracking-tight text-[#3fb658]">Visi Kami</h3>
             <p className="text-white/80 text-sm leading-relaxed">
               Menjadi pionir dalam peningkatan standar pelayanan kesehatan di Indonesia melalui penggunaan produk medis sekali pakai (disposable) yang higienis, demi menjamin keamanan pasien dan tenaga medis secara optimal.
             </p>
@@ -324,7 +324,7 @@ const AboutSection = () => {
             className="lg:col-span-2 bg-slate-50 p-12 rounded-[3rem] border border-slate-100"
           >
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-10 h-10 bg-[#00A7B5] rounded-full flex items-center justify-center text-white">
+              <div className="w-10 h-10 bg-[#3fb658] rounded-full flex items-center justify-center text-white">
                 <Icons.Target />
               </div>
               <h3 className="text-2xl font-black text-slate-900 tracking-tight">Misi Perusahaan</h3>
@@ -336,7 +336,7 @@ const AboutSection = () => {
                 'Menjamin stabilitas ketersediaan dan distribusi produk di seluruh instansi kesehatan di Indonesia.',
               ].map((misi, i) => (
                 <div key={i} className="flex gap-4 items-start p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="text-[#00A7B5] mt-1 flex-shrink-0"><Icons.CheckCircle /></div>
+                  <div className="text-[#3fb658] mt-1 flex-shrink-0"><Icons.CheckCircle /></div>
                   <p className="text-slate-600 text-sm font-medium leading-relaxed">{misi}</p>
                 </div>
               ))}
@@ -381,7 +381,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
   return (
     <div className="bg-white min-h-screen font-sans">
       {/* Top bar */}
-      <div className="bg-[#002B49] py-4 px-6">
+      <div className="bg-[#1B2932] py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <button
             onClick={onBack}
@@ -396,14 +396,14 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* Hero */}
-      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Gown · Hogy Quality</span>
+            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Gown · Hogy Quality</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              SURREM <span className="text-[#00A7B5]">Gown</span>
+              SURREM <span className="text-[#3fb658]">Gown</span>
             </h1>
             <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
               Perlindungan Maksimal dengan <strong className="text-white">Teknologi 5 Lapis</strong>
@@ -415,7 +415,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
               <a
                 href="#contact"
                 onClick={onBack}
-                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
               >
                 <Icons.Mail /> Hubungi Kami
               </a>
@@ -448,7 +448,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Keunggulan Teknologi Material</h2>
           </motion.div>
 
@@ -458,20 +458,20 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#002B49] rounded-[2.5rem] p-10 mb-12 text-center"
+            className="bg-[#1B2932] rounded-[2.5rem] p-10 mb-12 text-center"
           >
             <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-6">Struktur Lapisan SURREM (S/S/M/M/S)</p>
             <div className="flex justify-center items-center gap-2 flex-wrap">
               {[
-                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]' },
-                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]/80' },
+                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]' },
+                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]/80' },
                 { label: 'M', full: 'Meltblown', color: 'bg-white' },
                 { label: 'M', full: 'Meltblown', color: 'bg-white/80' },
-                { label: 'S', full: 'Spunbond', color: 'bg-[#00A7B5]/60' },
+                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]/60' },
               ].map((layer, i) => (
                 <div key={i} className="flex flex-col items-center gap-2">
                   <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl ${layer.color} flex items-center justify-center shadow-lg`}>
-                    <span className={`text-2xl font-black ${layer.color === 'bg-white' || layer.color === 'bg-white/80' ? 'text-[#002B49]' : 'text-white'}`}>{layer.label}</span>
+                    <span className={`text-2xl font-black ${layer.color === 'bg-white' || layer.color === 'bg-white/80' ? 'text-[#1B2932]' : 'text-white'}`}>{layer.label}</span>
                   </div>
                   <span className="text-white/50 text-[9px] font-bold uppercase tracking-widest">{layer.full}</span>
                   {i < 4 && <div className="hidden md:block w-px h-4 bg-white/20" />}
@@ -491,7 +491,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
                 className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm"
               >
                 <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] flex-shrink-0">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] flex-shrink-0">
                     <Icons.CheckCircle />
                   </div>
                   <div>
@@ -515,7 +515,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Data Teknis</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Data Teknis</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Performa Teknis</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-lg mx-auto">Berdasarkan pengujian internal, SURREM menunjukkan keunggulan signifikan dibandingkan standar SMS biasa.</p>
           </motion.div>
@@ -529,9 +529,9 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
           >
             <table className="w-full">
               <thead>
-                <tr className="bg-[#002B49] text-white">
+                <tr className="bg-[#1B2932] text-white">
                   <th className="text-left px-8 py-5 text-xs font-black uppercase tracking-widest">Kategori Pengujian</th>
-                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-[#00A7B5]">SURREM</th>
+                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-[#3fb658]">SURREM</th>
                   <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Standar SMS</th>
                   <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Satuan</th>
                 </tr>
@@ -541,7 +541,7 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
                   <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
                     <td className="px-8 py-5 text-sm font-bold text-slate-700">{row.category}</td>
                     <td className="px-8 py-5 text-center">
-                      <span className="text-lg font-black text-[#00A7B5]">{row.surrem}</span>
+                      <span className="text-lg font-black text-[#3fb658]">{row.surrem}</span>
                     </td>
                     <td className="px-8 py-5 text-center">
                       <span className="text-base font-bold text-slate-400">{row.sms}</span>
@@ -559,13 +559,13 @@ const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
 
       {/* CTA */}
       <div className="py-16 px-6 bg-slate-50">
-        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
           <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan SURREM Gown?</h3>
           <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk informasi harga, spesifikasi lengkap, dan pemesanan.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a
               href="mailto:sales.support@hogy.co.id"
-              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
             >
               <Icons.Mail /> Hubungi via Email
             </a>
@@ -616,7 +616,7 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Produk & Teknologi</span>
+          <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Produk & Teknologi</span>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-10 tracking-tighter">Solusi Medis Komprehensif.</h2>
         </motion.div>
 
@@ -636,12 +636,12 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
                 Hingga saat ini, kebijakan umum yang diterapkan di berbagai rumah sakit di Indonesia adalah penggunaan kain katun (linen) dan drape (kain penutup bedah) di ruang operasi. Namun, seiring dengan munculnya risiko penyakit menular, penggunaan produk sekali pakai sangat direkomendasikan karena karakteristik materialnya yang tidak dapat ditembus oleh mikroorganisme.
               </p>
             </div>
-            <div className="md:col-span-2 bg-[#002B49] rounded-3xl p-8 text-white flex flex-col justify-center">
+            <div className="md:col-span-2 bg-[#1B2932] rounded-3xl p-8 text-white flex flex-col justify-center">
               <p className="text-sm font-medium leading-relaxed italic opacity-90 mb-6">
                 "Produk disposable merupakan produk unggulan kami yang dikembangkan sebagai terobosan dalam sains medis guna menjamin keselamatan, tidak hanya bagi pasien tetapi juga bagi tenaga medis."
               </p>
               <div className="pt-6 border-t border-white/10">
-                <p className="text-[#00A7B5] font-black text-xs uppercase tracking-widest">Komitmen Kualitas</p>
+                <p className="text-[#3fb658] font-black text-xs uppercase tracking-widest">Komitmen Kualitas</p>
                 <p className="text-white/60 text-[11px] mt-2">Target Zero Mistakes melalui pengujian ketat demi lingkungan higienis.</p>
               </div>
             </div>
@@ -670,38 +670,38 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
                 className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg">
-                <span className="text-[#002B49] text-[9px] font-black uppercase tracking-widest italic">Hogy Quality</span>
+                <span className="text-[#1B2932] text-[9px] font-black uppercase tracking-widest italic">Hogy Quality</span>
               </div>
             </div>
             <div className="p-8 flex flex-col flex-grow">
-              <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00A7B5] transition-colors">{cat.name}</h3>
+              <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#3fb658] transition-colors">{cat.name}</h3>
               <p className="text-slate-500 text-xs mb-8 leading-relaxed font-medium line-clamp-3">{cat.desc}</p>
               <div className="mt-auto">
                 {cat.name === 'Surgical Gown' ? (
                   <button
                     onClick={onViewGown}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
                   >
                     Lihat Detail Produk
                   </button>
                 ) : cat.name === 'Surgical Drape' ? (
                   <button
                     onClick={onViewDrape}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
                   >
                     Lihat Detail Produk
                   </button>
                 ) : cat.name === 'Accessories' ? (
                   <button
                     onClick={onViewAccessories}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
                   >
                     Lihat Detail Produk
                   </button>
                 ) : (
                   <button
                     onClick={onViewDrapePack}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all"
+                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
                   >
                     Lihat Detail Produk
                   </button>
@@ -814,7 +814,7 @@ const FacilitySection = () => {
                 className="w-full h-[500px] object-cover"
               />
             </div>
-            <div className="absolute -bottom-10 -right-6 md:-right-10 bg-[#00A7B5] p-8 rounded-[2rem] text-white shadow-xl max-w-[240px]">
+            <div className="absolute -bottom-10 -right-6 md:-right-10 bg-[#3fb658] p-8 rounded-[2rem] text-white shadow-xl max-w-[240px]">
               <p className="font-black text-xl mb-2 italic">Bonded Zone</p>
               <p className="text-xs font-medium opacity-80">Lokasi strategis di MM2100 memudahkan akses logistik nasional & internasional.</p>
             </div>
@@ -826,7 +826,7 @@ const FacilitySection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Fasilitas & Mutu</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Fasilitas & Mutu</span>
             <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tighter leading-tight">
               Standar Internasional <br />Manufaktur Perangkat Medis.
             </h2>
@@ -856,7 +856,7 @@ const FacilitySection = () => {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="flex gap-5"
                 >
-                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center text-[#00A7B5]">
+                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center text-[#3fb658]">
                     {item.icon}
                   </div>
                   <div>
@@ -879,7 +879,7 @@ const FacilitySection = () => {
         >
           <div className="flex items-end justify-between mb-8">
             <div>
-              <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-2 block">Galeri Fasilitas</span>
+              <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-2 block">Galeri Fasilitas</span>
               <h3 className="text-2xl font-black text-slate-900 tracking-tighter">Lihat dari Dalam</h3>
             </div>
             <p className="text-slate-400 text-xs font-bold hidden sm:block">Klik gambar untuk memperbesar</p>
@@ -933,7 +933,7 @@ const FacilitySection = () => {
               onClick={() => openLightbox(5)}
             >
               <img src={galleryImages[5].src} alt={galleryImages[5].title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-[#002B49]/70 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2">
+              <div className="absolute inset-0 bg-[#1B2932]/70 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 </div>
@@ -948,7 +948,7 @@ const FacilitySection = () => {
               <button
                 key={i}
                 onClick={() => openLightbox(i)}
-                className="w-2 h-2 rounded-full transition-all bg-slate-200 hover:bg-[#00A7B5]"
+                className="w-2 h-2 rounded-full transition-all bg-slate-200 hover:bg-[#3fb658]"
               />
             ))}
           </div>
@@ -967,7 +967,7 @@ const Statistics = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#002B49] text-white relative overflow-hidden">
+    <section className="py-24 bg-[#1B2932] text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
         <svg width="100%" height="100%">
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -986,7 +986,7 @@ const Statistics = () => {
             transition={{ duration: 0.5, delay: i * 0.1 }}
           >
             <div className="text-4xl md:text-5xl font-black mb-3 tracking-tighter">{s.val}</div>
-            <p className="text-[#00A7B5] text-[10px] font-black tracking-widest uppercase">{s.label}</p>
+            <p className="text-[#3fb658] text-[10px] font-black tracking-widest uppercase">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -1005,7 +1005,7 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Hubungi Kami</span>
+          <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Hubungi Kami</span>
           <h2 className="text-4xl font-black text-slate-900 tracking-tighter">Mulai Kerjasama Bersama Kami.</h2>
         </motion.div>
 
@@ -1038,7 +1038,7 @@ const ContactSection = () => {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow"
             >
-              <div className="w-12 h-12 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] mb-6">
+              <div className="w-12 h-12 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-6">
                 {contact.icon}
               </div>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{contact.title}</p>
@@ -1053,7 +1053,7 @@ const ContactSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[#002B49] rounded-[3rem] p-12 text-center text-white"
+          className="bg-[#1B2932] rounded-[3rem] p-12 text-center text-white"
         >
           <h3 className="text-3xl font-black mb-4 tracking-tighter">Siap Meningkatkan Standar Medis Anda?</h3>
           <p className="text-white/70 max-w-xl mx-auto mb-8 text-sm leading-relaxed">
@@ -1061,7 +1061,7 @@ const ContactSection = () => {
           </p>
           <a
             href="mailto:sales.support@hogy.co.id"
-            className="inline-flex items-center gap-3 bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#008c99] transition-all shadow-xl shadow-[#00A7B5]/30"
+            className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30"
           >
             <Icons.Mail /> Kirim Pesan Sekarang
           </a>
@@ -1093,7 +1093,7 @@ const Footer = () => {
               />
               <div className="flex flex-col border-l border-slate-200 pl-3">
                 <span className="font-black tracking-tight text-lg text-slate-900 leading-none">PT. HOGY</span>
-                <span className="font-bold text-[10px] tracking-widest text-[#00A7B5]">INDONESIA</span>
+                <span className="font-bold text-[10px] tracking-widest text-[#3fb658]">INDONESIA</span>
               </div>
             </div>
             <p className="text-slate-500 max-w-sm mb-10 font-medium leading-relaxed text-sm">
@@ -1102,7 +1102,7 @@ const Footer = () => {
             <div className="flex gap-4">
               <a
                 href="#contact"
-                className="bg-[#002B49] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-3 shadow-lg hover:bg-[#003a63] transition-colors"
+                className="bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-3 shadow-lg hover:bg-[#003a63] transition-colors"
               >
                 <Icons.Download /> Download Katalog
               </a>
@@ -1110,18 +1110,18 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#00A7B5] mb-8">Navigasi</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#3fb658] mb-8">Navigasi</h4>
             <ul className="space-y-4 text-sm text-slate-500 font-bold uppercase tracking-wider">
               {links.map(link => (
                 <li key={link.href}>
-                  <a href={link.href} className="hover:text-[#00A7B5] transition-colors">{link.label}</a>
+                  <a href={link.href} className="hover:text-[#3fb658] transition-colors">{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#00A7B5] mb-8">Kontak</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#3fb658] mb-8">Kontak</h4>
             <ul className="space-y-6 text-xs text-slate-500 font-medium">
               <li>
                 <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Pabrik (MM2100)</span>
@@ -1239,7 +1239,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
   return (
     <div className="bg-white min-h-screen font-sans">
       {/* Top bar */}
-      <div className="bg-[#002B49] py-4 px-6">
+      <div className="bg-[#1B2932] py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <button
             onClick={onBack}
@@ -1254,14 +1254,14 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* Hero */}
-      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape · Hogy Quality</span>
+            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape · Hogy Quality</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Surgical <span className="text-[#00A7B5]">Drape</span>
+              Surgical <span className="text-[#3fb658]">Drape</span>
             </h1>
             <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
               Presisi dan Sterilitas untuk <strong className="text-white">Setiap Prosedur</strong>
@@ -1272,7 +1272,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
             <div className="mt-10 flex gap-4 flex-wrap">
               <a
                 href="mailto:sales.support@hogy.co.id"
-                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
               >
                 <Icons.Mail /> Hubungi Kami
               </a>
@@ -1305,7 +1305,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan Produk</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan Produk</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Memilih Surgical Drape Kami?</h2>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1318,7 +1318,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100"
               >
-                <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] mb-5">
+                <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-5">
                   <Icons.CheckCircle />
                 </div>
                 <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
@@ -1339,7 +1339,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="mb-14 text-center"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Hogy Spunlace</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
               Material non-woven unggulan yang menggabungkan keunggulan kain non-woven dan linen — barrier superior terhadap bakteri dengan fleksibilitas tinggi.
@@ -1371,7 +1371,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
               <div className="space-y-4">
                 {spunlaceAdvantages.map((adv, i) => (
                   <div key={i} className="flex gap-3 items-start">
-                    <div className="w-5 h-5 rounded-full bg-[#00A7B5]/10 flex items-center justify-center text-[#00A7B5] flex-shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-[#3fb658]/10 flex items-center justify-center text-[#3fb658] flex-shrink-0 mt-0.5">
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">{adv}</p>
@@ -1393,7 +1393,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Produk</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Produk</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Berdasarkan Prosedur Bedah</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
               Kami menyediakan berbagai varian drape yang disesuaikan dengan kebutuhan spesifik di ruang operasi.
@@ -1410,8 +1410,8 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm"
               >
-                <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
-                  <span className="w-8 h-8 rounded-full bg-[#00A7B5] flex items-center justify-center text-white font-black text-sm flex-shrink-0">{cat.number}</span>
+                <div className="bg-[#1B2932] px-8 py-5 flex items-center gap-4">
+                  <span className="w-8 h-8 rounded-full bg-[#3fb658] flex items-center justify-center text-white font-black text-sm flex-shrink-0">{cat.number}</span>
                   <div>
                     <h3 className="text-white font-black text-base tracking-tight">{cat.category}</h3>
                     <p className="text-white/50 text-xs mt-0.5">{cat.subtitle}</p>
@@ -1420,7 +1420,7 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
                 <div className="bg-white px-8 py-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {cat.items.map((item, j) => (
                     <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="text-[#00A7B5] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
+                      <div className="text-[#3fb658] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
                       <div>
                         <p className="text-slate-900 font-black text-sm mb-1">{item.name}</p>
                         <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
@@ -1436,13 +1436,13 @@ const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
 
       {/* CTA */}
       <div className="py-16 px-6 bg-slate-50">
-        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
           <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan Surgical Drape Kami?</h3>
           <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi varian drape yang sesuai dengan prosedur bedah Anda.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a
               href="mailto:sales.support@hogy.co.id"
-              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
             >
               <Icons.Mail /> Hubungi via Email
             </a>
@@ -1510,7 +1510,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
   return (
     <div className="bg-white min-h-screen font-sans">
       {/* Top bar */}
-      <div className="bg-[#002B49] py-4 px-6">
+      <div className="bg-[#1B2932] py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <button
             onClick={onBack}
@@ -1525,14 +1525,14 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* Hero */}
-      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Accessories · Hogy Quality</span>
+            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Accessories · Hogy Quality</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Perlengkapan <span className="text-[#00A7B5]">Pendukung</span>
+              Perlengkapan <span className="text-[#3fb658]">Pendukung</span>
             </h1>
             <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
               Aksesori medis sekali pakai untuk melengkapi standar higienitas ruang operasi secara menyeluruh.
@@ -1543,7 +1543,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
             <div className="mt-10 flex gap-4 flex-wrap">
               <a
                 href="mailto:sales.support@hogy.co.id"
-                className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
               >
                 <Icons.Mail /> Hubungi Kami
               </a>
@@ -1578,7 +1578,7 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Rangkuman Produk</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Rangkuman Produk</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">4 Kategori Aksesori Medis</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
               Setiap kategori dirancang untuk memenuhi kebutuhan spesifik di lingkungan bedah dan perawatan kesehatan.
@@ -1607,14 +1607,14 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
                   {/* Content */}
                   <div className="lg:col-span-3 p-8 md:p-10 flex flex-col justify-center">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="w-7 h-7 rounded-full bg-[#00A7B5] flex items-center justify-center text-white font-black text-xs flex-shrink-0">{i + 1}</span>
+                      <span className="w-7 h-7 rounded-full bg-[#3fb658] flex items-center justify-center text-white font-black text-xs flex-shrink-0">{i + 1}</span>
                       <h3 className="text-xl font-black text-slate-900 tracking-tight">{prod.title}</h3>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed mb-6">{prod.summary}</p>
                     <div className="space-y-3 mb-6">
                       {prod.items.map((item, j) => (
                         <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                          <div className="text-[#00A7B5] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
+                          <div className="text-[#3fb658] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
                           <div>
                             <p className="text-slate-900 font-black text-sm mb-0.5">{item.name}</p>
                             <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
@@ -1622,8 +1622,8 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
                         </div>
                       ))}
                     </div>
-                    <div className="bg-[#002B49] rounded-2xl px-5 py-4 flex gap-3 items-start">
-                      <svg className="text-[#00A7B5] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A7B5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <div className="bg-[#1B2932] rounded-2xl px-5 py-4 flex gap-3 items-start">
+                      <svg className="text-[#3fb658] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3fb658" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                       <p className="text-white/80 text-xs leading-relaxed italic">{prod.highlight}</p>
                     </div>
                   </div>
@@ -1636,13 +1636,13 @@ const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
 
       {/* CTA */}
       <div className="py-16 px-6 bg-white">
-        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
           <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Aksesori Medis untuk Fasilitas Anda?</h3>
           <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi produk, ketersediaan stok, dan harga terbaik.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a
               href="mailto:sales.support@hogy.co.id"
-              className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30"
+              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
             >
               <Icons.Mail /> Hubungi via Email
             </a>
@@ -1751,7 +1751,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
   return (
     <div className="bg-white min-h-screen font-sans">
       {/* Top bar */}
-      <div className="bg-[#002B49] py-4 px-6">
+      <div className="bg-[#1B2932] py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <button onClick={onBack} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -1763,14 +1763,14 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
       </div>
 
       {/* Hero */}
-      <div className="bg-[#002B49] pb-20 pt-12 px-6">
+      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#00A7B5]/20 border border-[#00A7B5]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#00A7B5] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape Pack · Hogy Quality</span>
+            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
+              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape Pack · Hogy Quality</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Surgical <span className="text-[#00A7B5]">Drape Pack</span>
+              Surgical <span className="text-[#3fb658]">Drape Pack</span>
             </h1>
             <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
               Solusi Prosedur <strong className="text-white">Terintegrasi</strong>
@@ -1779,7 +1779,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
               Drape Pack kami dirancang untuk menyederhanakan persiapan ruang operasi dengan menyediakan semua komponen esensial dalam satu kemasan steril. Setiap set dikurasi secara spesifik sesuai jenis tindakan medis — meningkatkan efisiensi setup, mengurangi limbah kemasan, dan memastikan protokol aseptik terjaga sempurna.
             </p>
             <div className="mt-10 flex gap-4 flex-wrap">
-              <a href="mailto:sales.support@hogy.co.id" className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30">
+              <a href="mailto:sales.support@hogy.co.id" className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
                 <Icons.Mail /> Hubungi Kami
               </a>
             </div>
@@ -1796,13 +1796,13 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
       <div className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Menggunakan Drape Pack Kami?</h2>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyUse.map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100">
-                <div className="w-10 h-10 bg-[#00A7B5]/10 rounded-xl flex items-center justify-center text-[#00A7B5] mb-5">
+                <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-5">
                   <Icons.CheckCircle />
                 </div>
                 <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
@@ -1817,7 +1817,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
       <div className="py-20 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-10">
-            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Set Bedah</span>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Set Bedah</span>
             <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Pilihan Set Berdasarkan Spesialisasi</h2>
             <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">18 varian set bedah yang dikurasi spesifik sesuai kebutuhan ruang operasi Anda.</p>
           </motion.div>
@@ -1832,7 +1832,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
                 placeholder="Cari kode produk, nama, atau komponen..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00A7B5]/40 focus:border-[#00A7B5] transition-all shadow-sm"
+                className="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all shadow-sm"
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
@@ -1848,8 +1848,8 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
                   onClick={() => setActiveFilter(cat)}
                   className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
                     activeFilter === cat
-                      ? 'bg-[#002B49] text-white shadow-lg'
-                      : 'bg-white border border-slate-200 text-slate-500 hover:border-[#002B49] hover:text-[#002B49]'
+                      ? 'bg-[#1B2932] text-white shadow-lg'
+                      : 'bg-white border border-slate-200 text-slate-500 hover:border-[#1B2932] hover:text-[#1B2932]'
                   }`}
                 >
                   {cat}
@@ -1880,7 +1880,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
                 <div className="text-center py-20">
                   <div className="text-5xl mb-4">🔍</div>
                   <p className="text-slate-500 font-bold text-sm">Tidak ada produk yang cocok.</p>
-                  <button onClick={() => { setSearchQuery(''); setActiveFilter('SEMUA'); }} className="mt-4 text-[#00A7B5] text-xs font-black uppercase tracking-widest hover:underline">Reset Filter</button>
+                  <button onClick={() => { setSearchQuery(''); setActiveFilter('SEMUA'); }} className="mt-4 text-[#3fb658] text-xs font-black uppercase tracking-widest hover:underline">Reset Filter</button>
                 </div>
               );
             }
@@ -1889,7 +1889,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
               <div className="space-y-8">
                 {filtered.map((cat, i) => (
                   <motion.div key={cat.name} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: i * 0.05 }} className={`rounded-[2rem] border overflow-hidden ${cat.color}`}>
-                    <div className="bg-[#002B49] px-8 py-5 flex items-center gap-4">
+                    <div className="bg-[#1B2932] px-8 py-5 flex items-center gap-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shrink-0 ${cat.badge}`}>{cat.name}</span>
                       <p className="text-white/60 text-xs leading-relaxed flex-1">{cat.desc}</p>
                       <span className="text-white/40 text-[10px] font-bold shrink-0">{cat.products.length} set</span>
@@ -1908,7 +1908,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
                           {cat.products.map((prod, j) => (
                             <tr key={j} className={`border-b border-slate-200/40 last:border-0 ${j % 2 === 0 ? 'bg-white/60' : 'bg-white/30'}`}>
                               <td className="px-6 py-4">
-                                <span className="font-black text-[#002B49] text-sm tracking-tight">{prod.code}</span>
+                                <span className="font-black text-[#1B2932] text-sm tracking-tight">{prod.code}</span>
                               </td>
                               <td className="px-6 py-4">
                                 <p className="font-bold text-slate-800 text-sm">{prod.name}</p>
@@ -1917,7 +1917,7 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
                                 <p className="text-slate-500 text-xs leading-relaxed max-w-xs">{prod.components}</p>
                               </td>
                               <td className="px-6 py-4 hidden lg:table-cell">
-                                <p className="text-[#00A7B5] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
+                                <p className="text-[#3fb658] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
                               </td>
                             </tr>
                           ))}
@@ -1934,11 +1934,11 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
 
       {/* CTA */}
       <div className="py-16 px-6 bg-white">
-        <div className="max-w-3xl mx-auto bg-[#002B49] rounded-[2.5rem] p-12 text-center text-white">
+        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
           <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Set Bedah untuk Prosedur Spesifik?</h3>
           <p className="text-white/70 mb-8 text-sm">Tim kami siap membantu memilih Drape Pack yang tepat sesuai kebutuhan spesialisasi dan volume tindakan rumah sakit Anda.</p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a href="mailto:sales.support@hogy.co.id" className="bg-[#00A7B5] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] transition-colors shadow-xl shadow-[#00A7B5]/30">
+            <a href="mailto:sales.support@hogy.co.id" className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
               <Icons.Mail /> Hubungi via Email
             </a>
             <button onClick={onBack} className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3">
@@ -1968,7 +1968,7 @@ function App() {
   if (page === 'accessories') return <AccessoriesPage onBack={goBack} />;
 
   return (
-    <div className="bg-white font-sans selection:bg-[#00A7B5] selection:text-white">
+    <div className="bg-white font-sans selection:bg-[#3fb658] selection:text-white">
       <Navbar />
       <Hero />
       <AboutSection />

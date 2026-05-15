@@ -41,15 +41,15 @@
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 215 28% 17%;
+  --foreground: 203 30% 15%;
 
   --card: 0 0% 100%;
-  --card-foreground: 215 28% 17%;
+  --card-foreground: 203 30% 15%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 215 28% 17%;
+  --popover-foreground: 203 30% 15%;
 
-  --primary: 184 100% 36%;
+  --primary: 133 49% 48%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 210 40% 96%;
@@ -66,7 +66,7 @@
 
   --border: 214 32% 91%;
   --input: 214 32% 91%;
-  --ring: 184 100% 36%;
+  --ring: 133 49% 48%;
 
   --app-font-sans: 'Inter', sans-serif;
   --radius: 0.5rem;
