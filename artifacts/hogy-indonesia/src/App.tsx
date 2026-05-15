@@ -729,7 +729,7 @@ const FacilitySection = () => {
           >
             <div className="rounded-[3rem] overflow-hidden shadow-2xl">
               <img
-                src="https://i.ibb.co.com/1YDjyZbG/2024-2024-Corporate-Brochure-Each-Page-Page5-Image6.jpg"
+                src="/factory-aerial.jpeg"
                 alt="Fasilitas Pabrik Hogy"
                 className="w-full h-[500px] object-cover"
               />
