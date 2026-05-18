@@ -110,7 +110,7 @@ const Icons = {
 
 type AppPage = 'home' | 'surgical-gown' | 'surgical-drape' | 'surgical-drape-pack' | 'accessories' | 'news' | 'career' | 'location';
 
-const Navbar = ({ onNavigate }: { onNavigate: (page: AppPage) => void }) => {
+const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: AppPage) => void; currentPage: AppPage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -120,18 +120,28 @@ const Navbar = ({ onNavigate }: { onNavigate: (page: AppPage) => void }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const anchorLinks = [
-    { href: '#about', label: 'Tentang Kami' },
-    { href: '#products', label: 'Produk' },
-    { href: '#facility', label: 'Fasilitas' },
-    { href: '#contact', label: 'Kontak' },
+  const menuItems = [
+    { type: 'anchor' as const, href: '#about', label: 'Tentang Kami' },
+    { type: 'anchor' as const, href: '#products', label: 'Produk' },
+    { type: 'anchor' as const, href: '#facility', label: 'Fasilitas' },
+    { type: 'anchor' as const, href: '#contact', label: 'Kontak' },
+    { type: 'page' as const, page: 'news' as AppPage, label: 'Berita' },
+    { type: 'page' as const, page: 'career' as AppPage, label: 'Karir' },
+    { type: 'page' as const, page: 'location' as AppPage, label: 'Lokasi Kami' },
   ];
 
-  const pageLinks: { page: AppPage; label: string }[] = [
-    { page: 'news', label: 'Berita' },
-    { page: 'career', label: 'Karir' },
-    { page: 'location', label: 'Lokasi Kami' },
-  ];
+  const handleAnchor = (href: string) => {
+    if (currentPage !== 'home') {
+      onNavigate('home');
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMenuOpen(false);
+  };
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent py-5'}`}>
@@ -151,68 +161,58 @@ const Navbar = ({ onNavigate }: { onNavigate: (page: AppPage) => void }) => {
           </button>
         </div>
 
-        <div className={`hidden md:flex gap-6 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
-          {anchorLinks.map(link => (
-            <a key={link.href} href={link.href} className="hover:text-[#3fb658] transition-colors">{link.label}</a>
-          ))}
-          <div className={`w-px h-4 self-center ${isScrolled ? 'bg-slate-200' : 'bg-white/20'}`} />
-          {pageLinks.map(link => (
-            <button
-              key={link.page}
-              onClick={() => onNavigate(link.page)}
-              className="hover:text-[#3fb658] transition-colors"
-            >
-              {link.label}
-            </button>
-          ))}
+        <div className={`hidden md:flex gap-7 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
+          {menuItems.map(item =>
+            item.type === 'anchor' ? (
+              <button
+                key={item.href}
+                onClick={() => handleAnchor(item.href)}
+                className="hover:text-[#3fb658] transition-colors"
+              >
+                {item.label}
+              </button>
+            ) : (
+              <button
+                key={item.page}
+                onClick={() => { onNavigate(item.page); setMenuOpen(false); }}
+                className={`hover:text-[#3fb658] transition-colors ${currentPage === item.page ? 'text-[#3fb658]' : ''}`}
+              >
+                {item.label}
+              </button>
+            )
+          )}
         </div>
 
-        <div className="flex items-center gap-4">
-          <a
-            href="#contact"
-            className="hidden md:inline-flex bg-[#3fb658] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-lg shadow-[#3fb658]/20"
-          >
-            Hubungi Kami
-          </a>
-          <button
-            className={`md:hidden ${isScrolled ? 'text-slate-700' : 'text-white'}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <Icons.X /> : <Icons.Menu />}
-          </button>
-        </div>
+        <button
+          className={`md:hidden ${isScrolled ? 'text-slate-700' : 'text-white'}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <Icons.X /> : <Icons.Menu />}
+        </button>
       </div>
 
       {menuOpen && (
         <div className="md:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
-          {anchorLinks.map(link => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="w-full h-px bg-slate-100" />
-          {pageLinks.map(link => (
-            <button
-              key={link.page}
-              onClick={() => { onNavigate(link.page); setMenuOpen(false); }}
-              className="text-left text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
-            >
-              {link.label}
-            </button>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setMenuOpen(false)}
-            className="bg-[#3fb658] text-white px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all text-center mt-2"
-          >
-            Hubungi Kami
-          </a>
+          {menuItems.map(item =>
+            item.type === 'anchor' ? (
+              <button
+                key={item.href}
+                onClick={() => handleAnchor(item.href)}
+                className="text-left text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
+              >
+                {item.label}
+              </button>
+            ) : (
+              <button
+                key={item.page}
+                onClick={() => { onNavigate(item.page); setMenuOpen(false); }}
+                className={`text-left text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors ${currentPage === item.page ? 'text-[#3fb658]' : 'text-slate-700'}`}
+              >
+                {item.label}
+              </button>
+            )
+          )}
         </div>
       )}
     </nav>
@@ -2394,17 +2394,17 @@ function App() {
     }, 100);
   };
 
-  if (page === 'surgical-gown') return <><Navbar onNavigate={navigate} /><SurgicalGownPage onBack={goBack} /></>;
-  if (page === 'surgical-drape') return <><Navbar onNavigate={navigate} /><SurgicalDrapePage onBack={goBack} /></>;
-  if (page === 'surgical-drape-pack') return <><Navbar onNavigate={navigate} /><SurgicalDrapePackPage onBack={goBack} /></>;
-  if (page === 'accessories') return <><Navbar onNavigate={navigate} /><AccessoriesPage onBack={goBack} /></>;
-  if (page === 'news') return <><Navbar onNavigate={navigate} /><NewsPage onBack={() => navigate('home')} /></>;
-  if (page === 'career') return <><Navbar onNavigate={navigate} /><CareerPage onBack={() => navigate('home')} /></>;
-  if (page === 'location') return <><Navbar onNavigate={navigate} /><LocationPage onBack={() => navigate('home')} /></>;
+  if (page === 'surgical-gown') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalGownPage onBack={goBack} /></>;
+  if (page === 'surgical-drape') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalDrapePage onBack={goBack} /></>;
+  if (page === 'surgical-drape-pack') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalDrapePackPage onBack={goBack} /></>;
+  if (page === 'accessories') return <><Navbar onNavigate={navigate} currentPage={page} /><AccessoriesPage onBack={goBack} /></>;
+  if (page === 'news') return <><Navbar onNavigate={navigate} currentPage={page} /><NewsPage onBack={() => navigate('home')} /></>;
+  if (page === 'career') return <><Navbar onNavigate={navigate} currentPage={page} /><CareerPage onBack={() => navigate('home')} /></>;
+  if (page === 'location') return <><Navbar onNavigate={navigate} currentPage={page} /><LocationPage onBack={() => navigate('home')} /></>;
 
   return (
     <div className="bg-white font-sans selection:bg-[#3fb658] selection:text-white">
-      <Navbar onNavigate={navigate} />
+      <Navbar onNavigate={navigate} currentPage={page} />
       <Hero />
       <AboutSection />
       <ProductPreview
