@@ -1106,7 +1106,7 @@ const ContactSection = () => {
               title: 'Sales (Jakarta)',
               value: '+62 21 837 05111',
               icon: <Icons.Phone />,
-              desc: 'Kantor Penjualan Jakarta',
+              desc: 'Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12',
             },
             {
               title: 'Email Support',
@@ -1152,6 +1152,13 @@ const ContactSection = () => {
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat Pabrik</p>
                     <p className="text-slate-700 font-medium text-sm">Kawasan Industri MM2100, Cikarang, Bekasi, Jawa Barat</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.MapPin /></div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Kantor Penjualan</p>
+                    <p className="text-slate-700 font-medium text-sm">Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12, RT.10/RW.11, Karet Tengsin, Tanah Abang, Jakarta Pusat 10220</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -2400,11 +2407,11 @@ const LocationPage = ({ onBack }: { onBack: () => void }) => {
     },
     {
       name: 'Kantor Penjualan Jakarta',
-      address: 'Jakarta Selatan, DKI Jakarta',
+      address: 'Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12, RT.10/RW.11, Karet Tengsin, Kecamatan Tanah Abang, Kota Jakarta Pusat, DKI Jakarta 10220',
       phone: '+62 21 837 05111',
       hours: 'Senin – Jumat: 08.00 – 17.00 WIB',
-      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.22!2d106.7272!3d-6.2615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta+Selatan!5e0!3m2!1sid!2sid!4v1700000000001',
-      mapLink: 'https://maps.google.com/?q=Jakarta+Selatan',
+      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.43!2d106.8165!3d-6.2085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4c3f8f86e4b%3A0x7e7e5c5e9a0a0a0a!2sWisma%2046%2C%20Karet%20Tengsin%2C%20Tanah%20Abang%2C%20Jakarta%20Pusat!5e0!3m2!1sid!2sid!4v1700000000002',
+      mapLink: 'https://maps.google.com/?q=Wisma+46+Karet+Tengsin+Jakarta+Pusat',
       badge: 'Sales',
     },
   ];
