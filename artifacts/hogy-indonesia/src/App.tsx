@@ -1064,6 +1064,22 @@ const Statistics = () => {
 };
 
 const ContactSection = () => {
+  const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', subject: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const body = `Halo PT. Hogy Indonesia,%0A%0ANama: ${form.name}%0AInstitusi/Perusahaan: ${form.company || '-'}%0AEmail: ${form.email}%0ANo. Telepon: ${form.phone || '-'}%0ASubjek: ${form.subject || '-'}%0A%0APesan:%0A${form.message}%0A%0ATerima kasih.`;
+    window.location.href = `mailto:sales.support@hogy.co.id?subject=Inquiry - ${form.subject || form.name}&body=${body}`;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+    setForm({ name: '', company: '', email: '', phone: '', subject: '', message: '' });
+  };
+
   return (
     <section className="py-24 bg-slate-50" id="contact">
       <div className="max-w-7xl mx-auto px-6">
@@ -1122,18 +1138,123 @@ const ContactSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[#1B2932] rounded-[3rem] p-12 text-center text-white"
+          className="bg-white rounded-[3rem] p-10 md:p-14 border border-slate-100 shadow-sm"
         >
-          <h3 className="text-3xl font-black mb-4 tracking-tighter">Siap Meningkatkan Standar Medis Anda?</h3>
-          <p className="text-white/70 max-w-xl mx-auto mb-8 text-sm leading-relaxed">
-            Hubungi tim kami untuk informasi lebih lanjut tentang produk, harga, dan kerjasama distribusi.
-          </p>
-          <a
-            href="mailto:sales.support@hogy.co.id"
-            className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30"
-          >
-            <Icons.Mail /> Kirim Pesan Sekarang
-          </a>
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Formulir Inquiry</h3>
+              <p className="text-slate-500 text-sm mb-8 leading-relaxed">
+                Isi formulir di samping dan tim kami akan menghubungi Anda dalam 1-2 hari kerja. Anda juga bisa langsung menghubungi kami via telepon atau email.
+              </p>
+              <div className="space-y-5">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.MapPin /></div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat Pabrik</p>
+                    <p className="text-slate-700 font-medium text-sm">Kawasan Industri MM2100, Cikarang, Bekasi, Jawa Barat</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Phone /></div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Telepon</p>
+                    <p className="text-slate-700 font-medium text-sm">+62 21 898 0165 (Pabrik)</p>
+                    <p className="text-slate-700 font-medium text-sm">+62 21 837 05111 (Sales)</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Mail /></div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Email</p>
+                    <p className="text-slate-700 font-medium text-sm">sales.support@hogy.co.id</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Clock /></div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Jam Operasional</p>
+                    <p className="text-slate-700 font-medium text-sm">Senin - Jumat: 08.00 - 17.00 WIB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Nama Lengkap *</label>
+                  <input
+                    type="text" name="name" required value={form.name} onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
+                    placeholder="Contoh: Budi Santoso"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Institusi / Perusahaan</label>
+                  <input
+                    type="text" name="company" value={form.company} onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
+                    placeholder="Contoh: RS. Medika Sejahtera"
+                  />
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Email *</label>
+                  <input
+                    type="email" name="email" required value={form.email} onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
+                    placeholder="nama@perusahaan.com"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">No. Telepon / WhatsApp</label>
+                  <input
+                    type="tel" name="phone" value={form.phone} onChange={handleChange}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
+                    placeholder="+62 8xx xxxx xxxx"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Subjek Inquiry *</label>
+                <select
+                  name="subject" required value={form.subject} onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all appearance-none cursor-pointer"
+                >
+                  <option value="">Pilih subjek inquiry...</option>
+                  <option value="Permintaan Penawaran Harga">Permintaan Penawaran Harga</option>
+                  <option value="Kerjasama Distributor">Kerjasama Distributor</option>
+                  <option value="Informasi Produk">Informasi Produk</option>
+                  <option value="Kunjungan Pabrik">Kunjungan Pabrik</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Pesan / Detail Kebutuhan *</label>
+                <textarea
+                  name="message" required rows={4} value={form.message} onChange={handleChange}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all resize-none"
+                  placeholder="Ceritakan kebutuhan produk Anda, volume estimasi, dan spesifikasi yang diperlukan..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30 flex items-center justify-center gap-3"
+              >
+                {submitted ? (
+                  <>
+                    <Icons.CheckCircle /> Terkirim — Buka Aplikasi Email Anda
+                  </>
+                ) : (
+                  <>
+                    <Icons.Mail /> Kirim Inquiry
+                  </>
+                )}
+              </button>
+              <p className="text-slate-400 text-[10px] font-medium text-center">Dengan mengirim, data Anda akan disusun otomatis sebagai email ke sales.support@hogy.co.id</p>
+            </form>
+          </div>
         </motion.div>
       </div>
     </section>
