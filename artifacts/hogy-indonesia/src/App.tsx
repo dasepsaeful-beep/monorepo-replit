@@ -37,6 +37,38 @@ const Icons = {
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
     </svg>
   ),
+  MapPin: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>
+  ),
+  Briefcase: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+    </svg>
+  ),
+  Newspaper: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+      <path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>
+    </svg>
+  ),
+  Users: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  ),
+  Clock: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  ),
   Target: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10"/>
@@ -76,7 +108,9 @@ const Icons = {
   ),
 };
 
-const Navbar = () => {
+type AppPage = 'home' | 'surgical-gown' | 'surgical-drape' | 'surgical-drape-pack' | 'accessories' | 'news' | 'career' | 'location';
+
+const Navbar = ({ onNavigate }: { onNavigate: (page: AppPage) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,39 +120,57 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const links = [
+  const anchorLinks = [
     { href: '#about', label: 'Tentang Kami' },
     { href: '#products', label: 'Produk' },
     { href: '#facility', label: 'Fasilitas' },
     { href: '#contact', label: 'Kontak' },
   ];
 
+  const pageLinks: { page: AppPage; label: string }[] = [
+    { page: 'news', label: 'Berita' },
+    { page: 'career', label: 'Karir' },
+    { page: 'location', label: 'Lokasi Kami' },
+  ];
+
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <img
-            src="https://i.ibb.co.com/GfqDPMCn/hd-logo-2.jpg"
-            alt="Logo PT. Hogy Indonesia"
-            className={`transition-all duration-300 object-contain ${isScrolled ? 'h-8' : 'h-10'}`}
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
-          <div className={`flex flex-col border-l pl-3 ${isScrolled ? 'border-slate-200' : 'border-white/20'}`}>
-            <span className={`font-black tracking-tight text-sm leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}>PT. HOGY</span>
-            <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#3fb658]' : 'text-white/70'}`}>INDONESIA</span>
-          </div>
+          <button onClick={() => onNavigate('home')} className="flex items-center gap-3">
+            <img
+              src="https://i.ibb.co.com/GfqDPMCn/hd-logo-2.jpg"
+              alt="Logo PT. Hogy Indonesia"
+              className={`transition-all duration-300 object-contain ${isScrolled ? 'h-8' : 'h-10'}`}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div className={`flex flex-col border-l pl-3 ${isScrolled ? 'border-slate-200' : 'border-white/20'}`}>
+              <span className={`font-black tracking-tight text-sm leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}>PT. HOGY</span>
+              <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#3fb658]' : 'text-white/70'}`}>INDONESIA</span>
+            </div>
+          </button>
         </div>
 
-        <div className={`hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
-          {links.map(link => (
+        <div className={`hidden md:flex gap-6 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
+          {anchorLinks.map(link => (
             <a key={link.href} href={link.href} className="hover:text-[#3fb658] transition-colors">{link.label}</a>
+          ))}
+          <div className={`w-px h-4 self-center ${isScrolled ? 'bg-slate-200' : 'bg-white/20'}`} />
+          {pageLinks.map(link => (
+            <button
+              key={link.page}
+              onClick={() => onNavigate(link.page)}
+              className="hover:text-[#3fb658] transition-colors"
+            >
+              {link.label}
+            </button>
           ))}
         </div>
 
         <div className="flex items-center gap-4">
           <a
             href="#contact"
-            className="bg-[#3fb658] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-lg shadow-[#3fb658]/20"
+            className="hidden md:inline-flex bg-[#3fb658] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-lg shadow-[#3fb658]/20"
           >
             Hubungi Kami
           </a>
@@ -134,7 +186,7 @@ const Navbar = () => {
 
       {menuOpen && (
         <div className="md:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
-          {links.map(link => (
+          {anchorLinks.map(link => (
             <a
               key={link.href}
               href={link.href}
@@ -144,6 +196,23 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+          <div className="w-full h-px bg-slate-100" />
+          {pageLinks.map(link => (
+            <button
+              key={link.page}
+              onClick={() => { onNavigate(link.page); setMenuOpen(false); }}
+              className="text-left text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
+            >
+              {link.label}
+            </button>
+          ))}
+          <a
+            href="#contact"
+            onClick={() => setMenuOpen(false)}
+            className="bg-[#3fb658] text-white px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#317c40] transition-all text-center mt-2"
+          >
+            Hubungi Kami
+          </a>
         </div>
       )}
     </nav>
@@ -1952,8 +2021,371 @@ const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const NewsPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const news = [
+    {
+      date: 'Mei 2025',
+      category: 'Sertifikasi',
+      title: 'PT. Hogy Indonesia Raih Sertifikasi ISO 13485:2016 untuk Sistem Manajemen Mutu Perangkat Medis',
+      excerpt: 'PT. Hogy Indonesia dengan bangga mengumumkan keberhasilan meraih sertifikasi internasional ISO 13485:2016, standar tertinggi untuk sistem manajemen mutu dalam industri perangkat medis. Pencapaian ini menegaskan komitmen kami terhadap kualitas dan keselamatan produk.',
+      tag: 'Pencapaian',
+    },
+    {
+      date: 'Maret 2025',
+      category: 'Ekspansi',
+      title: 'Perluasan Kapasitas Produksi di Kawasan Industri MM2100, Bekasi',
+      excerpt: 'Dalam rangka memenuhi permintaan pasar yang terus meningkat, PT. Hogy Indonesia melakukan perluasan lini produksi dengan investasi teknologi Spunlace generasi terbaru. Kapasitas produksi meningkat hingga 40% untuk mendukung distribusi nasional.',
+      tag: 'Bisnis',
+    },
+    {
+      date: 'Januari 2025',
+      category: 'Kemitraan',
+      title: 'Penandatanganan MoU dengan Jaringan Rumah Sakit Nasional untuk Pengadaan Alat Medis Disposable',
+      excerpt: 'PT. Hogy Indonesia menandatangani nota kesepahaman (MoU) dengan konsorsium rumah sakit terkemuka di Indonesia. Kesepakatan ini mencakup pengadaan Surgical Gown, Drape, dan paket prosedur bedah yang memenuhi standar KEMENKES RI.',
+      tag: 'Kerjasama',
+    },
+    {
+      date: 'November 2024',
+      category: 'Pameran',
+      title: 'PT. Hogy Indonesia Tampil di Hospital Expo 2024 Jakarta',
+      excerpt: 'Kami hadir di ajang Hospital Expo 2024 yang digelar di Jakarta Convention Center. Tim kami memperkenalkan rangkaian produk terbaru termasuk Surgical Drape Pack untuk berbagai prosedur bedah spesialistik kepada lebih dari 5.000 pengunjung profesional medis.',
+      tag: 'Event',
+    },
+    {
+      date: 'September 2024',
+      category: 'Inovasi Produk',
+      title: 'Peluncuran Lini Produk SURREM Gown Generasi Baru dengan Teknologi Barrier Tingkat Tinggi',
+      excerpt: 'Menghadirkan inovasi terbaru, PT. Hogy Indonesia meluncurkan SURREM Gown generasi baru yang menggunakan material Spunlace dengan lapisan barrier SMMS 4-layer. Produk ini memberikan proteksi maksimal bagi tenaga medis sekaligus kenyamanan optimal saat digunakan.',
+      tag: 'Produk',
+    },
+    {
+      date: 'Juli 2024',
+      category: 'CSR',
+      title: 'Program Donasi Alat Medis untuk Klinik di Daerah Terpencil',
+      excerpt: 'Sebagai wujud tanggung jawab sosial perusahaan, PT. Hogy Indonesia menyalurkan paket alat medis disposable senilai Rp 500 juta kepada 25 klinik dan puskesmas di wilayah Indonesia Timur. Program ini merupakan bagian dari inisiatif "Hogy Peduli" tahunan kami.',
+      tag: 'CSR',
+    },
+  ];
+
+  const tagColors: Record<string, string> = {
+    Pencapaian: 'bg-[#3fb658]/10 text-[#3fb658]',
+    Bisnis: 'bg-blue-50 text-blue-600',
+    Kerjasama: 'bg-purple-50 text-purple-600',
+    Event: 'bg-orange-50 text-orange-600',
+    Produk: 'bg-teal-50 text-teal-600',
+    CSR: 'bg-rose-50 text-rose-600',
+  };
+
+  return (
+    <div className="bg-white font-sans min-h-screen">
+      <div className="bg-[#1B2932] pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Beranda
+          </button>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="text-[#3fb658]"><Icons.Newspaper /></div>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Berita & Informasi</span>
+          </div>
+          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Berita Terkini</h1>
+          <p className="text-white/60 text-base max-w-xl font-medium">Ikuti perkembangan terbaru, pencapaian, dan inovasi PT. Hogy Indonesia dalam industri alat kesehatan.</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {news.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="bg-white border border-slate-100 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow group cursor-pointer"
+            >
+              <div className="h-3 bg-gradient-to-r from-[#3fb658] to-[#1B2932]" />
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${tagColors[item.tag] || 'bg-slate-100 text-slate-500'}`}>{item.tag}</span>
+                  <span className="flex items-center gap-1 text-slate-400 text-[10px] font-bold"><Icons.Clock />{item.date}</span>
+                </div>
+                <h3 className="font-black text-slate-900 text-base leading-snug mb-3 group-hover:text-[#3fb658] transition-colors">{item.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{item.excerpt}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-slate-50 py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Ingin Informasi Lebih Lanjut?</h3>
+          <p className="text-slate-500 text-sm mb-8">Untuk pertanyaan media atau kerjasama, hubungi tim komunikasi kami.</p>
+          <a href="mailto:sales.support@hogy.co.id" className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30">
+            <Icons.Mail /> Hubungi Kami
+          </a>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+const CareerPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const openings = [
+    {
+      title: 'Quality Assurance Engineer',
+      department: 'Produksi & QA',
+      type: 'Full-Time',
+      location: 'Kawasan MM2100, Bekasi',
+      desc: 'Bertanggung jawab atas pengendalian kualitas produk medis disposable sesuai standar ISO 13485 dan regulasi KEMENKES. Memastikan setiap batch produksi memenuhi spesifikasi teknis yang ditetapkan.',
+      reqs: ['S1 Teknik Kimia / Farmasi / Teknik Industri', 'Pengalaman min. 2 tahun di industri medis atau manufaktur', 'Familiar dengan GMP dan sistem manajemen mutu', 'Teliti dan berorientasi pada detail'],
+    },
+    {
+      title: 'Sales Representative – Peralatan Medis',
+      department: 'Penjualan',
+      type: 'Full-Time',
+      location: 'Jakarta & Surabaya',
+      desc: 'Mengembangkan dan mempertahankan hubungan dengan rumah sakit, klinik, dan distributor alat kesehatan. Bertanggung jawab atas pencapaian target penjualan produk Hogy di wilayah yang ditugaskan.',
+      reqs: ['S1 semua jurusan (diutamakan Kesehatan / Farmasi / Bisnis)', 'Pengalaman di bidang sales alat kesehatan min. 1 tahun', 'Komunikatif, proaktif, dan memiliki jaringan rumah sakit', 'Bersedia melakukan perjalanan dinas'],
+    },
+    {
+      title: 'Operator Produksi – Lini Spunlace',
+      department: 'Produksi',
+      type: 'Full-Time',
+      location: 'Kawasan MM2100, Bekasi',
+      desc: 'Mengoperasikan mesin produksi Spunlace Non-Woven untuk menghasilkan bahan baku produk medis. Memastikan kelancaran proses produksi sesuai SOP dan target harian.',
+      reqs: ['Minimal SMA/SMK (diutamakan teknik mesin / tekstil)', 'Bersedia bekerja dalam sistem shift', 'Disiplin, teliti, dan mampu bekerja dalam tim', 'Pengalaman di pabrik manufaktur menjadi nilai plus'],
+    },
+    {
+      title: 'Regulatory Affairs Specialist',
+      department: 'Regulasi & Compliance',
+      type: 'Full-Time',
+      location: 'Jakarta',
+      desc: 'Mengelola perizinan dan registrasi produk alat kesehatan di KEMENKES RI. Memastikan seluruh produk Hogy memiliki izin edar yang valid dan memenuhi regulasi yang berlaku.',
+      reqs: ['S1 Farmasi / Kesehatan Masyarakat / Hukum', 'Memahami regulasi alat kesehatan KEMENKES RI', 'Berpengalaman dalam proses registrasi NIE alkes', 'Kemampuan komunikasi tertulis yang baik'],
+    },
+  ];
+
+  const perks = [
+    { icon: '🏥', title: 'Asuransi Kesehatan', desc: 'BPJS Kesehatan & asuransi swasta untuk karyawan dan keluarga.' },
+    { icon: '📈', title: 'Pengembangan Karir', desc: 'Program pelatihan berkala dan jalur karir yang jelas.' },
+    { icon: '🎯', title: 'Bonus Kinerja', desc: 'Insentif berbasis target dan bonus tahunan kompetitif.' },
+    { icon: '🌏', title: 'Lingkungan Global', desc: 'Bergabung dengan jaringan Hogy Medical Group Jepang.' },
+  ];
+
+  return (
+    <div className="bg-white font-sans min-h-screen">
+      <div className="bg-[#1B2932] pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Beranda
+          </button>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="text-[#3fb658]"><Icons.Briefcase /></div>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Bergabung Bersama Kami</span>
+          </div>
+          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Karir di PT. Hogy Indonesia</h1>
+          <p className="text-white/60 text-base max-w-xl font-medium">Jadilah bagian dari tim profesional yang berdedikasi untuk meningkatkan standar keselamatan medis di Indonesia.</p>
+        </div>
+      </div>
+
+      <div className="bg-slate-50 py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl font-black text-slate-900 tracking-tighter text-center mb-10">Kenapa Bergabung dengan Hogy?</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {perks.map((perk, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="bg-white rounded-2xl p-6 text-center border border-slate-100 shadow-sm">
+                <div className="text-3xl mb-3">{perk.icon}</div>
+                <h4 className="font-black text-slate-900 text-sm mb-2">{perk.title}</h4>
+                <p className="text-slate-500 text-xs leading-relaxed">{perk.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Posisi Tersedia</h2>
+        <p className="text-slate-500 text-sm mb-12">{openings.length} posisi terbuka saat ini</p>
+        <div className="flex flex-col gap-6">
+          {openings.map((job, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-xl font-black text-slate-900 mb-1">{job.title}</h3>
+                  <div className="flex flex-wrap gap-3 text-[10px] font-black uppercase tracking-widest">
+                    <span className="bg-[#3fb658]/10 text-[#3fb658] px-3 py-1 rounded-full">{job.department}</span>
+                    <span className="bg-slate-100 text-slate-600 px-3 py-1 rounded-full">{job.type}</span>
+                    <span className="flex items-center gap-1 text-slate-500"><Icons.MapPin />{job.location}</span>
+                  </div>
+                </div>
+                <a href={`mailto:sales.support@hogy.co.id?subject=Lamaran: ${job.title}`}
+                  className="bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#3fb658] transition-colors whitespace-nowrap">
+                  Lamar Sekarang
+                </a>
+              </div>
+              <p className="text-slate-600 text-sm mb-5 leading-relaxed">{job.desc}</p>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Persyaratan</p>
+                <ul className="space-y-2">
+                  {job.reqs.map((req, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm text-slate-600">
+                      <Icons.CheckCircle />
+                      <span>{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-[#1B2932] py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-black text-white tracking-tighter mb-3">Tidak Menemukan Posisi yang Cocok?</h3>
+          <p className="text-white/60 text-sm mb-8">Kirimkan CV dan surat lamaran Anda. Kami akan menghubungi Anda jika ada posisi yang sesuai dengan profil Anda.</p>
+          <a href="mailto:sales.support@hogy.co.id?subject=Lamaran Spontan - PT. Hogy Indonesia"
+            className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30">
+            <Icons.Mail /> Kirim Lamaran Spontan
+          </a>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+const LocationPage = ({ onBack }: { onBack: () => void }) => {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+
+  const offices = [
+    {
+      name: 'Pabrik & Kantor Pusat',
+      address: 'Kawasan Industri MM2100, Bekasi, Jawa Barat',
+      phone: '+62 21 898 0165',
+      hours: 'Senin – Jumat: 08.00 – 17.00 WIB',
+      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.046!2d107.155!3d-6.3583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698c4b5d6e1a5f%3A0xc234a57eef5f4e2c!2sKawasan%20Industri%20MM2100%2C%20Bekasi!5e0!3m2!1sid!2sid!4v1700000000000',
+      mapLink: 'https://maps.google.com/?q=Kawasan+Industri+MM2100+Bekasi',
+      badge: 'Manufaktur',
+    },
+    {
+      name: 'Kantor Penjualan Jakarta',
+      address: 'Jakarta Selatan, DKI Jakarta',
+      phone: '+62 21 837 05111',
+      hours: 'Senin – Jumat: 08.00 – 17.00 WIB',
+      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.22!2d106.7272!3d-6.2615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta+Selatan!5e0!3m2!1sid!2sid!4v1700000000001',
+      mapLink: 'https://maps.google.com/?q=Jakarta+Selatan',
+      badge: 'Sales',
+    },
+  ];
+
+  return (
+    <div className="bg-white font-sans min-h-screen">
+      <div className="bg-[#1B2932] pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Kembali ke Beranda
+          </button>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="text-[#3fb658]"><Icons.MapPin /></div>
+            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Temukan Kami</span>
+          </div>
+          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Lokasi Kami</h1>
+          <p className="text-white/60 text-base max-w-xl font-medium">Kami hadir di dua lokasi strategis untuk melayani kebutuhan alat kesehatan Anda di seluruh Indonesia.</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col gap-16">
+        {offices.map((office, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.15 }}
+            className="grid md:grid-cols-2 gap-0 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+            <div className="h-72 md:h-auto">
+              <iframe
+                src={office.mapSrc}
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: '300px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Peta ${office.name}`}
+              />
+            </div>
+            <div className="bg-white p-10 flex flex-col justify-between">
+              <div>
+                <span className="bg-[#3fb658]/10 text-[#3fb658] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{office.badge}</span>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tighter mt-4 mb-6">{office.name}</h2>
+                <ul className="space-y-5">
+                  <li className="flex items-start gap-3">
+                    <div className="text-[#3fb658] mt-0.5"><Icons.MapPin /></div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat</p>
+                      <p className="text-slate-700 font-bold text-sm">{office.address}</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="text-[#3fb658] mt-0.5"><Icons.Phone /></div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Telepon</p>
+                      <a href={`tel:${office.phone}`} className="text-slate-700 font-bold text-sm hover:text-[#3fb658] transition-colors">{office.phone}</a>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="text-[#3fb658] mt-0.5"><Icons.Clock /></div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Jam Operasional</p>
+                      <p className="text-slate-700 font-bold text-sm">{office.hours}</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <a href={office.mapLink} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#3fb658] transition-colors">
+                  <Icons.MapPin /> Buka di Google Maps
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="bg-slate-50 py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Butuh Bantuan Menemukan Kami?</h3>
+          <p className="text-slate-500 text-sm mb-8">Tim kami siap membantu Anda dengan petunjuk arah atau informasi kunjungan.</p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a href="tel:+622189801651" className="inline-flex items-center gap-3 bg-[#1B2932] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#3fb658] transition-colors">
+              <Icons.Phone /> Hubungi Pabrik
+            </a>
+            <a href="mailto:sales.support@hogy.co.id" className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
+              <Icons.Mail /> Kirim Email
+            </a>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
 function App() {
-  const [page, setPage] = useState<'home' | 'surgical-gown' | 'surgical-drape' | 'surgical-drape-pack' | 'accessories'>('home');
+  const [page, setPage] = useState<AppPage>('home');
+
+  const navigate = (target: AppPage) => {
+    setPage(target);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const goBack = () => {
     setPage('home');
@@ -1962,21 +2394,24 @@ function App() {
     }, 100);
   };
 
-  if (page === 'surgical-gown') return <SurgicalGownPage onBack={goBack} />;
-  if (page === 'surgical-drape') return <SurgicalDrapePage onBack={goBack} />;
-  if (page === 'surgical-drape-pack') return <SurgicalDrapePackPage onBack={goBack} />;
-  if (page === 'accessories') return <AccessoriesPage onBack={goBack} />;
+  if (page === 'surgical-gown') return <><Navbar onNavigate={navigate} /><SurgicalGownPage onBack={goBack} /></>;
+  if (page === 'surgical-drape') return <><Navbar onNavigate={navigate} /><SurgicalDrapePage onBack={goBack} /></>;
+  if (page === 'surgical-drape-pack') return <><Navbar onNavigate={navigate} /><SurgicalDrapePackPage onBack={goBack} /></>;
+  if (page === 'accessories') return <><Navbar onNavigate={navigate} /><AccessoriesPage onBack={goBack} /></>;
+  if (page === 'news') return <><Navbar onNavigate={navigate} /><NewsPage onBack={() => navigate('home')} /></>;
+  if (page === 'career') return <><Navbar onNavigate={navigate} /><CareerPage onBack={() => navigate('home')} /></>;
+  if (page === 'location') return <><Navbar onNavigate={navigate} /><LocationPage onBack={() => navigate('home')} /></>;
 
   return (
     <div className="bg-white font-sans selection:bg-[#3fb658] selection:text-white">
-      <Navbar />
+      <Navbar onNavigate={navigate} />
       <Hero />
       <AboutSection />
       <ProductPreview
-        onViewGown={() => setPage('surgical-gown')}
-        onViewDrape={() => setPage('surgical-drape')}
-        onViewDrapePack={() => setPage('surgical-drape-pack')}
-        onViewAccessories={() => setPage('accessories')}
+        onViewGown={() => navigate('surgical-gown')}
+        onViewDrape={() => navigate('surgical-drape')}
+        onViewDrapePack={() => navigate('surgical-drape-pack')}
+        onViewAccessories={() => navigate('accessories')}
       />
       <FacilitySection />
       <Statistics />
