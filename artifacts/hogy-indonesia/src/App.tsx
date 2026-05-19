@@ -247,15 +247,13 @@ const Hero = () => {
           </motion.div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-8 tracking-tighter">
-            Keamanan Medis <br />
+            Keamanan Medis Terbaik <br />
             Dimulai dari{' '}
             <span className="text-[#3fb658]">Higienitas.</span>
           </h1>
 
           <p className="text-white/80 text-lg mb-10 max-w-lg leading-relaxed font-medium">
-            PT. Hogy Indonesia menghadirkan solusi alat kesehatan sekali pakai berbasis teknologi{' '}
-            <span className="text-white underline decoration-[#3fb658] underline-offset-4">Spunlace Non-Woven</span>{' '}
-            untuk standar operasi modern.
+            Solusi Disposable Surgical Gown & Drape dari PT Hogy Indonesia. Menggunakan Material Non-Woven Kelas Medis untuk perlindungan barier maksimal dan kenyamanan tinggi di setiap tindakan operasi.
           </p>
 
           <div className="flex flex-wrap gap-4">
