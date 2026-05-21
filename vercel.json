@@ -1,8 +1,12 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "api/index.js"
+    { 
+      "source": "/api/(.*)", 
+      "destination": "artifacts/api-server/src/routes/app.ts" 
+    },
+    { 
+      "source": "/(.*)", 
+      "destination": "artifacts/api-server/src/routes/$1" 
     }
   ]
 }
