@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from "cors";
 import { pinoHttp } from 'pino-http';
-import router from "./routes";
+import router from "./routes/index.js";
 import { logger } from "./lib/logger";
 
 // PERBAIKAN 1: Menggunakan express.Express atau langsung hapus anotasi tipenya karena sudah otomatis terdeteksi
