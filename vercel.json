@@ -12,8 +12,11 @@
       "dest": "artifacts/api-server/src/routes/index.ts"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "artifacts/api-server/src/routes/index.ts"
+      "dest": "/index.html"
     }
   ]
 }
