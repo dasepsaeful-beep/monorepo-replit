@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
+// Logo cadangan jika gambar lokal gagal dimuat
+const LOGO_SRC = "https://i.ibb.co.com/GfqDPMCn/hd-logo-2.jpg";
+
+// Ikon SVG Kustom agar tidak bergantung pada library eksternal (mencegah error build Vercel)
 const Icons = {
   Shield: () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +22,7 @@ const Icons = {
     </svg>
   ),
   ArrowRight: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <line x1="5" y1="12" x2="19" y2="12"/>
       <polyline points="12 5 19 12 12 19"/>
     </svg>
@@ -37,49 +41,25 @@ const Icons = {
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
     </svg>
   ),
-  MapPin: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-      <circle cx="12" cy="10" r="3"/>
-    </svg>
-  ),
-  Briefcase: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-    </svg>
-  ),
-  Newspaper: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
-      <path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>
-    </svg>
-  ),
-  Users: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-      <circle cx="9" cy="7" r="4"/>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
-  ),
-  Clock: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="12 6 12 12 16 14"/>
-    </svg>
-  ),
   Target: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10"/>
       <circle cx="12" cy="12" r="6"/>
       <circle cx="12" cy="12" r="2"/>
     </svg>
   ),
   CheckCircle: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
       <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+  ),
+  Factory: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 20V9l4-2v2l4-2v2l4-2v2l4-2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/>
+      <path d="M17 18h1"/>
+      <path d="M12 18h1"/>
+      <path d="M7 18h1"/>
     </svg>
   ),
   Menu: () => (
@@ -94,222 +74,143 @@ const Icons = {
       <line x1="18" y1="6" x2="6" y2="18"/>
       <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
-  ),
-  Phone: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.09-1.09a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-    </svg>
-  ),
-  Mail: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-      <polyline points="22,6 12,13 2,6"/>
-    </svg>
-  ),
+  )
 };
 
-type AppPage = 'home' | 'surgical-gown' | 'surgical-drape' | 'surgical-drape-pack' | 'accessories' | 'news' | 'career' | 'location';
-
-const Navbar = ({ onNavigate, currentPage }: { onNavigate: (page: AppPage) => void; currentPage: AppPage }) => {
+const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = [
-    { type: 'anchor' as const, href: '#about', label: 'Tentang Kami' },
-    { type: 'anchor' as const, href: '#products', label: 'Produk' },
-    { type: 'anchor' as const, href: '#facility', label: 'Fasilitas' },
-    { type: 'anchor' as const, href: '#contact', label: 'Kontak' },
-    { type: 'page' as const, page: 'news' as AppPage, label: 'Berita' },
-    { type: 'page' as const, page: 'career' as AppPage, label: 'Karir' },
-    { type: 'page' as const, page: 'location' as AppPage, label: 'Lokasi Kami' },
+  const navLinks = [
+    { name: 'Tentang Kami', href: '#about' },
+    { name: 'Produk', href: '#products' },
+    { name: 'Fasilitas', href: '#facility' },
+    { name: 'Kontak', href: '#contact' }
   ];
 
-  const handleAnchor = (href: string) => {
-    if (currentPage !== 'home') {
-      onNavigate('home');
-      setTimeout(() => {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
-    } else {
-      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-    }
-    setMenuOpen(false);
-  };
-
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-sm py-3' : 'bg-transparent py-5'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <button onClick={() => onNavigate('home')} className="flex items-center gap-3">
-            <img
-              src="https://i.ibb.co.com/GfqDPMCn/hd-logo-2.jpg"
-              alt="Logo PT. Hogy Indonesia"
-              className={`transition-all duration-300 object-contain ${isScrolled ? 'h-8' : 'h-10'}`}
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
-            <div className={`flex flex-col border-l pl-3 ${isScrolled ? 'border-slate-200' : 'border-white/20'}`}>
-              <span className={`font-black tracking-tight text-sm leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}>PT. HOGY</span>
-              <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#3fb658]' : 'text-white/70'}`}>INDONESIA</span>
-            </div>
+          <img 
+            src="/image_c343e0.png" 
+            alt="Logo PT. Hogy Indonesia" 
+            className={`transition-all duration-300 object-contain ${isScrolled ? 'h-8' : 'h-10'}`} 
+            onError={(e) => { 
+              (e.target as HTMLImageElement).src = LOGO_SRC; 
+            }}
+          />
+          <div className={`flex flex-col border-l pl-3 transition-colors ${isScrolled ? 'border-slate-200' : 'border-white/20'}`}>
+            <span className={`font-black tracking-tight text-sm leading-none ${isScrolled ? 'text-[#002B49]' : 'text-white'}`}>PT. HOGY</span>
+            <span className={`font-bold text-[10px] tracking-widest ${isScrolled ? 'text-[#00A7B5]' : 'text-white/70'}`}>INDONESIA</span>
+          </div>
+        </div>
+
+        <div className={`hidden md:flex gap-10 text-[11px] font-black uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
+          {navLinks.map(link => (
+            <a key={link.name} href={link.href} className="hover:text-[#00A7B5] transition-colors relative group">
+              {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#00A7B5] transition-all group-hover:w-full"></span>
+            </a>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <a href="#contact" className={`hidden lg:block px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${isScrolled ? 'bg-[#002B49] text-white hover:bg-[#00A7B5]' : 'bg-white text-[#002B49] hover:bg-[#00A7B5] hover:text-white'}`}>
+            Hubungi Kami
+          </a>
+          
+          <button className={`md:hidden p-2 ${isScrolled ? 'text-slate-900' : 'text-white'}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <Icons.X /> : <Icons.Menu />}
           </button>
         </div>
-
-        <div className={`hidden md:flex gap-7 text-xs font-bold uppercase tracking-widest ${isScrolled ? 'text-slate-600' : 'text-white/90'}`}>
-          {menuItems.map(item =>
-            item.type === 'anchor' ? (
-              <button
-                key={item.href}
-                onClick={() => handleAnchor(item.href)}
-                className="hover:text-[#3fb658] transition-colors"
-              >
-                {item.label}
-              </button>
-            ) : (
-              <button
-                key={item.page}
-                onClick={() => { onNavigate(item.page); setMenuOpen(false); }}
-                className={`hover:text-[#3fb658] transition-colors ${currentPage === item.page ? 'text-[#3fb658]' : ''}`}
-              >
-                {item.label}
-              </button>
-            )
-          )}
-        </div>
-
-        <button
-          className={`md:hidden ${isScrolled ? 'text-slate-700' : 'text-white'}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <Icons.X /> : <Icons.Menu />}
-        </button>
       </div>
 
-      {menuOpen && (
-        <div className="md:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
-          {menuItems.map(item =>
-            item.type === 'anchor' ? (
-              <button
-                key={item.href}
-                onClick={() => handleAnchor(item.href)}
-                className="text-left text-slate-700 text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors"
-              >
-                {item.label}
-              </button>
-            ) : (
-              <button
-                key={item.page}
-                onClick={() => { onNavigate(item.page); setMenuOpen(false); }}
-                className={`text-left text-sm font-bold uppercase tracking-widest hover:text-[#3fb658] transition-colors ${currentPage === item.page ? 'text-[#3fb658]' : 'text-slate-700'}`}
-              >
-                {item.label}
-              </button>
-            )
-          )}
-        </div>
-      )}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-slate-100 overflow-hidden shadow-lg"
+          >
+            <div className="flex flex-col p-6 gap-6">
+              {navLinks.map(link => (
+                <a key={link.name} href={link.href} className="text-slate-900 font-bold uppercase text-xs tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
+                  {link.name}
+                </a>
+              ))}
+              <a href="#contact" className="bg-[#002B49] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest text-center" onClick={() => setIsMobileMenuOpen(false)}>
+                Hubungi Kami
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
 
-const Hero = () => {
+const Hero: React.FC = () => {
   return (
-    <section className="relative h-[90vh] flex items-center bg-[#1B2932] overflow-hidden">
-      <div className="absolute inset-0 opacity-40">
-        <img
-          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2000"
-          alt="Latar Belakang Medis"
-          className="w-full h-full object-cover"
+    <section className="relative h-screen min-h-[700px] flex items-center bg-[#002B49] overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/factory-exterior.jpg" 
+          alt="Pabrik PT. Hogy Indonesia" 
+          className="w-full h-full object-cover opacity-30 scale-105" 
+          onError={(e) => { 
+            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000"; 
+          }}
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#002B49] via-[#002B49]/80 to-transparent"></div>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1B2932]/80 to-[#1B2932]/30" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 mt-16">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-        >
-          <motion.div
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div className="max-w-3xl">
+          <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block bg-[#3fb658]/20 backdrop-blur-md border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6"
+            transition={{ duration: 0.8 }}
           >
-            <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Pelopor Produk Disposable Indonesia</span>
+            <div className="inline-flex items-center gap-2 bg-[#00A7B5]/20 backdrop-blur-md px-4 py-1.5 rounded-full mb-8 border border-[#00A7B5]/30">
+              <span className="w-2 h-2 rounded-full bg-[#00A7B5] animate-pulse"></span>
+              <span className="text-[#00A7B5] font-black text-[10px] uppercase tracking-[0.2em]">Pioneer in Disposable Medical Supplies</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.95] tracking-tighter mb-8">
+              Membangun <br />
+              <span className="text-[#00A7B5]">Keamanan</span> Medis.
+            </h1>
+            
+            <p className="text-lg md:text-xl text-white/70 mb-12 leading-relaxed max-w-xl font-medium">
+              PT. Hogy Indonesia berkomitmen menghadirkan produk <span className="text-white italic">disposable</span> terbaik demi melindungi pasien dan tenaga medis dari risiko infeksi.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <a href="#products" className="bg-[#00A7B5] text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#008c99] hover:translate-y-[-4px] transition-all shadow-xl shadow-[#00A7B5]/20">
+                Katalog Produk <Icons.ArrowRight />
+              </a>
+              <a href="#about" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-all text-center flex items-center justify-center">
+                Tentang Kami
+              </a>
+            </div>
           </motion.div>
-
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-8 tracking-tighter">
-            Keamanan Medis Terbaik <br />
-            Dimulai dari{' '}
-            <span className="text-[#3fb658]">Higienitas.</span>
-          </h1>
-
-          <p className="text-white/80 text-lg mb-10 max-w-lg leading-relaxed font-medium">
-            Solusi Disposable Surgical Gown & Drape dari PT Hogy Indonesia. Menggunakan Material Non-Woven Kelas Medis untuk perlindungan barier maksimal dan kenyamanan tinggi di setiap tindakan operasi.
-          </p>
-
-          <div className="flex flex-wrap gap-4">
-            <motion.a
-              href="#products"
-              whileHover={{ x: 6 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 shadow-xl shadow-[#3fb658]/30 hover:bg-[#317c40] transition-colors"
-            >
-              Kategori Produk <Icons.ArrowRight />
-            </motion.a>
-            <a
-              href="#about"
-              className="bg-white/10 backdrop-blur border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-all"
-            >
-              Tentang Kami
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:flex flex-col justify-center gap-4"
-        >
-          {[
-            { icon: <Icons.Shield />, title: 'ISO 13485 Certified', desc: 'Standar manajemen mutu perangkat medis' },
-            { icon: <Icons.Activity />, title: 'Kapasitas 14 Juta/Tahun', desc: 'Produksi gown operasi berkualitas tinggi' },
-            { icon: <Icons.Globe />, title: 'Standar Global', desc: 'Beroperasi sejak 1995 dengan mutu internasional' },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-              className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-5 flex items-center gap-4"
-            >
-              <div className="w-12 h-12 bg-[#3fb658]/20 rounded-xl flex items-center justify-center text-[#3fb658] flex-shrink-0">
-                {item.icon}
-              </div>
-              <div>
-                <p className="text-white font-black text-sm mb-0.5">{item.title}</p>
-                <p className="text-white/60 text-xs">{item.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent" />
     </section>
   );
 };
 
-const AboutSection = () => {
+const AboutSection: React.FC = () => {
   return (
     <section className="py-24 bg-white" id="about">
       <div className="max-w-7xl mx-auto px-6">
@@ -318,383 +219,112 @@ const AboutSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
           >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Filosofi Perusahaan</span>
-            <h2 className="text-3xl font-black text-slate-900 mb-8 tracking-tight leading-snug">
-              Dedikasi Global untuk <br />Keselamatan Pasien.
-            </h2>
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">FILOSOFI PERUSAHAAN</span>
+            <h2 className="text-3xl font-black text-slate-900 mb-8 tracking-tight leading-snug">Selaras Dengan Komitmen Global <br/>Hogy Medical Japan.</h2>
             <div className="space-y-6 text-slate-600 leading-relaxed text-sm">
               <p>
                 Selaras dengan komitmen pendiri perusahaan, <strong>Mr. Masao Hoki</strong>, HOGY MEDICAL CO., LTD. telah berdedikasi sejak tahun 1961 di Jepang untuk memberikan kontribusi terbaik bagi dunia medis. Kami berfokus pada pengembangan produk medis steril dan higienis yang mendukung keselamatan pasien (<em>patient safety</em>) serta perlindungan tenaga medis.
               </p>
               <p>
-                Membawa semangat tersebut, PT Hogy Indonesia hadir dengan filosofi untuk mentransformasi standar pelayanan kesehatan di Indonesia. Kami berkomitmen meningkatkan kesadaran akan pentingnya kualitas keselamatan melalui penyediaan solusi medis yang lebih efektif, efisien, dan berkualitas tinggi.
+                Membawa semangat tersebut, PT Hogy Indonesia hadir dengan filosofi untuk mentransformasi standar pelayanan kesehatan di Indonesia. Kami berkomitmen meningkatkan kesadaran akan pentingnya kualitas keselamatan, baik bagi pasien maupun para profesional tenaga kesehatan, melalui penyediaan solusi medis yang lebih efektif, efisien, dan berkualitas tinggi.
               </p>
             </div>
           </motion.div>
-
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="bg-slate-50 p-10 rounded-[3rem] border border-slate-100"
+            transition={{ delay: 0.2 }}
+            className="bg-slate-50 p-10 rounded-[3rem] border border-slate-100 shadow-sm"
           >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Profil Kami</span>
-            <h3 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Lebih dari 30 Tahun Inovasi.</h3>
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">PROFIL PT HOGY INDONESIA</span>
+            <h3 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Lebih Dari 30 Tahun Konsistensi.</h3>
             <p className="text-slate-600 text-sm leading-relaxed mb-6">
               Beroperasi sejak tahun 1995, PT Hogy Indonesia terus berinovasi dalam memproduksi perlengkapan operasi sekali pakai (<em>Disposable/Single-use</em>) dengan standar kualitas global.
             </p>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Lini produk kami dirancang dengan tingkat keamanan tinggi menggunakan <strong>teknologi barrier</strong> yang kedap terhadap cairan dan darah. Hal ini sangat krusial dalam mencegah infeksi silang serta meminimalisir risiko penyebaran virus dan bakteri selama prosedur pembedahan.
+            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+              Lini produk kami, yang meliputi baju operasi (<em>surgical gown</em>), masker, penutup kepala (<em>caps</em>), dan perlengkapan lainnya, dirancang dengan tingkat keamanan tinggi. Di tengah transisi dunia medis Indonesia dari penggunaan bahan linen ke bahan Non-Woven, produk kami hadir sebagai solusi perlindungan yang presisi.
             </p>
-            <div className="mt-8 flex gap-4 items-center">
-              <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#1B2932]">30+</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Tahun Pengalaman</span>
-              </div>
-              <div className="w-px h-10 bg-slate-200 self-center mx-4" />
-              <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#1B2932]">Global</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Standar Mutu</span>
-              </div>
-              <div className="w-px h-10 bg-slate-200 self-center mx-4" />
-              <div className="flex flex-col">
-                <span className="text-3xl font-black text-[#1B2932]">1995</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Tahun Berdiri</span>
-              </div>
-            </div>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Selama lebih dari 30 tahun, kami konsisten menerapkan teknologi barrier yang kedap terhadap cairan dan darah. Hal ini sangat krusial dalam mencegah infeksi silang serta meminimalisir risiko penyebaran virus dan bakteri selama prosedur pembedahan. Keamanan operasi dimulai dengan pemilihan proteksi yang tepat.
+            </p>
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-1 bg-[#1B2932] p-12 rounded-[3rem] text-white flex flex-col justify-center"
-          >
+        <div className="grid lg:grid-cols-3 gap-8" id="mission">
+          <div className="lg:col-span-1 bg-[#002B49] p-12 rounded-[3rem] text-white flex flex-col justify-center shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#00A7B5]/10 rounded-full blur-2xl"></div>
             <Icons.Globe />
-            <h3 className="text-3xl font-black mt-6 mb-4 tracking-tight text-[#3fb658]">Visi Kami</h3>
-            <p className="text-white/80 text-sm leading-relaxed">
+            <h3 className="text-3xl font-black mt-6 mb-4 tracking-tight text-[#00A7B5]">Visi Kami</h3>
+            <p className="text-white/80 text-sm leading-relaxed font-light">
               Menjadi pionir dalam peningkatan standar pelayanan kesehatan di Indonesia melalui penggunaan produk medis sekali pakai (disposable) yang higienis, demi menjamin keamanan pasien dan tenaga medis secara optimal.
             </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="lg:col-span-2 bg-slate-50 p-12 rounded-[3rem] border border-slate-100"
-          >
+          </div>
+          <div className="lg:col-span-2 bg-slate-50 p-12 rounded-[3rem] border border-slate-100">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-10 h-10 bg-[#3fb658] rounded-full flex items-center justify-center text-white">
-                <Icons.Target />
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Misi Perusahaan</h3>
+                <div className="w-10 h-10 bg-[#00A7B5] rounded-full flex items-center justify-center text-white shadow-md shadow-[#00A7B5]/20">
+                  <Icons.Target />
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight">Misi PT Hogy Indonesia</h3>
             </div>
-            <div className="grid sm:grid-cols-1 gap-6">
+            <div className="grid gap-4">
               {[
-                'Memperkenalkan dan mengedukasi pasar mengenai keunggulan teknologi produk kesehatan berbasis pencegahan infeksi.',
-                'Mengembangkan inovasi teknologi secara berkelanjutan untuk meningkatkan standar higienitas produk medis.',
-                'Menjamin stabilitas ketersediaan dan distribusi produk di seluruh instansi kesehatan di Indonesia.',
+                "Memperkenalkan dan mengedukasi pasar mengenai keunggulan teknologi produk kesehatan berbasis pencegahan infeksi.",
+                "Mengembangkan inovasi teknologi secara berkelanjutan untuk meningkatkan standar higienitas produk medis.",
+                "Menjamin stabilitas ketersediaan dan distribusi produk di seluruh instansi kesehatan di Indonesia."
               ].map((misi, i) => (
-                <div key={i} className="flex gap-4 items-start p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="text-[#3fb658] mt-1 flex-shrink-0"><Icons.CheckCircle /></div>
-                  <p className="text-slate-600 text-sm font-medium leading-relaxed">{misi}</p>
+                <div key={i} className="flex gap-4 items-start p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-[#00A7B5] transition-colors">
+                  <div className="text-[#00A7B5] mt-0.5 flex-shrink-0"><Icons.CheckCircle /></div>
+                  <p className="text-slate-600 text-sm font-semibold leading-relaxed">{misi}</p>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-const SurgicalGownPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const tableData = [
-    { category: 'Kekuatan Tarik (Horizontal)', surrem: '74.1', sms: '42.7', unit: 'N/5cm' },
-    { category: 'Kekuatan Tarik (Vertical)', surrem: '119.0', sms: '90.6', unit: 'N/5cm' },
-    { category: 'Kekuatan Sobek (Horizontal)', surrem: '18.8', sms: '16.3', unit: 'N' },
-    { category: 'Ketahanan Air', surrem: '624', sms: '523', unit: 'mm' },
-    { category: 'Replelensi Alkohol', surrem: '10', sms: '5', unit: 'point' },
-  ];
-
-  const features = [
-    {
-      title: 'Komposisi 5 Lapis',
-      desc: 'Terdiri dari kombinasi Spunbond dan Meltblown (SSMMS) yang efektif menyaring partikel mikroskopis.',
-    },
-    {
-      title: 'Kekuatan 2x Lipat',
-      desc: 'Memiliki ketahanan fisik yang jauh lebih kuat dibandingkan material SMS normal.',
-    },
-    {
-      title: 'Minim Serat (Low Lint)',
-      desc: 'Penggunaan kain kontinu (continuous fabric) meminimalisir pelepasan serat/lint yang dapat mengkontaminasi area steril.',
-    },
-    {
-      title: 'Ultrasonic Sealing',
-      desc: 'Bagian lengan dan tali pinggang disambung menggunakan penyegelan ultrasonik untuk menjaga integritas penghalang, ketahanan air, dan sifat penolak cairan yang konsisten.',
-    },
-  ];
-
-  return (
-    <div className="bg-white min-h-screen font-sans">
-      {/* Top bar */}
-      <div className="bg-[#1B2932] py-4 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Produk
-          </button>
-          <span className="text-white/30">·</span>
-          <span className="text-white/50 text-xs">Surgical Gown</span>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Gown · Hogy Quality</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              SURREM <span className="text-[#3fb658]">Gown</span>
-            </h1>
-            <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
-              Perlindungan Maksimal dengan <strong className="text-white">Teknologi 5 Lapis</strong>
-            </p>
-            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
-              SURREM Gown dirancang khusus untuk tenaga medis yang mengutamakan keamanan dan kenyamanan. Dengan komposisi material inovatif, gaun ini menawarkan kekuatan dua kali lipat dibandingkan SMS standar serta performa penghalang (barrier) yang superior.
-            </p>
-            <div className="mt-10 flex gap-4 flex-wrap">
-              <a
-                href="#contact"
-                onClick={onBack}
-                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-              >
-                <Icons.Mail /> Hubungi Kami
-              </a>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex justify-center"
-          >
-            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
-              <img
-                src="https://i.ibb.co.com/VcqNq0MX/GOWN.png"
-                alt="SURREM Surgical Gown"
-                className="w-full object-contain p-8"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Layer diagram */}
-      <div className="py-20 px-6 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Keunggulan Teknologi Material</h2>
-          </motion.div>
-
-          {/* 5-layer visual */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#1B2932] rounded-[2.5rem] p-10 mb-12 text-center"
-          >
-            <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-6">Struktur Lapisan SURREM (S/S/M/M/S)</p>
-            <div className="flex justify-center items-center gap-2 flex-wrap">
-              {[
-                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]' },
-                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]/80' },
-                { label: 'M', full: 'Meltblown', color: 'bg-white' },
-                { label: 'M', full: 'Meltblown', color: 'bg-white/80' },
-                { label: 'S', full: 'Spunbond', color: 'bg-[#3fb658]/60' },
-              ].map((layer, i) => (
-                <div key={i} className="flex flex-col items-center gap-2">
-                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl ${layer.color} flex items-center justify-center shadow-lg`}>
-                    <span className={`text-2xl font-black ${layer.color === 'bg-white' || layer.color === 'bg-white/80' ? 'text-[#1B2932]' : 'text-white'}`}>{layer.label}</span>
-                  </div>
-                  <span className="text-white/50 text-[9px] font-bold uppercase tracking-widest">{layer.full}</span>
-                  {i < 4 && <div className="hidden md:block w-px h-4 bg-white/20" />}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {features.map((f, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm"
-              >
-                <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] flex-shrink-0">
-                    <Icons.CheckCircle />
-                  </div>
-                  <div>
-                    <h4 className="font-black text-slate-900 text-base mb-2">{f.title}</h4>
-                    <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Performance table */}
-      <div className="py-20 px-6 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Data Teknis</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Performa Teknis</h2>
-            <p className="text-slate-500 text-sm mt-3 max-w-lg mx-auto">Berdasarkan pengujian internal, SURREM menunjukkan keunggulan signifikan dibandingkan standar SMS biasa.</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm"
-          >
-            <table className="w-full">
-              <thead>
-                <tr className="bg-[#1B2932] text-white">
-                  <th className="text-left px-8 py-5 text-xs font-black uppercase tracking-widest">Kategori Pengujian</th>
-                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-[#3fb658]">SURREM</th>
-                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Standar SMS</th>
-                  <th className="text-center px-8 py-5 text-xs font-black uppercase tracking-widest text-white/50">Satuan</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((row, i) => (
-                  <tr key={i} className={`border-b border-slate-100 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
-                    <td className="px-8 py-5 text-sm font-bold text-slate-700">{row.category}</td>
-                    <td className="px-8 py-5 text-center">
-                      <span className="text-lg font-black text-[#3fb658]">{row.surrem}</span>
-                    </td>
-                    <td className="px-8 py-5 text-center">
-                      <span className="text-base font-bold text-slate-400">{row.sms}</span>
-                    </td>
-                    <td className="px-8 py-5 text-center">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{row.unit}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="py-16 px-6 bg-slate-50">
-        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
-          <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan SURREM Gown?</h3>
-          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk informasi harga, spesifikasi lengkap, dan pemesanan.</p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="mailto:sales.support@hogy.co.id"
-              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-            >
-              <Icons.Mail /> Hubungi via Email
-            </a>
-            <button
-              onClick={onBack}
-              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-              Lihat Produk Lain
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccessories }: { onViewGown: () => void; onViewDrape: () => void; onViewDrapePack: () => void; onViewAccessories: () => void }) => {
+const ProductPreview: React.FC = () => {
   const categories = [
-    {
-      name: 'Surgical Gown',
-      desc: 'Gaun operasi steril dengan perlindungan AAMI Level 3 & 4. Dirancang untuk kenyamanan maksimal selama prosedur panjang.',
-      image: 'https://i.ibb.co.com/VcqNq0MX/GOWN.png',
+    { 
+        name: "Surgical Gown", 
+        desc: "Gaun operasi steril berkualitas tinggi dengan performa pelindung maksimal (AAMI Level 3 & 4) untuk meminimalkan transmisi bakteri dan patogen.", 
+        image: "/hogy-spunlace.png" 
     },
-    {
-      name: 'Surgical Drape',
-      desc: 'Drape operatif yang menjaga sterilitas area bedah dengan daya serap tinggi dan perlindungan anti-tembus cairan.',
-      image: 'https://i.ibb.co.com/4wdS93zD/drape.png',
+    { 
+        name: "Surgical Drape", 
+        desc: "Drape operatif penutup bedah yang presisi, dirancang kedap air dan cairan tubuh untuk mengisolasi area pembedahan agar tetap steril.", 
+        image: "/acc-table-cover.png" 
     },
-    {
-      name: 'Surgical Drape Pack',
-      desc: 'Paket lengkap (kit) khusus untuk berbagai jenis prosedur operasi guna meningkatkan efisiensi waktu di kamar bedah.',
-      image: 'https://i.ibb.co.com/PZz1rznN/drape-pack.png',
+    { 
+        name: "Surgical Drape Pack", 
+        desc: "Solusi paket prosedur bedah terintegrasi sekali pakai untuk mempercepat efisiensi waktu turnover dan kesiapan tindakan di OK.", 
+        image: "/acc-sterilization-wrap.png" 
     },
-    {
-      name: 'Accessories',
-      desc: 'Komponen pendukung medis lainnya seperti penutup kepala, penutup kaki, dan perlengkapan higienitas tambahan.',
-      image: 'https://i.ibb.co.com/prwFQSZb/asesoris.png',
-    },
+    { 
+        name: "Accessories", 
+        desc: "Perlengkapan penunjang medis non-woven sekali pakai yang sangat lengkap seperti medical cap, penutup kepala, dan shoe cover.", 
+        image: "/acc-medical-cap.png" 
+    }
   ];
 
   return (
     <section className="py-28 bg-slate-50" id="products">
       <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Lini Produk Terbaik</span>
+        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-10 tracking-tighter">Solusi Medis Komprehensif.</h2>
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          className="max-w-5xl mx-auto bg-white rounded-[3rem] p-8 md:p-12 shadow-xl border border-slate-100 text-left mb-16 overflow-hidden relative"
         >
-          <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Produk & Teknologi</span>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-10 tracking-tighter">Solusi Medis Komprehensif.</h2>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="max-w-5xl mx-auto bg-white rounded-[3rem] p-8 md:p-12 shadow-sm border border-slate-100 text-left mb-16"
-        >
-          <div className="grid md:grid-cols-5 gap-10">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#00A7B5]/5 rounded-bl-full -mr-10 -mt-10"></div>
+          <div className="grid md:grid-cols-5 gap-10 relative z-10">
             <div className="md:col-span-3 space-y-6">
               <p className="text-slate-700 leading-relaxed text-sm md:text-base">
                 <strong>PT Hogy Indonesia</strong> merupakan pelopor dan salah satu produsen utama di bidang kain non-woven yang memiliki dedikasi tinggi terhadap keselamatan manusia serta integritas proses produksi. Fasilitas pabrik kami dilengkapi dengan sistem produksi yang sepenuhnya terotomatisasi (<em>fully mechanized</em>) untuk menghasilkan berbagai jenis produk medis sekali pakai (<em>disposable products</em>).
@@ -703,77 +333,54 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
                 Hingga saat ini, kebijakan umum yang diterapkan di berbagai rumah sakit di Indonesia adalah penggunaan kain katun (linen) dan drape (kain penutup bedah) di ruang operasi. Namun, seiring dengan munculnya risiko penyakit menular, penggunaan produk sekali pakai sangat direkomendasikan karena karakteristik materialnya yang tidak dapat ditembus oleh mikroorganisme.
               </p>
             </div>
-            <div className="md:col-span-2 bg-[#1B2932] rounded-3xl p-8 text-white flex flex-col justify-center">
+            <div className="md:col-span-2 bg-[#002B49] rounded-3xl p-8 text-white flex flex-col justify-center shadow-lg">
               <p className="text-sm font-medium leading-relaxed italic opacity-90 mb-6">
                 "Produk disposable merupakan produk unggulan kami yang dikembangkan sebagai terobosan dalam sains medis guna menjamin keselamatan, tidak hanya bagi pasien tetapi juga bagi tenaga medis."
               </p>
               <div className="pt-6 border-t border-white/10">
-                <p className="text-[#3fb658] font-black text-xs uppercase tracking-widest">Komitmen Kualitas</p>
-                <p className="text-white/60 text-[11px] mt-2">Target Zero Mistakes melalui pengujian ketat demi lingkungan higienis.</p>
+                <div className="flex items-center gap-2 text-[#00A7B5] mb-2">
+                   <Icons.CheckCircle />
+                   <p className="font-black text-xs uppercase tracking-widest">Komitmen Kualitas</p>
+                </div>
+                <p className="text-white/60 text-[11px] leading-relaxed">Seluruh produk sekali pakai kami wajib melalui proses pengujian yang sangat ketat. Target zero mistakes memastikan lingkungan yang bersih dan higienis.</p>
               </div>
             </div>
           </div>
         </motion.div>
 
         <p className="text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto text-xs uppercase tracking-widest mb-10">
-          Jelajahi 4 kategori utama produk kami:
+          Pilihan Kategori Produk PT Hogy Indonesia:
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((cat, i) => (
-          <motion.div
+          <motion.div 
             key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
+            whileHover={{ y: -10 }}
             className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col"
           >
-            <div className="relative h-60 overflow-hidden bg-slate-50">
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-1000"
-              />
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg">
-                <span className="text-[#1B2932] text-[9px] font-black uppercase tracking-widest italic">Hogy Quality</span>
-              </div>
+            <div className="relative h-60 overflow-hidden bg-slate-100 flex items-center justify-center p-6">
+                <img 
+                  src={cat.image} 
+                  alt={cat.name} 
+                  className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-1000" 
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&q=80&w=800";
+                  }}
+                />
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-md">
+                    <span className="text-[#002B49] text-[9px] font-black uppercase tracking-widest italic">Hogy Quality</span>
+                </div>
             </div>
             <div className="p-8 flex flex-col flex-grow">
-              <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#3fb658] transition-colors">{cat.name}</h3>
-              <p className="text-slate-500 text-xs mb-8 leading-relaxed font-medium line-clamp-3">{cat.desc}</p>
-              <div className="mt-auto">
-                {cat.name === 'Surgical Gown' ? (
-                  <button
-                    onClick={onViewGown}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
-                  >
-                    Lihat Detail Produk
-                  </button>
-                ) : cat.name === 'Surgical Drape' ? (
-                  <button
-                    onClick={onViewDrape}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
-                  >
-                    Lihat Detail Produk
-                  </button>
-                ) : cat.name === 'Accessories' ? (
-                  <button
-                    onClick={onViewAccessories}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
-                  >
-                    Lihat Detail Produk
-                  </button>
-                ) : (
-                  <button
-                    onClick={onViewDrapePack}
-                    className="w-full py-3.5 border-2 border-slate-100 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#1B2932] hover:text-white hover:border-[#1B2932] transition-all"
-                  >
-                    Lihat Detail Produk
-                  </button>
-                )}
-              </div>
+                <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00A7B5] transition-colors">{cat.name}</h3>
+                <p className="text-slate-500 text-xs mb-8 leading-relaxed font-medium line-clamp-3">{cat.desc}</p>
+                <div className="mt-auto">
+                  <a href="#contact" className="block w-full py-3.5 border-2 border-slate-50 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-slate-900 hover:bg-[#002B49] hover:text-white hover:border-[#002B49] transition-all text-center">
+                      Lihat Produk
+                  </a>
+                </div>
             </div>
           </motion.div>
         ))}
@@ -782,259 +389,81 @@ const ProductPreview = ({ onViewGown, onViewDrape, onViewDrapePack, onViewAccess
   );
 };
 
-const FacilitySection = () => {
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-
-  const galleryImages = [
-    { src: '/factory-aerial.jpeg', title: 'Aerial View Pabrik', caption: 'Kompleks pabrik PT. Hogy Indonesia di kawasan industri MM2100, Bekasi.' },
-    { src: '/factory-aerial-2.jpeg', title: 'Kawasan Industri MM2100', caption: 'Lokasi strategis PT. Hogy Indonesia dengan akses langsung ke jalur logistik nasional.' },
-    { src: '/factory-exterior.jpg', title: 'Gedung Pabrik Phase 5', caption: 'Bangunan produksi terbaru dengan standar fasilitas manufaktur perangkat medis kelas dunia.' },
-    { src: '/factory-floor.jpg', title: 'Lantai Produksi', caption: 'Area produksi steril berteknologi tinggi dengan sistem ventilasi dan kebersihan terkontrol.' },
-    { src: '/factory-cleanroom.jpg', title: 'Clean Room', caption: 'Ruang sterilisasi berstandar internasional untuk memastikan higienitas setiap produk.' },
-    { src: '/factory-cafeteria.jpg', title: 'Area Fasilitas Karyawan', caption: 'Fasilitas modern yang mendukung kenyamanan dan produktivitas karyawan.' },
-  ];
-
-  const openLightbox = (i: number) => setLightboxIndex(i);
-  const closeLightbox = () => setLightboxIndex(null);
-  const prev = () => setLightboxIndex(i => i !== null ? (i - 1 + galleryImages.length) % galleryImages.length : 0);
-  const next = () => setLightboxIndex(i => i !== null ? (i + 1) % galleryImages.length : 0);
-
-  useEffect(() => {
-    if (lightboxIndex === null) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [lightboxIndex]);
-
+const FacilitySection: React.FC = () => {
   return (
     <section className="py-28 bg-white" id="facility">
-      {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          {/* Close */}
-          <button
-            className="absolute top-5 right-5 text-white/70 hover:text-white bg-white/10 rounded-full p-2 transition-colors"
-            onClick={closeLightbox}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-          {/* Prev */}
-          <button
-            className="absolute left-4 text-white/70 hover:text-white bg-white/10 rounded-full p-3 transition-colors"
-            onClick={e => { e.stopPropagation(); prev(); }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          {/* Image */}
-          <motion.div
-            key={lightboxIndex}
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
-            className="max-w-4xl w-full flex flex-col items-center gap-5"
-            onClick={e => e.stopPropagation()}
-          >
-            <img
-              src={galleryImages[lightboxIndex].src}
-              alt={galleryImages[lightboxIndex].title}
-              className="w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl"
-            />
-            <div className="text-center">
-              <p className="text-white font-black text-lg tracking-tight">{galleryImages[lightboxIndex].title}</p>
-              <p className="text-white/60 text-sm mt-1">{galleryImages[lightboxIndex].caption}</p>
-              <p className="text-white/30 text-xs mt-3 font-bold tracking-widest">{lightboxIndex + 1} / {galleryImages.length}</p>
-            </div>
-          </motion.div>
-          {/* Next */}
-          <button
-            className="absolute right-4 text-white/70 hover:text-white bg-white/10 rounded-full p-3 transition-colors"
-            onClick={e => { e.stopPropagation(); next(); }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </motion.div>
-      )}
-
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
             className="relative"
           >
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl">
-              <img
-                src="/factory-aerial.jpeg"
-                alt="Fasilitas Pabrik Hogy"
-                className="w-full h-[500px] object-cover"
+            <div className="rounded-[3rem] overflow-hidden shadow-2xl bg-slate-100">
+              <img 
+                src="/factory-cleanroom.jpg" 
+                alt="Fasilitas Cleanroom PT. Hogy Indonesia" 
+                className="w-full h-[500px] object-cover" 
+                onError={(e) => { 
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800"; 
+                }}
               />
             </div>
-            <div className="absolute -bottom-10 -right-6 md:-right-10 bg-[#3fb658] p-8 rounded-[2rem] text-white shadow-xl max-w-[240px]">
-              <p className="font-black text-xl mb-2 italic">Bonded Zone</p>
-              <p className="text-xs font-medium opacity-80">Lokasi strategis di MM2100 memudahkan akses logistik nasional & internasional.</p>
+            <div className="absolute -bottom-10 -right-10 bg-[#00A7B5] p-8 rounded-[2rem] text-white shadow-xl hidden md:block max-w-[240px]">
+              <div className="flex items-center gap-3 mb-2">
+                <Icons.Factory />
+                <p className="font-black text-xl italic leading-none">Bonded Zone</p>
+              </div>
+              <p className="text-xs font-medium opacity-80 leading-relaxed">Berlokasi strategis di Kawasan Berikat MM2100 untuk efisiensi distribusi logistik nasional & ekspor.</p>
             </div>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
           >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Fasilitas & Mutu</span>
-            <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tighter leading-tight">
-              Standar Internasional <br />Manufaktur Perangkat Medis.
-            </h2>
+            <span className="text-[#00A7B5] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">FASILITAS PT HOGY INDONESIA</span>
+            <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tighter leading-tight">Sistem Manajemen Mutu <br/>Internasional Terpadu.</h2>
             <div className="space-y-6">
               {[
                 {
                   icon: <Icons.Shield />,
-                  title: 'Sertifikasi ISO 13485',
-                  desc: 'Implementasi ketat Sistem Manajemen Mutu Perangkat Medis sejak 2005 sebagai pengembangan dari ISO 9001/9002.',
+                  title: "Sertifikasi Mutu ISO 13485",
+                  desc: "Sebagai bentuk komitmen terhadap mutu, kami telah menerapkan standar ISO 13485 (Sistem Manajemen Mutu Perangkat Medis) sejak tahun 2005 hingga saat ini secara ketat, sebagai pengembangan dari sertifikasi ISO 9001 & ISO 9002."
                 },
                 {
                   icon: <Icons.Zap />,
-                  title: 'Teknologi Spunlace',
-                  desc: 'Didukung mesin mutakhir yang mengolah Spunlace Non-Woven dengan karakteristik kuat, minim serat (low linting), dan antibakteri.',
+                  title: "Pengolahan Bahan Spunlace",
+                  desc: "Secara teknis didukung mesin mutakhir yang mampu mengolah Spunlace Non-Woven. Salah satu material terbaik di dunia untuk pencegahan dan pengendalian infeksi rumah sakit (Healthcare-associated Infections/HAIs)."
                 },
                 {
                   icon: <Icons.Activity />,
-                  title: 'Pengendalian HAIs',
-                  desc: 'Material kami dirancang khusus untuk meminimalkan Healthcare-associated Infections sesuai standardisasi internasional.',
-                },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex gap-5"
-                >
-                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center text-[#3fb658]">
+                  title: "Karakteristik & Lokasi Strategis",
+                  desc: "Material kami sangat kuat, minim serat (low linting), sesuai standar internasional. Pabrik berlokasi strategis di Kawasan Berikat Kota Industri MM2100 memudahkan akses ke pelabuhan internasional."
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-5 group">
+                  <div className="w-12 h-12 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center text-[#00A7B5] group-hover:bg-[#00A7B5] group-hover:text-white transition-all duration-300">
                     {item.icon}
                   </div>
                   <div>
                     <h4 className="font-black text-slate-900 text-lg mb-1">{item.title}</h4>
                     <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
         </div>
-
-        {/* Gallery grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24"
-        >
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-2 block">Galeri Fasilitas</span>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tighter">Lihat dari Dalam</h3>
-            </div>
-            <p className="text-slate-400 text-xs font-bold hidden sm:block">Klik gambar untuk memperbesar</p>
-          </div>
-
-          {/* Main featured image + side grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {/* Featured large */}
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.25 }}
-              className="col-span-2 row-span-2 rounded-[2rem] overflow-hidden cursor-pointer relative group h-72 md:h-96"
-              onClick={() => openLightbox(0)}
-            >
-              <img src={galleryImages[0].src} alt={galleryImages[0].title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <div>
-                  <p className="text-white font-black text-sm">{galleryImages[0].title}</p>
-                  <p className="text-white/70 text-xs mt-0.5">{galleryImages[0].caption}</p>
-                </div>
-              </div>
-              <div className="absolute top-4 right-4 bg-white/20 backdrop-blur rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-              </div>
-            </motion.div>
-
-            {/* Smaller tiles */}
-            {galleryImages.slice(1, 5).map((img, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.22 }}
-                className="rounded-[1.5rem] overflow-hidden cursor-pointer relative group h-44 md:h-[11.5rem]"
-                onClick={() => openLightbox(i + 1)}
-              >
-                <img src={img.src} alt={img.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <p className="text-white font-black text-xs">{img.title}</p>
-                </div>
-                <div className="absolute top-3 right-3 bg-white/20 backdrop-blur rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Last tile with "lihat semua" overlay */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.22 }}
-              className="rounded-[1.5rem] overflow-hidden cursor-pointer relative group h-44 md:h-[11.5rem]"
-              onClick={() => openLightbox(5)}
-            >
-              <img src={galleryImages[5].src} alt={galleryImages[5].title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-[#1B2932]/70 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-                </div>
-                <p className="text-white font-black text-xs uppercase tracking-widest">Lihat Semua</p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Dot indicators */}
-          <div className="flex gap-2 justify-center mt-6">
-            {galleryImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => openLightbox(i)}
-                className="w-2 h-2 rounded-full transition-all bg-slate-200 hover:bg-[#3fb658]"
-              />
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 };
 
-const Statistics = () => {
-  const stats = [
-    { label: 'Kapasitas Gown/Thn', val: '14M+' },
-    { label: 'Operasional Sejak', val: '1995' },
-    { label: 'Sertifikasi Mutu', val: 'ISO' },
-    { label: 'Material Utama', val: 'Spunlace' },
-  ];
-
+const Statistics: React.FC = () => {
   return (
-    <section className="py-24 bg-[#1B2932] text-white relative overflow-hidden">
+    <section className="py-24 bg-[#002B49] text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
         <svg width="100%" height="100%">
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -1044,16 +473,20 @@ const Statistics = () => {
         </svg>
       </div>
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
-        {stats.map((s, i) => (
-          <motion.div
+        {[
+          { label: "Kapasitas Gown/Thn", val: "14M+" },
+          { label: "Operasional Sejak", val: "1995" },
+          { label: "Sertifikasi Mutu", val: "ISO 13485" },
+          { label: "Material Utama", val: "Spunlace" }
+        ].map((s, i) => (
+          <motion.div 
             key={i}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
+            transition={{ delay: i * 0.1 }}
           >
-            <div className="text-4xl md:text-5xl font-black mb-3 tracking-tighter">{s.val}</div>
-            <p className="text-[#3fb658] text-[10px] font-black tracking-widest uppercase">{s.label}</p>
+            <div className="text-5xl font-black mb-3 tracking-tighter">{s.val}</div>
+            <p className="text-[#00A7B5] text-[10px] font-black tracking-widest uppercase">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -1061,1490 +494,90 @@ const Statistics = () => {
   );
 };
 
-const ContactSection = () => {
-  const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', subject: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const body = `Halo PT. Hogy Indonesia,%0A%0ANama: ${form.name}%0AInstitusi/Perusahaan: ${form.company || '-'}%0AEmail: ${form.email}%0ANo. Telepon: ${form.phone || '-'}%0ASubjek: ${form.subject || '-'}%0A%0APesan:%0A${form.message}%0A%0ATerima kasih.`;
-    window.location.href = `mailto:sales.support@hogy.co.id?subject=Inquiry - ${form.subject || form.name}&body=${body}`;
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setForm({ name: '', company: '', email: '', phone: '', subject: '', message: '' });
-  };
-
+const Footer: React.FC = () => {
   return (
-    <section className="py-24 bg-slate-50" id="contact">
+    <footer className="bg-white pt-24 pb-12 border-t border-slate-100" id="contact">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Hubungi Kami</span>
-          <h2 className="text-4xl font-black text-slate-900 tracking-tighter">Mulai Kerjasama Bersama Kami.</h2>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {[
-            {
-              title: 'Pabrik (MM2100)',
-              value: '+62 21 898 0165',
-              icon: <Icons.Phone />,
-              desc: 'Kawasan Industri MM2100, Bekasi',
-            },
-            {
-              title: 'Sales (Jakarta)',
-              value: '+62 21 837 05111',
-              icon: <Icons.Phone />,
-              desc: 'Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12',
-            },
-            {
-              title: 'Email Support',
-              value: 'sales.support@hogy.co.id',
-              icon: <Icons.Mail />,
-              desc: 'Hari kerja, jam 08.00 - 17.00 WIB',
-            },
-          ].map((contact, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow"
-            >
-              <div className="w-12 h-12 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-6">
-                {contact.icon}
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{contact.title}</p>
-              <p className="font-black text-slate-900 text-base mb-2">{contact.value}</p>
-              <p className="text-slate-500 text-xs">{contact.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white rounded-[3rem] p-10 md:p-14 border border-slate-100 shadow-sm"
-        >
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Formulir Inquiry</h3>
-              <p className="text-slate-500 text-sm mb-8 leading-relaxed">
-                Isi formulir di samping dan tim kami akan menghubungi Anda dalam 1-2 hari kerja. Anda juga bisa langsung menghubungi kami via telepon atau email.
-              </p>
-              <div className="space-y-5">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.MapPin /></div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat Pabrik</p>
-                    <p className="text-slate-700 font-medium text-sm">Kawasan Industri MM2100, Cikarang, Bekasi, Jawa Barat</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.MapPin /></div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Kantor Penjualan</p>
-                    <p className="text-slate-700 font-medium text-sm">Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12, RT.10/RW.11, Karet Tengsin, Tanah Abang, Jakarta Pusat 10220</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Phone /></div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Telepon</p>
-                    <p className="text-slate-700 font-medium text-sm">+62 21 898 0165 (Pabrik)</p>
-                    <p className="text-slate-700 font-medium text-sm">+62 21 837 05111 (Sales)</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Mail /></div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Email</p>
-                    <p className="text-slate-700 font-medium text-sm">sales.support@hogy.co.id</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] shrink-0"><Icons.Clock /></div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Jam Operasional</p>
-                    <p className="text-slate-700 font-medium text-sm">Senin - Jumat: 08.00 - 17.00 WIB</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Nama Lengkap *</label>
-                  <input
-                    type="text" name="name" required value={form.name} onChange={handleChange}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
-                    placeholder="Contoh: Budi Santoso"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Institusi / Perusahaan</label>
-                  <input
-                    type="text" name="company" value={form.company} onChange={handleChange}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
-                    placeholder="Contoh: RS. Medika Sejahtera"
-                  />
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Email *</label>
-                  <input
-                    type="email" name="email" required value={form.email} onChange={handleChange}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
-                    placeholder="nama@perusahaan.com"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">No. Telepon / WhatsApp</label>
-                  <input
-                    type="tel" name="phone" value={form.phone} onChange={handleChange}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all"
-                    placeholder="+62 8xx xxxx xxxx"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Subjek Inquiry *</label>
-                <select
-                  name="subject" required value={form.subject} onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all appearance-none cursor-pointer"
-                >
-                  <option value="">Pilih subjek inquiry...</option>
-                  <option value="Permintaan Penawaran Harga">Permintaan Penawaran Harga</option>
-                  <option value="Kerjasama Distributor">Kerjasama Distributor</option>
-                  <option value="Informasi Produk">Informasi Produk</option>
-                  <option value="Kunjungan Pabrik">Kunjungan Pabrik</option>
-                  <option value="Lainnya">Lainnya</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Pesan / Detail Kebutuhan *</label>
-                <textarea
-                  name="message" required rows={4} value={form.message} onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all resize-none"
-                  placeholder="Ceritakan kebutuhan produk Anda, volume estimasi, dan spesifikasi yang diperlukan..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30 flex items-center justify-center gap-3"
-              >
-                {submitted ? (
-                  <>
-                    <Icons.CheckCircle /> Terkirim — Buka Aplikasi Email Anda
-                  </>
-                ) : (
-                  <>
-                    <Icons.Mail /> Kirim Inquiry
-                  </>
-                )}
-              </button>
-              <p className="text-slate-400 text-[10px] font-medium text-center">Dengan mengirim, data Anda akan disusun otomatis sebagai email ke sales.support@hogy.co.id</p>
-            </form>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const Footer = () => {
-  const links = [
-    { href: '#about', label: 'Tentang Kami' },
-    { href: '#products', label: 'Kategori Produk' },
-    { href: '#facility', label: 'Fasilitas' },
-    { href: '#contact', label: 'Kontak' },
-  ];
-
-  return (
-    <footer className="bg-white pt-20 pb-12 border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-16 mb-16">
+        <div className="grid md:grid-cols-4 gap-16 mb-20">
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-8">
-              <img
-                src="https://i.ibb.co.com/GfqDPMCn/hd-logo-2.jpg"
-                alt="Logo PT. Hogy Indonesia"
-                className="h-10 object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              <img 
+                src="/image_c343e0.png" 
+                alt="Logo PT. Hogy Indonesia" 
+                className="h-10 object-contain" 
+                onError={(e) => { 
+                  (e.target as HTMLImageElement).src = LOGO_SRC; 
+                }}
               />
               <div className="flex flex-col border-l border-slate-200 pl-3">
                 <span className="font-black tracking-tight text-lg text-slate-900 leading-none">PT. HOGY</span>
-                <span className="font-bold text-[10px] tracking-widest text-[#3fb658]">INDONESIA</span>
+                <span className="font-bold text-[10px] tracking-widest text-[#00A7B5]">INDONESIA</span>
               </div>
             </div>
             <p className="text-slate-500 max-w-sm mb-10 font-medium leading-relaxed text-sm">
-              Pelopor produk medis disposable di Indonesia yang berfokus pada keselamatan, higienitas, dan efisiensi layanan kesehatan.
+              Pelopor produk medis sekali pakai (disposable) di Indonesia yang berfokus pada keselamatan, higienitas, dan efisiensi layanan kesehatan melalui sistem produksi otomatis.
             </p>
             <div className="flex gap-4">
-              <a
-                href="#contact"
-                className="bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-3 shadow-lg hover:bg-[#003a63] transition-colors"
-              >
-                <Icons.Download /> Download Katalog
-              </a>
+               <button className="bg-[#002B49] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center gap-3 shadow-lg hover:bg-[#00A7B5] transition-colors">
+                  <Icons.Download /> Download Katalog
+               </button>
             </div>
           </div>
-
           <div>
-            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#3fb658] mb-8">Navigasi</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#00A7B5] mb-8">Navigasi</h4>
             <ul className="space-y-4 text-sm text-slate-500 font-bold uppercase tracking-wider">
-              {links.map(link => (
-                <li key={link.href}>
-                  <a href={link.href} className="hover:text-[#3fb658] transition-colors">{link.label}</a>
-                </li>
-              ))}
+              <li><a href="#about" className="hover:text-[#005CAB] transition-colors">Tentang Kami</a></li>
+              <li><a href="#products" className="hover:text-[#005CAB] transition-colors">Kategori Produk</a></li>
+              <li><a href="#facility" className="hover:text-[#005CAB] transition-colors">Fasilitas</a></li>
+              <li><a href="#contact" className="hover:text-[#005CAB] transition-colors">Kontak</a></li>
             </ul>
           </div>
-
           <div>
-            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#3fb658] mb-8">Kontak</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-[#00A7B5] mb-8">Kontak Resmi</h4>
             <ul className="space-y-6 text-xs text-slate-500 font-medium">
               <li>
                 <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Pabrik (MM2100)</span>
-                +62 21 898 0165
+                PT HOGY INDONESIA <br/>
+                MM2100 Industrial Town EPZ. Blok M3-1, Cikarang Barat, Bekasi 17520 <br/>
+                Telp: +62 21 898 0165
               </li>
               <li>
-                <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Sales (Jakarta)</span>
-                +62 21 837 05111
+                <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Sales Office (Jakarta)</span>
+                PT HOGY MEDICAL SALES INDONESIA <br/>
+                Kawasan Infinia Park Blok A57, Jl. DR. Sahardjo No. 45, Jakarta 12850 <br/>
+                Telp: +62 21 837 05111
               </li>
               <li>
-                <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Email Support</span>
-                sales.support@hogy.co.id
+                <span className="block text-slate-900 font-bold mb-1 uppercase tracking-tighter">Situs Induk</span>
+                www.hogy.co.jp
               </li>
             </ul>
           </div>
         </div>
-
-        <div className="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest italic">
-            © 2025 PT. HOGY INDONESIA. SEMUA HAK CIPTA DILINDUNGI.
-          </p>
-          <p className="text-slate-400 text-[10px] font-medium">
-            Anggota Hogy Medical Group, Jepang — Est. 1961
-          </p>
+        <div className="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest italic">© 2026 PT. HOGY INDONESIA & HOGY MEDICAL SALES INDONESIA. SELURUH HAK CIPTA DILINDUNGI.</p>
+          <div className="flex gap-4 grayscale opacity-50">
+             <span className="text-[10px] font-black border border-slate-200 px-2 py-1 rounded">AAMI Level 3/4</span>
+             <span className="text-[10px] font-black border border-slate-200 px-2 py-1 rounded">ISO 13485</span>
+          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-const SurgicalDrapePage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const whyChoose = [
-    {
-      title: 'Manajemen Cairan Unggul',
-      desc: 'Material yang mampu mengelola volume cairan tinggi selama operasi tanpa kebocoran.',
-    },
-    {
-      title: 'Desain Ergonomis',
-      desc: 'Dilengkapi dengan perekat medis (adhesive) yang aman di kulit dan fenestration (lubang) yang presisi.',
-    },
-    {
-      title: 'Aplikasi Mudah',
-      desc: 'Alur pelipatan yang intuitif untuk memastikan pemasangan tetap dalam kondisi aseptik.',
-    },
-    {
-      title: 'Kekuatan Material',
-      desc: 'Tahan terhadap tarikan dan gesekan alat bedah tanpa robek selama prosedur berlangsung.',
-    },
-  ];
-
-  const catalog = [
-    {
-      number: '1',
-      category: 'General & Universal Drapes',
-      subtitle: 'Solusi dasar untuk berbagai kebutuhan penutupan area bedah umum.',
-      items: [
-        { name: 'Plain Drape & Draping Tape', desc: 'Duk tanpa lubang dengan plester khusus untuk fiksasi.' },
-        { name: 'Fenestrated Drape', desc: 'Duk dengan lubang presisi untuk akses area tindakan.' },
-        { name: 'U Drape', desc: 'Desain berbentuk "U" yang fleksibel untuk berbagai posisi tubuh.' },
-      ],
-    },
-    {
-      number: '2',
-      category: 'Bedah Perut & Kandungan (OBGYN)',
-      subtitle: 'Didesain untuk menangani volume cairan yang tinggi secara efektif.',
-      items: [
-        { name: 'Laparotomy & Appendectomy Drape', desc: 'Khusus untuk bedah perut terbuka dan usus buntu.' },
-        { name: 'Laparoscopic Surgery Drape', desc: 'Untuk prosedur invasif minimal dengan lubang akses trokar.' },
-        { name: 'Caesarean Section Drape', desc: 'Dilengkapi kantong pengumpul cairan untuk prosedur caesar.' },
-        { name: 'Gynaecology Drape', desc: 'Untuk pemeriksaan dan tindakan ginekologi.' },
-      ],
-    },
-    {
-      number: '3',
-      category: 'Ortopedi & Bedah Saraf',
-      subtitle: 'Material ekstra kuat untuk prosedur yang membutuhkan manipulasi fisik tinggi.',
-      items: [
-        { name: 'Orthopaedic Surgery Drape', desc: 'Ketahanan maksimal untuk prosedur tulang.' },
-        { name: 'Arthroscopic Surgery Drape', desc: 'Didesain khusus untuk prosedur endoskopi sendi.' },
-        { name: 'Neuro Surgery Drape', desc: 'Presisi tinggi untuk menjaga sterilitas area kepala dan saraf.' },
-      ],
-    },
-    {
-      number: '4',
-      category: 'Kardiologi, Toraks & Vaskular',
-      subtitle: 'Duk spesialisasi untuk prosedur organ dalam dan pembuluh darah.',
-      items: [
-        { name: 'Cardiovascular Drape', desc: 'Untuk prosedur bedah jantung dan pembuluh darah.' },
-        { name: 'Thoracic Surgery & Mammary Drape', desc: 'Untuk area dada dan payudara.' },
-        { name: 'IVR (Angio) Drape & Image Cover', desc: 'Khusus untuk radiologi intervensi, dilengkapi pelindung peralatan pencitraan.' },
-      ],
-    },
-    {
-      number: '5',
-      category: 'Spesialisasi Lain (Mata & Urologi)',
-      subtitle: 'Solusi presisi tinggi untuk prosedur spesialistik.',
-      items: [
-        { name: 'Ophthalmic Surgery Drape', desc: 'Ukuran kecil dengan manajemen cairan halus untuk operasi mata.' },
-        { name: 'TUR Drape & PCNL Drape', desc: 'Untuk prosedur urologi (transurethral dan ginjal) dengan pengumpulan cairan terpadu.' },
-      ],
-    },
-  ];
-
-  const spunlaceAdvantages = [
-    'Superior barrier performance against bacteria',
-    'Flexibility as in linen',
-    'By repellent processing, prevents penetration of blood and body fluid',
-    'Made of wood pulp and polyester — gentle to environment',
-    'Easy to be cut without fraying fibers/lint',
-    'Chemical free production process',
-  ];
-
+const App: React.FC = () => {
   return (
-    <div className="bg-white min-h-screen font-sans">
-      {/* Top bar */}
-      <div className="bg-[#1B2932] py-4 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Produk
-          </button>
-          <span className="text-white/30">·</span>
-          <span className="text-white/50 text-xs">Surgical Drape</span>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape · Hogy Quality</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Surgical <span className="text-[#3fb658]">Drape</span>
-            </h1>
-            <p className="text-white/80 text-lg leading-relaxed mb-6 max-w-lg font-medium">
-              Presisi dan Sterilitas untuk <strong className="text-white">Setiap Prosedur</strong>
-            </p>
-            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
-              Surgical Drape (Duk Operasi) kami dirancang untuk menciptakan area steril yang aman dan efektif selama prosedur pembedahan. Menggunakan material berkualitas tinggi yang tahan terhadap penetrasi cairan dan mikroba, produk kami membantu meminimalisir risiko infeksi luka operasi (SSI).
-            </p>
-            <div className="mt-10 flex gap-4 flex-wrap">
-              <a
-                href="mailto:sales.support@hogy.co.id"
-                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-              >
-                <Icons.Mail /> Hubungi Kami
-              </a>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex justify-center"
-          >
-            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
-              <img
-                src="https://i.ibb.co.com/4wdS93zD/drape.png"
-                alt="Surgical Drape"
-                className="w-full object-contain p-8"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Why choose */}
-      <div className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan Produk</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Memilih Surgical Drape Kami?</h2>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {whyChoose.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100"
-              >
-                <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-5">
-                  <Icons.CheckCircle />
-                </div>
-                <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Hogy Spunlace section */}
-      <div className="py-20 px-6 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-14 text-center"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Teknologi Material</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Hogy Spunlace</h2>
-            <p className="text-slate-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
-              Material non-woven unggulan yang menggabungkan keunggulan kain non-woven dan linen — barrier superior terhadap bakteri dengan fleksibilitas tinggi.
-            </p>
-          </motion.div>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="rounded-[2.5rem] overflow-hidden shadow-xl bg-white border border-slate-100"
-            >
-              <img
-                src="/hogy-spunlace.png"
-                alt="Hogy Spunlace Technology"
-                className="w-full object-contain"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <p className="text-slate-600 text-sm leading-relaxed mb-8">
-                <strong>Hogy Spunlace</strong> adalah kain non-woven yang diproduksi dengan cara memadatkan serat menggunakan semprotan air bertekanan tinggi tanpa bahan perekat kimia. Hasilnya, material yang aman, higienis, dan ramah lingkungan.
-              </p>
-              <div className="space-y-4">
-                {spunlaceAdvantages.map((adv, i) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <div className="w-5 h-5 rounded-full bg-[#3fb658]/10 flex items-center justify-center text-[#3fb658] flex-shrink-0 mt-0.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                    <p className="text-slate-600 text-sm leading-relaxed">{adv}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Product catalog */}
-      <div className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Produk</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Berdasarkan Prosedur Bedah</h2>
-            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
-              Kami menyediakan berbagai varian drape yang disesuaikan dengan kebutuhan spesifik di ruang operasi.
-            </p>
-          </motion.div>
-
-          <div className="space-y-6">
-            {catalog.map((cat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm"
-              >
-                <div className="bg-[#1B2932] px-8 py-5 flex items-center gap-4">
-                  <span className="w-8 h-8 rounded-full bg-[#3fb658] flex items-center justify-center text-white font-black text-sm flex-shrink-0">{cat.number}</span>
-                  <div>
-                    <h3 className="text-white font-black text-base tracking-tight">{cat.category}</h3>
-                    <p className="text-white/50 text-xs mt-0.5">{cat.subtitle}</p>
-                  </div>
-                </div>
-                <div className="bg-white px-8 py-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {cat.items.map((item, j) => (
-                    <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="text-[#3fb658] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
-                      <div>
-                        <p className="text-slate-900 font-black text-sm mb-1">{item.name}</p>
-                        <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="py-16 px-6 bg-slate-50">
-        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
-          <h3 className="text-2xl font-black mb-4 tracking-tighter">Tertarik dengan Surgical Drape Kami?</h3>
-          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi varian drape yang sesuai dengan prosedur bedah Anda.</p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="mailto:sales.support@hogy.co.id"
-              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-            >
-              <Icons.Mail /> Hubungi via Email
-            </a>
-            <button
-              onClick={onBack}
-              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-              Lihat Produk Lain
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const AccessoriesPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const products = [
-    {
-      title: 'Medical Cap / Surgical Cap',
-      image: '/acc-medical-cap.png?v=2',
-      summary: 'Penutup kepala medis berbahan Spunlace/Spunbond non-woven yang bebas lint, kuat, fleksibel, dan menyerap. Tersedia dalam dua jenis:',
-      items: [
-        { name: 'Medical Cap (Non-Steril)', desc: 'Dirancang untuk mencegah kontaminasi rambut, debu, dan partikel lain. Beberapa varian dilengkapi sweat absorbent pad di bagian dahi.' },
-        { name: 'Surgical Cap (Steril)', desc: 'MCS-204 & MCS-204L tersedia dalam kemasan steril untuk lingkungan operasi dengan risiko infeksi tinggi.' },
-      ],
-      highlight: 'MCS-204 & MCS-204L dikemas steril — efektif untuk operasi berisiko infeksi tinggi.',
-    },
-    {
-      title: 'Shoe Cover',
-      image: '/acc-shoe-cover.png?v=2',
-      summary: 'Penutup sepatu berbahan hydrospun absorbent dengan laminasi plastik. Dirancang khusus untuk mencegah kontak darah di ruang operasi dan area infeksius.',
-      items: [
-        { name: 'SC-041E — Long Type', desc: 'Menutup hingga betis, ideal untuk area operasi dengan volume cairan tinggi. Kemasan 50 pasang/karton.' },
-        { name: 'SR-SC-41E — Long Type', desc: 'Varian Long Type dengan reinforcement tambahan untuk perlindungan lebih kuat.' },
-        { name: 'MO-50 — Short Type', desc: 'Ukuran pendek untuk penggunaan umum di koridor dan area non-bedah.' },
-      ],
-      highlight: 'Laminasi plastik mencegah penetrasi cairan dan darah ke permukaan alas kaki.',
-    },
-    {
-      title: 'Table Cover / Mayo Cover',
-      image: '/acc-table-cover.png?v=2',
-      summary: 'Penutup meja instrumen dan mayo stand steril untuk menjaga sterilitas alat bedah selama prosedur berlangsung.',
-      items: [
-        { name: 'Table Cover (Steril)', desc: 'Penutup meja instrumen dengan reinforcement di bagian atas dan lapisan plastik di sisi bawah untuk mencegah penetrasi cairan ke meja. Tersedia ukuran 120×150 cm hingga 190×260 cm.' },
-        { name: 'Mayo Cover (Steril)', desc: 'Penutup mayo stand yang dilipat agar siapa pun dapat memasangnya secara aseptik. Bagian atas diperkuat dengan water repellent. Dapat juga digunakan sebagai hazard bag.' },
-      ],
-      highlight: 'Lipatan intuitif memungkinkan pemasangan aseptik tanpa bantuan tambahan.',
-    },
-    {
-      title: 'Sterilization Wrap (SURREM KURUMU)',
-      image: '/acc-sterilization-wrap.png?v=2',
-      summary: 'Pembungkus sterilisasi berkinerja barrier bakteri tinggi. Seri SKS-2000 direkomendasikan untuk konten berat karena kekuatan tariknya yang lebih tinggi.',
-      items: [
-        { name: 'Seri SKS-1000 (Non-Steril)', desc: 'Ukuran 60×60 cm hingga 140×180 cm. Untuk kebutuhan sterilisasi standar berbagai instrumen medis ringan hingga sedang.' },
-        { name: 'Seri SKS-2000 (Non-Steril)', desc: 'Ukuran 80×80 cm hingga 160×180 cm. Kekuatan tarik lebih tinggi — ideal untuk instrumen berat seperti set orthopedi atau kardiovaskuler.' },
-      ],
-      highlight: 'Seri SKS-2000 cocok untuk set instrumen berat dengan barrier bakteri superior.',
-    },
-  ];
-
-  return (
-    <div className="bg-white min-h-screen font-sans">
-      {/* Top bar */}
-      <div className="bg-[#1B2932] py-4 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Produk
-          </button>
-          <span className="text-white/30">·</span>
-          <span className="text-white/50 text-xs">Accessories</span>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Accessories · Hogy Quality</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Perlengkapan <span className="text-[#3fb658]">Pendukung</span>
-            </h1>
-            <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
-              Aksesori medis sekali pakai untuk melengkapi standar higienitas ruang operasi secara menyeluruh.
-            </p>
-            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
-              Mulai dari pelindung kepala, alas kaki, hingga pembungkus sterilisasi — setiap produk dirancang dengan material berkualitas tinggi untuk mendukung keselamatan pasien dan tenaga medis.
-            </p>
-            <div className="mt-10 flex gap-4 flex-wrap">
-              <a
-                href="mailto:sales.support@hogy.co.id"
-                className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-              >
-                <Icons.Mail /> Hubungi Kami
-              </a>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="hidden lg:grid grid-cols-2 gap-4"
-          >
-            {['/acc-medical-cap.png?v=2', '/acc-shoe-cover.png?v=2', '/acc-table-cover.png?v=2', '/acc-sterilization-wrap.png?v=2'].map((src, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center">
-                <img
-                  src={src}
-                  alt={`Accessories ${i + 1}`}
-                  className={i === 0 || i === 1 || i === 2 || i === 3 ? 'w-full h-36 object-contain bg-white' : 'w-full h-36 object-cover'}
-                />
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Product cards */}
-      <div className="py-20 px-6 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Rangkuman Produk</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">4 Kategori Aksesori Medis</h2>
-            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">
-              Setiap kategori dirancang untuk memenuhi kebutuhan spesifik di lingkungan bedah dan perawatan kesehatan.
-            </p>
-          </motion.div>
-
-          <div className="space-y-10">
-            {products.map((prod, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm"
-              >
-                <div className="grid lg:grid-cols-5 gap-0">
-                  {/* Image */}
-                  <div className={`lg:col-span-2 bg-slate-50 ${i % 2 === 1 ? 'lg:order-last' : ''}`}>
-                    <img
-                      src={prod.image}
-                      alt={prod.title}
-                      className="w-full h-full object-cover min-h-[280px]"
-                    />
-                  </div>
-                  {/* Content */}
-                  <div className="lg:col-span-3 p-8 md:p-10 flex flex-col justify-center">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="w-7 h-7 rounded-full bg-[#3fb658] flex items-center justify-center text-white font-black text-xs flex-shrink-0">{i + 1}</span>
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight">{prod.title}</h3>
-                    </div>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6">{prod.summary}</p>
-                    <div className="space-y-3 mb-6">
-                      {prod.items.map((item, j) => (
-                        <div key={j} className="flex gap-3 items-start p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                          <div className="text-[#3fb658] flex-shrink-0 mt-0.5"><Icons.CheckCircle /></div>
-                          <div>
-                            <p className="text-slate-900 font-black text-sm mb-0.5">{item.name}</p>
-                            <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="bg-[#1B2932] rounded-2xl px-5 py-4 flex gap-3 items-start">
-                      <svg className="text-[#3fb658] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3fb658" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                      <p className="text-white/80 text-xs leading-relaxed italic">{prod.highlight}</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="py-16 px-6 bg-white">
-        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
-          <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Aksesori Medis untuk Fasilitas Anda?</h3>
-          <p className="text-white/70 mb-8 text-sm">Hubungi tim kami untuk konsultasi produk, ketersediaan stok, dan harga terbaik.</p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="mailto:sales.support@hogy.co.id"
-              className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30"
-            >
-              <Icons.Mail /> Hubungi via Email
-            </a>
-            <button
-              onClick={onBack}
-              className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-              Lihat Produk Lain
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const SurgicalDrapePackPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-  const [activeFilter, setActiveFilter] = useState<string>('SEMUA');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const whyUse = [
-    { title: 'Efisiensi Waktu', desc: 'Mempercepat proses persiapan pasien dengan komponen yang sudah tersusun sesuai urutan prosedur.' },
-    { title: 'Standarisasi Mutu', desc: 'Memastikan setiap tindakan bedah mendapatkan kualitas material yang konsisten dan perlindungan barrier yang sama.' },
-    { title: 'Manajemen Inventaris', desc: 'Memudahkan pemantauan stok rumah sakit; satu kode produk mencakup seluruh kebutuhan satu tindakan.' },
-    { title: 'Perlindungan Komprehensif', desc: 'Terdiri dari material low-linting dan kedap cairan untuk keamanan maksimal pasien dan staf.' },
-  ];
-
-  const categories = [
-    {
-      name: 'GYNAECOLOGY',
-      color: 'bg-pink-50 border-pink-100',
-      badge: 'bg-pink-100 text-pink-700',
-      desc: 'Set khusus untuk tindakan kebidanan dan kandungan. Dilengkapi Gynaecology Drape dengan kantong pengumpul cairan (polybag) atau film plastik untuk menjaga area tetap kering.',
-      products: [
-        { code: 'GNS-2105', name: 'Gynaecology Set Standard', components: '3x Gowns, Gynaecology Drape w/ Polybag, Plain Drape, Table Cover.', use: 'Prosedur Ginekologi & Persalinan dengan manajemen cairan polybag.' },
-        { code: 'GNS-2109', name: 'Gynaecology Set Premium', components: '3x Gowns w/ Towel, Gynaecology Drape w/ Plastic Film, Table Cover.', use: 'Prosedur Ginekologi dengan proteksi area plastik film.' },
-      ],
-    },
-    {
-      name: 'ORTHOPAEDIC',
-      color: 'bg-blue-50 border-blue-100',
-      badge: 'bg-blue-100 text-blue-700',
-      desc: 'Paket untuk bedah tulang yang membutuhkan manipulasi tinggi dan manajemen cairan intens. Tersedia untuk Arthroscopy, TKR, THR, dan Upper Extremity.',
-      products: [
-        { code: 'ORS-2130', name: 'Orthopaedic Set (Arthroscopy)', components: 'Arthroscopy Drape (SR-870RE12), Leggings Cover, Mayo Cover.', use: 'Prosedur invasif minimal pada sendi (Lutut/Bahu).' },
-        { code: 'ORS-2137', name: 'Orthopaedic Set (Arthroscopy) + Gown', components: 'Sama dengan 2130 + 2x Surgical Gowns (L & LL).', use: 'Prosedur Arthroscopy lengkap dengan proteksi personil.' },
-        { code: 'ORS-2138', name: 'Orthopaedic Set (TKR)', components: 'Orthopaedic Drape (BRE-7009), Legging Cover, 3x Gowns (L/LL).', use: 'Total Knee Replacement (Ganti Sendi Lutut).' },
-        { code: 'ORS-2139', name: 'Orthopaedic Set (THR)', components: 'Orthopedic Drape (BRE-70H), Legging Cover, 3x Gowns (L/LL).', use: 'Total Hip Replacement (Ganti Sendi Panggul).' },
-        { code: 'ORS-2140', name: 'Orthopaedic Set (Upper)', components: 'Orthopedic Drape, Legging Cover, 3x Gowns (L/LL), Table Cover.', use: 'Prosedur ekstremitas atas (Lengan/Bahu).' },
-      ],
-    },
-    {
-      name: 'CARDIOVASCULAR',
-      color: 'bg-red-50 border-red-100',
-      badge: 'bg-red-100 text-red-700',
-      desc: 'Set presisi tinggi untuk prosedur jantung dan pembuluh darah. Varian General Cardiovascular dan khusus CABG (Coronary Artery Bypass Graft).',
-      products: [
-        { code: 'L-CS-2101', name: 'Cardiovascular Set', components: 'Thoracic Drape, Lower Vascular Drape, Shoe Cover, Mayo Cover.', use: 'Prosedur vaskular dan toraks umum.' },
-        { code: 'L-CS-2102', name: 'Cardiovascular Set (CABG)', components: 'Genital Drape, Cardiovascular Drape, Suction & Diathermy Bag, Suture Bag.', use: 'Prosedur Bedah Bypass Jantung (CABG) yang kompleks.' },
-      ],
-    },
-    {
-      name: 'ANGIOGRAPHY',
-      color: 'bg-purple-50 border-purple-100',
-      badge: 'bg-purple-100 text-purple-700',
-      desc: 'Set khusus untuk prosedur radiologi intervensi dan kateterisasi jantung (Cath Lab) yang memerlukan pelindung peralatan pencitraan.',
-      products: [
-        { code: 'AG-2106', name: 'Angiography Set', components: 'Angio Drape (2100×3300 mm), Guardian Image Cover, Body Cover.', use: 'Radiologi Intervensi & Kateterisasi Jantung (Cath Lab).' },
-      ],
-    },
-    {
-      name: 'NEUROLOGY',
-      color: 'bg-teal-50 border-teal-100',
-      badge: 'bg-teal-100 text-teal-700',
-      desc: 'Set bedah saraf dengan presisi tinggi untuk prosedur kepala dan tulang belakang, tersedia dengan manajemen cairan standar maupun tinggi.',
-      products: [
-        { code: 'NSS-2101', name: 'Neuro Surgery Set', components: 'Neuro Drape, Instrument Pocket, Plain Drape w/ Adhesive.', use: 'Bedah Saraf kepala dan tulang belakang.' },
-        { code: 'NSS-2106', name: 'Neurologi Set Premium', components: 'Neuro Drape w/ Polybag, 3x Gowns (L/LL), Absorbent Towels.', use: 'Bedah Saraf dengan manajemen cairan tinggi.' },
-      ],
-    },
-    {
-      name: 'LAPAROSCOPY',
-      color: 'bg-green-50 border-green-100',
-      badge: 'bg-green-100 text-green-700',
-      desc: 'Set untuk prosedur invasif minimal pada rongga perut dengan akses trokar, memastikan sterilitas area selama laparoskopi.',
-      products: [
-        { code: 'LPS-2107', name: 'Laparoscopy Set', components: 'Laparoscopy Drape, Fenestrated Drape, Mayo Stand Cover.', use: 'Bedah perut invasif minimal (Laparoskopi).' },
-      ],
-    },
-    {
-      name: 'UNIVERSAL',
-      color: 'bg-slate-50 border-slate-100',
-      badge: 'bg-slate-100 text-slate-700',
-      desc: 'Set serbaguna untuk berbagai prosedur bedah umum harian, posisi litotomi, hingga prosedur besar yang memerlukan cakupan area luas.',
-      products: [
-        { code: 'USP-2129', name: 'Universal Set (Lithotomy)', components: 'Laparoscopy Drape (SR-879LH), 3x Gowns, Mayo Cover.', use: 'Prosedur umum posisi Litotomi/Laparoskopi.' },
-        { code: 'USP-2127', name: 'Universal Set Standard', components: 'Universal Drape, 4x Draping Tape, 3x Gowns (L/LL).', use: 'Prosedur bedah umum harian.' },
-        { code: 'USP-2114', name: 'Universal Set Adhesive', components: 'Head, Foot, & Side Drapes w/ Adhesive, 3x Gowns, Draping Tape.', use: 'Prosedur yang membutuhkan fiksasi drape pada area spesifik.' },
-        { code: 'USP-2126', name: 'Universal Set Large', components: 'Universal Drape, 4x Plain Drape, 4x Draping Tape, 3x Gowns.', use: 'Prosedur bedah besar dengan cakupan area luas.' },
-      ],
-    },
-  ];
-
-  return (
-    <div className="bg-white min-h-screen font-sans">
-      {/* Top bar */}
-      <div className="bg-[#1B2932] py-4 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-4">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Produk
-          </button>
-          <span className="text-white/30">·</span>
-          <span className="text-white/50 text-xs">Surgical Drape Pack</span>
-        </div>
-      </div>
-
-      {/* Hero */}
-      <div className="bg-[#1B2932] pb-20 pt-12 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-block bg-[#3fb658]/20 border border-[#3fb658]/30 px-4 py-1.5 rounded-full mb-6">
-              <span className="text-[#3fb658] font-black tracking-[0.2em] uppercase text-[10px]">Surgical Drape Pack · Hogy Quality</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6">
-              Surgical <span className="text-[#3fb658]">Drape Pack</span>
-            </h1>
-            <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-lg font-medium">
-              Solusi Prosedur <strong className="text-white">Terintegrasi</strong>
-            </p>
-            <p className="text-white/60 text-sm leading-relaxed max-w-lg">
-              Drape Pack kami dirancang untuk menyederhanakan persiapan ruang operasi dengan menyediakan semua komponen esensial dalam satu kemasan steril. Setiap set dikurasi secara spesifik sesuai jenis tindakan medis — meningkatkan efisiensi setup, mengurangi limbah kemasan, dan memastikan protokol aseptik terjaga sempurna.
-            </p>
-            <div className="mt-10 flex gap-4 flex-wrap">
-              <a href="mailto:sales.support@hogy.co.id" className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
-                <Icons.Mail /> Hubungi Kami
-              </a>
-            </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.2 }} className="hidden lg:flex justify-center">
-            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-white/5 border border-white/10 max-w-sm w-full">
-              <img src="https://i.ibb.co.com/PZz1rznN/drape-pack.png" alt="Surgical Drape Pack" className="w-full object-contain p-8" />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Why use */}
-      <div className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-14">
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Keunggulan</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Mengapa Menggunakan Drape Pack Kami?</h2>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {whyUse.map((item, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }} className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100">
-                <div className="w-10 h-10 bg-[#3fb658]/10 rounded-xl flex items-center justify-center text-[#3fb658] mb-5">
-                  <Icons.CheckCircle />
-                </div>
-                <h4 className="font-black text-slate-900 text-base mb-2">{item.title}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Product catalog by specialization */}
-      <div className="py-20 px-6 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-10">
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em] mb-4 block">Katalog Set Bedah</span>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tighter">Pilihan Set Berdasarkan Spesialisasi</h2>
-            <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto">18 varian set bedah yang dikurasi spesifik sesuai kebutuhan ruang operasi Anda.</p>
-          </motion.div>
-
-          {/* Search + Filter controls */}
-          <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-8 space-y-4">
-            {/* Search bar */}
-            <div className="relative max-w-md mx-auto">
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input
-                type="text"
-                placeholder="Cari kode produk, nama, atau komponen..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-200 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3fb658]/40 focus:border-[#3fb658] transition-all shadow-sm"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-              )}
-            </div>
-            {/* Category filter pills */}
-            <div className="flex flex-wrap gap-2 justify-center">
-              {['SEMUA', ...categories.map(c => c.name)].map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveFilter(cat)}
-                  className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-                    activeFilter === cat
-                      ? 'bg-[#1B2932] text-white shadow-lg'
-                      : 'bg-white border border-slate-200 text-slate-500 hover:border-[#1B2932] hover:text-[#1B2932]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Results */}
-          {(() => {
-            const q = searchQuery.toLowerCase();
-            const filtered = categories
-              .filter(cat => activeFilter === 'SEMUA' || cat.name === activeFilter)
-              .map(cat => ({
-                ...cat,
-                products: cat.products.filter(p =>
-                  !q ||
-                  p.code.toLowerCase().includes(q) ||
-                  p.name.toLowerCase().includes(q) ||
-                  p.components.toLowerCase().includes(q) ||
-                  p.use.toLowerCase().includes(q)
-                ),
-              }))
-              .filter(cat => cat.products.length > 0);
-
-            if (filtered.length === 0) {
-              return (
-                <div className="text-center py-20">
-                  <div className="text-5xl mb-4">🔍</div>
-                  <p className="text-slate-500 font-bold text-sm">Tidak ada produk yang cocok.</p>
-                  <button onClick={() => { setSearchQuery(''); setActiveFilter('SEMUA'); }} className="mt-4 text-[#3fb658] text-xs font-black uppercase tracking-widest hover:underline">Reset Filter</button>
-                </div>
-              );
-            }
-
-            return (
-              <div className="space-y-8">
-                {filtered.map((cat, i) => (
-                  <motion.div key={cat.name} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: i * 0.05 }} className={`rounded-[2rem] border overflow-hidden ${cat.color}`}>
-                    <div className="bg-[#1B2932] px-8 py-5 flex items-center gap-4">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shrink-0 ${cat.badge}`}>{cat.name}</span>
-                      <p className="text-white/60 text-xs leading-relaxed flex-1">{cat.desc}</p>
-                      <span className="text-white/40 text-[10px] font-bold shrink-0">{cat.products.length} set</span>
-                    </div>
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="border-b border-slate-200/60">
-                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Kode</th>
-                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Nama Produk</th>
-                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden md:table-cell">Komponen Utama</th>
-                            <th className="text-left px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hidden lg:table-cell">Peruntukan Prosedur</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {cat.products.map((prod, j) => (
-                            <tr key={j} className={`border-b border-slate-200/40 last:border-0 ${j % 2 === 0 ? 'bg-white/60' : 'bg-white/30'}`}>
-                              <td className="px-6 py-4">
-                                <span className="font-black text-[#1B2932] text-sm tracking-tight">{prod.code}</span>
-                              </td>
-                              <td className="px-6 py-4">
-                                <p className="font-bold text-slate-800 text-sm">{prod.name}</p>
-                              </td>
-                              <td className="px-6 py-4 hidden md:table-cell">
-                                <p className="text-slate-500 text-xs leading-relaxed max-w-xs">{prod.components}</p>
-                              </td>
-                              <td className="px-6 py-4 hidden lg:table-cell">
-                                <p className="text-[#3fb658] text-xs font-bold leading-relaxed max-w-xs">{prod.use}</p>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            );
-          })()}
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="py-16 px-6 bg-white">
-        <div className="max-w-3xl mx-auto bg-[#1B2932] rounded-[2.5rem] p-12 text-center text-white">
-          <h3 className="text-2xl font-black mb-4 tracking-tighter">Butuh Set Bedah untuk Prosedur Spesifik?</h3>
-          <p className="text-white/70 mb-8 text-sm">Tim kami siap membantu memilih Drape Pack yang tepat sesuai kebutuhan spesialisasi dan volume tindakan rumah sakit Anda.</p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a href="mailto:sales.support@hogy.co.id" className="bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
-              <Icons.Mail /> Hubungi via Email
-            </a>
-            <button onClick={onBack} className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/20 transition-colors flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-              Lihat Produk Lain
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const NewsPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const news = [
-    {
-      date: 'Mei 2025',
-      category: 'Sertifikasi',
-      title: 'PT. Hogy Indonesia Raih Sertifikasi ISO 13485:2016 untuk Sistem Manajemen Mutu Perangkat Medis',
-      excerpt: 'PT. Hogy Indonesia dengan bangga mengumumkan keberhasilan meraih sertifikasi internasional ISO 13485:2016, standar tertinggi untuk sistem manajemen mutu dalam industri perangkat medis. Pencapaian ini menegaskan komitmen kami terhadap kualitas dan keselamatan produk.',
-      tag: 'Pencapaian',
-    },
-    {
-      date: 'Maret 2025',
-      category: 'Ekspansi',
-      title: 'Perluasan Kapasitas Produksi di Kawasan Industri MM2100, Bekasi',
-      excerpt: 'Dalam rangka memenuhi permintaan pasar yang terus meningkat, PT. Hogy Indonesia melakukan perluasan lini produksi dengan investasi teknologi Spunlace generasi terbaru. Kapasitas produksi meningkat hingga 40% untuk mendukung distribusi nasional.',
-      tag: 'Bisnis',
-    },
-    {
-      date: 'Januari 2025',
-      category: 'Kemitraan',
-      title: 'Penandatanganan MoU dengan Jaringan Rumah Sakit Nasional untuk Pengadaan Alat Medis Disposable',
-      excerpt: 'PT. Hogy Indonesia menandatangani nota kesepahaman (MoU) dengan konsorsium rumah sakit terkemuka di Indonesia. Kesepakatan ini mencakup pengadaan Surgical Gown, Drape, dan paket prosedur bedah yang memenuhi standar KEMENKES RI.',
-      tag: 'Kerjasama',
-    },
-    {
-      date: 'November 2024',
-      category: 'Pameran',
-      title: 'PT. Hogy Indonesia Tampil di Hospital Expo 2024 Jakarta',
-      excerpt: 'Kami hadir di ajang Hospital Expo 2024 yang digelar di Jakarta Convention Center. Tim kami memperkenalkan rangkaian produk terbaru termasuk Surgical Drape Pack untuk berbagai prosedur bedah spesialistik kepada lebih dari 5.000 pengunjung profesional medis.',
-      tag: 'Event',
-    },
-    {
-      date: 'September 2024',
-      category: 'Inovasi Produk',
-      title: 'Peluncuran Lini Produk SURREM Gown Generasi Baru dengan Teknologi Barrier Tingkat Tinggi',
-      excerpt: 'Menghadirkan inovasi terbaru, PT. Hogy Indonesia meluncurkan SURREM Gown generasi baru yang menggunakan material Spunlace dengan lapisan barrier SMMS 4-layer. Produk ini memberikan proteksi maksimal bagi tenaga medis sekaligus kenyamanan optimal saat digunakan.',
-      tag: 'Produk',
-    },
-    {
-      date: 'Juli 2024',
-      category: 'CSR',
-      title: 'Program Donasi Alat Medis untuk Klinik di Daerah Terpencil',
-      excerpt: 'Sebagai wujud tanggung jawab sosial perusahaan, PT. Hogy Indonesia menyalurkan paket alat medis disposable senilai Rp 500 juta kepada 25 klinik dan puskesmas di wilayah Indonesia Timur. Program ini merupakan bagian dari inisiatif "Hogy Peduli" tahunan kami.',
-      tag: 'CSR',
-    },
-  ];
-
-  const tagColors: Record<string, string> = {
-    Pencapaian: 'bg-[#3fb658]/10 text-[#3fb658]',
-    Bisnis: 'bg-blue-50 text-blue-600',
-    Kerjasama: 'bg-purple-50 text-purple-600',
-    Event: 'bg-orange-50 text-orange-600',
-    Produk: 'bg-teal-50 text-teal-600',
-    CSR: 'bg-rose-50 text-rose-600',
-  };
-
-  return (
-    <div className="bg-white font-sans min-h-screen">
-      <div className="bg-[#1B2932] pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Beranda
-          </button>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="text-[#3fb658]"><Icons.Newspaper /></div>
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Berita & Informasi</span>
-          </div>
-          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Berita Terkini</h1>
-          <p className="text-white/60 text-base max-w-xl font-medium">Ikuti perkembangan terbaru, pencapaian, dan inovasi PT. Hogy Indonesia dalam industri alat kesehatan.</p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="bg-white border border-slate-100 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow group cursor-pointer"
-            >
-              <div className="h-3 bg-gradient-to-r from-[#3fb658] to-[#1B2932]" />
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${tagColors[item.tag] || 'bg-slate-100 text-slate-500'}`}>{item.tag}</span>
-                  <span className="flex items-center gap-1 text-slate-400 text-[10px] font-bold"><Icons.Clock />{item.date}</span>
-                </div>
-                <h3 className="font-black text-slate-900 text-base leading-snug mb-3 group-hover:text-[#3fb658] transition-colors">{item.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.excerpt}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-slate-50 py-16">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Ingin Informasi Lebih Lanjut?</h3>
-          <p className="text-slate-500 text-sm mb-8">Untuk pertanyaan media atau kerjasama, hubungi tim komunikasi kami.</p>
-          <a href="mailto:sales.support@hogy.co.id" className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30">
-            <Icons.Mail /> Hubungi Kami
-          </a>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
-};
-
-const CareerPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const openings = [
-    {
-      title: 'Quality Assurance Engineer',
-      department: 'Produksi & QA',
-      type: 'Full-Time',
-      location: 'Kawasan MM2100, Bekasi',
-      desc: 'Bertanggung jawab atas pengendalian kualitas produk medis disposable sesuai standar ISO 13485 dan regulasi KEMENKES. Memastikan setiap batch produksi memenuhi spesifikasi teknis yang ditetapkan.',
-      reqs: ['S1 Teknik Kimia / Farmasi / Teknik Industri', 'Pengalaman min. 2 tahun di industri medis atau manufaktur', 'Familiar dengan GMP dan sistem manajemen mutu', 'Teliti dan berorientasi pada detail'],
-    },
-    {
-      title: 'Sales Representative – Peralatan Medis',
-      department: 'Penjualan',
-      type: 'Full-Time',
-      location: 'Jakarta & Surabaya',
-      desc: 'Mengembangkan dan mempertahankan hubungan dengan rumah sakit, klinik, dan distributor alat kesehatan. Bertanggung jawab atas pencapaian target penjualan produk Hogy di wilayah yang ditugaskan.',
-      reqs: ['S1 semua jurusan (diutamakan Kesehatan / Farmasi / Bisnis)', 'Pengalaman di bidang sales alat kesehatan min. 1 tahun', 'Komunikatif, proaktif, dan memiliki jaringan rumah sakit', 'Bersedia melakukan perjalanan dinas'],
-    },
-    {
-      title: 'Operator Produksi – Lini Spunlace',
-      department: 'Produksi',
-      type: 'Full-Time',
-      location: 'Kawasan MM2100, Bekasi',
-      desc: 'Mengoperasikan mesin produksi Spunlace Non-Woven untuk menghasilkan bahan baku produk medis. Memastikan kelancaran proses produksi sesuai SOP dan target harian.',
-      reqs: ['Minimal SMA/SMK (diutamakan teknik mesin / tekstil)', 'Bersedia bekerja dalam sistem shift', 'Disiplin, teliti, dan mampu bekerja dalam tim', 'Pengalaman di pabrik manufaktur menjadi nilai plus'],
-    },
-    {
-      title: 'Regulatory Affairs Specialist',
-      department: 'Regulasi & Compliance',
-      type: 'Full-Time',
-      location: 'Jakarta',
-      desc: 'Mengelola perizinan dan registrasi produk alat kesehatan di KEMENKES RI. Memastikan seluruh produk Hogy memiliki izin edar yang valid dan memenuhi regulasi yang berlaku.',
-      reqs: ['S1 Farmasi / Kesehatan Masyarakat / Hukum', 'Memahami regulasi alat kesehatan KEMENKES RI', 'Berpengalaman dalam proses registrasi NIE alkes', 'Kemampuan komunikasi tertulis yang baik'],
-    },
-  ];
-
-  const perks = [
-    { icon: '🏥', title: 'Asuransi Kesehatan', desc: 'BPJS Kesehatan & asuransi swasta untuk karyawan dan keluarga.' },
-    { icon: '📈', title: 'Pengembangan Karir', desc: 'Program pelatihan berkala dan jalur karir yang jelas.' },
-    { icon: '🎯', title: 'Bonus Kinerja', desc: 'Insentif berbasis target dan bonus tahunan kompetitif.' },
-    { icon: '🌏', title: 'Lingkungan Global', desc: 'Bergabung dengan jaringan Hogy Medical Group Jepang.' },
-  ];
-
-  return (
-    <div className="bg-white font-sans min-h-screen">
-      <div className="bg-[#1B2932] pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Beranda
-          </button>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="text-[#3fb658]"><Icons.Briefcase /></div>
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Bergabung Bersama Kami</span>
-          </div>
-          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Karir di PT. Hogy Indonesia</h1>
-          <p className="text-white/60 text-base max-w-xl font-medium">Jadilah bagian dari tim profesional yang berdedikasi untuk meningkatkan standar keselamatan medis di Indonesia.</p>
-        </div>
-      </div>
-
-      <div className="bg-slate-50 py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tighter text-center mb-10">Kenapa Bergabung dengan Hogy?</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {perks.map((perk, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white rounded-2xl p-6 text-center border border-slate-100 shadow-sm">
-                <div className="text-3xl mb-3">{perk.icon}</div>
-                <h4 className="font-black text-slate-900 text-sm mb-2">{perk.title}</h4>
-                <p className="text-slate-500 text-xs leading-relaxed">{perk.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Posisi Tersedia</h2>
-        <p className="text-slate-500 text-sm mb-12">{openings.length} posisi terbuka saat ini</p>
-        <div className="flex flex-col gap-6">
-          {openings.map((job, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm hover:shadow-lg transition-shadow">
-              <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                <div>
-                  <h3 className="text-xl font-black text-slate-900 mb-1">{job.title}</h3>
-                  <div className="flex flex-wrap gap-3 text-[10px] font-black uppercase tracking-widest">
-                    <span className="bg-[#3fb658]/10 text-[#3fb658] px-3 py-1 rounded-full">{job.department}</span>
-                    <span className="bg-slate-100 text-slate-600 px-3 py-1 rounded-full">{job.type}</span>
-                    <span className="flex items-center gap-1 text-slate-500"><Icons.MapPin />{job.location}</span>
-                  </div>
-                </div>
-                <a href={`mailto:sales.support@hogy.co.id?subject=Lamaran: ${job.title}`}
-                  className="bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#3fb658] transition-colors whitespace-nowrap">
-                  Lamar Sekarang
-                </a>
-              </div>
-              <p className="text-slate-600 text-sm mb-5 leading-relaxed">{job.desc}</p>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Persyaratan</p>
-                <ul className="space-y-2">
-                  {job.reqs.map((req, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-slate-600">
-                      <Icons.CheckCircle />
-                      <span>{req}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-[#1B2932] py-16">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h3 className="text-2xl font-black text-white tracking-tighter mb-3">Tidak Menemukan Posisi yang Cocok?</h3>
-          <p className="text-white/60 text-sm mb-8">Kirimkan CV dan surat lamaran Anda. Kami akan menghubungi Anda jika ada posisi yang sesuai dengan profil Anda.</p>
-          <a href="mailto:sales.support@hogy.co.id?subject=Lamaran Spontan - PT. Hogy Indonesia"
-            className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-all shadow-xl shadow-[#3fb658]/30">
-            <Icons.Mail /> Kirim Lamaran Spontan
-          </a>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
-};
-
-const LocationPage = ({ onBack }: { onBack: () => void }) => {
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
-
-  const offices = [
-    {
-      name: 'Pabrik & Kantor Pusat',
-      address: 'Kawasan Industri MM2100, Bekasi, Jawa Barat',
-      phone: '+62 21 898 0165',
-      hours: 'Senin – Jumat: 08.00 – 17.00 WIB',
-      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.046!2d107.155!3d-6.3583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698c4b5d6e1a5f%3A0xc234a57eef5f4e2c!2sKawasan%20Industri%20MM2100%2C%20Bekasi!5e0!3m2!1sid!2sid!4v1700000000000',
-      mapLink: 'https://maps.google.com/?q=Kawasan+Industri+MM2100+Bekasi',
-      badge: 'Manufaktur',
-    },
-    {
-      name: 'Kantor Penjualan Jakarta',
-      address: 'Gedung Wisma 46, Kota BNI, 23rd Floor, Unit 23.12, RT.10/RW.11, Karet Tengsin, Kecamatan Tanah Abang, Kota Jakarta Pusat, DKI Jakarta 10220',
-      phone: '+62 21 837 05111',
-      hours: 'Senin – Jumat: 08.00 – 17.00 WIB',
-      mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.43!2d106.8165!3d-6.2085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4c3f8f86e4b%3A0x7e7e5c5e9a0a0a0a!2sWisma%2046%2C%20Karet%20Tengsin%2C%20Tanah%20Abang%2C%20Jakarta%20Pusat!5e0!3m2!1sid!2sid!4v1700000000002',
-      mapLink: 'https://maps.google.com/?q=Wisma+46+Karet+Tengsin+Jakarta+Pusat',
-      badge: 'Sales',
-    },
-  ];
-
-  return (
-    <div className="bg-white font-sans min-h-screen">
-      <div className="bg-[#1B2932] pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <button onClick={onBack} className="flex items-center gap-2 text-white/60 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Kembali ke Beranda
-          </button>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="text-[#3fb658]"><Icons.MapPin /></div>
-            <span className="text-[#3fb658] font-black uppercase text-[10px] tracking-[0.3em]">Temukan Kami</span>
-          </div>
-          <h1 className="text-5xl font-black text-white tracking-tighter mb-4">Lokasi Kami</h1>
-          <p className="text-white/60 text-base max-w-xl font-medium">Kami hadir di dua lokasi strategis untuk melayani kebutuhan alat kesehatan Anda di seluruh Indonesia.</p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col gap-16">
-        {offices.map((office, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.15 }}
-            className="grid md:grid-cols-2 gap-0 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-            <div className="h-72 md:h-auto">
-              <iframe
-                src={office.mapSrc}
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: '300px' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Peta ${office.name}`}
-              />
-            </div>
-            <div className="bg-white p-10 flex flex-col justify-between">
-              <div>
-                <span className="bg-[#3fb658]/10 text-[#3fb658] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{office.badge}</span>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tighter mt-4 mb-6">{office.name}</h2>
-                <ul className="space-y-5">
-                  <li className="flex items-start gap-3">
-                    <div className="text-[#3fb658] mt-0.5"><Icons.MapPin /></div>
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Alamat</p>
-                      <p className="text-slate-700 font-bold text-sm">{office.address}</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="text-[#3fb658] mt-0.5"><Icons.Phone /></div>
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Telepon</p>
-                      <a href={`tel:${office.phone}`} className="text-slate-700 font-bold text-sm hover:text-[#3fb658] transition-colors">{office.phone}</a>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="text-[#3fb658] mt-0.5"><Icons.Clock /></div>
-                    <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Jam Operasional</p>
-                      <p className="text-slate-700 font-bold text-sm">{office.hours}</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-8">
-                <a href={office.mapLink} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-[#1B2932] text-white px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#3fb658] transition-colors">
-                  <Icons.MapPin /> Buka di Google Maps
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="bg-slate-50 py-16">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-3">Butuh Bantuan Menemukan Kami?</h3>
-          <p className="text-slate-500 text-sm mb-8">Tim kami siap membantu Anda dengan petunjuk arah atau informasi kunjungan.</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="tel:+622189801651" className="inline-flex items-center gap-3 bg-[#1B2932] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#3fb658] transition-colors">
-              <Icons.Phone /> Hubungi Pabrik
-            </a>
-            <a href="mailto:sales.support@hogy.co.id" className="inline-flex items-center gap-3 bg-[#3fb658] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#317c40] transition-colors shadow-xl shadow-[#3fb658]/30">
-              <Icons.Mail /> Kirim Email
-            </a>
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
-};
-
-function App() {
-  const [page, setPage] = useState<AppPage>('home');
-
-  const navigate = (target: AppPage) => {
-    setPage(target);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const goBack = () => {
-    setPage('home');
-    setTimeout(() => {
-      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  if (page === 'surgical-gown') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalGownPage onBack={goBack} /></>;
-  if (page === 'surgical-drape') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalDrapePage onBack={goBack} /></>;
-  if (page === 'surgical-drape-pack') return <><Navbar onNavigate={navigate} currentPage={page} /><SurgicalDrapePackPage onBack={goBack} /></>;
-  if (page === 'accessories') return <><Navbar onNavigate={navigate} currentPage={page} /><AccessoriesPage onBack={goBack} /></>;
-  if (page === 'news') return <><Navbar onNavigate={navigate} currentPage={page} /><NewsPage onBack={() => navigate('home')} /></>;
-  if (page === 'career') return <><Navbar onNavigate={navigate} currentPage={page} /><CareerPage onBack={() => navigate('home')} /></>;
-  if (page === 'location') return <><Navbar onNavigate={navigate} currentPage={page} /><LocationPage onBack={() => navigate('home')} /></>;
-
-  return (
-    <div className="bg-white font-sans selection:bg-[#3fb658] selection:text-white">
-      <Navbar onNavigate={navigate} currentPage={page} />
+    <div className="bg-white font-['Inter',_sans-serif] selection:bg-[#00A7B5] selection:text-white antialiased scroll-smooth">
+      <Navbar />
       <Hero />
       <AboutSection />
-      <ProductPreview
-        onViewGown={() => navigate('surgical-gown')}
-        onViewDrape={() => navigate('surgical-drape')}
-        onViewDrapePack={() => navigate('surgical-drape-pack')}
-        onViewAccessories={() => navigate('accessories')}
-      />
+      <ProductPreview />
       <FacilitySection />
       <Statistics />
-      <ContactSection />
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
