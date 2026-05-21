@@ -1,3 +1,4 @@
+declare const process: any;
 import app from "./app";
 import { logger } from "./lib/logger";
 
