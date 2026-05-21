@@ -15,6 +15,5 @@
       "src": "/(.*)",
       "dest": "artifacts/api-server/src/routes/index.ts"
     }
-  ],
-  "outputDirectory": "artifacts/hogy-indonesia/dist"
+  ]
 }
